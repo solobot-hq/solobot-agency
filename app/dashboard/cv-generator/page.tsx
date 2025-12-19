@@ -1,0 +1,94 @@
+"use client";
+
+import React, { useState } from 'react';
+import { FileText, Copy, History, Loader2, Check } from 'lucide-react';
+
+export default function CVGeneratorPage() {
+  const [loading, setLoading] = useState(false);
+  const [jobTitle, setJobTitle] = useState('');
+  const [experience, setExperience] = useState('');
+  const [skills, setSkills] = useState('');
+  const [output, setOutput] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const handleGenerate = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setOutput(`PROFESSIONAL SUMMARY\n\nExperienced ${jobTitle} with a proven track record in ${experience}. Expert in ${skills}. Committed to driving business success through innovative strategies.\n\nCORE SKILLS\n${skills.split(',').map(s => `• ${s.trim()}`).join('\n')}`);
+      setLoading(false);
+    }, 1500);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(output);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0B1120] text-white p-6 lg:p-8">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div className="bg-[#1E293B] rounded-2xl border border-gray-800 p-6 shadow-xl h-fit">
+          <div className="flex items-center gap-3 mb-6">
+            <FileText className="text-[#00C26D] h-6 w-6" />
+            <h2 className="text-xl font-bold">CV Details</h2>
+          </div>
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-sm text-gray-400 font-medium">Target Job Title</label>
+              <input 
+                type="text" 
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
+                className="w-full bg-[#0F172A] border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-1 focus:ring-[#00C26D] outline-none"
+                placeholder="e.g. Senior Project Manager"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm text-gray-400 font-medium">Experience Summary</label>
+              <textarea 
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
+                className="w-full bg-[#0F172A] border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-1 focus:ring-[#00C26D] outline-none min-h-[100px] resize-none"
+                placeholder="Briefly describe your background..."
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm text-gray-400 font-medium">Key Skills (Comma Separated)</label>
+              <input 
+                type="text" 
+                value={skills}
+                onChange={(e) => setSkills(e.target.value)}
+                className="w-full bg-[#0F172A] border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-1 focus:ring-[#00C26D] outline-none"
+                placeholder="e.g. Leadership, Python, Agile"
+              />
+            </div>
+            <button 
+              onClick={handleGenerate}
+              disabled={loading}
+              className="w-full bg-[#00C26D] hover:bg-[#00A05A] text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-2 mt-4"
+            >
+              {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Generate CV Sections"}
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-[#1E293B] rounded-2xl border border-gray-800 p-6 shadow-xl h-full min-h-[500px] flex flex-col">
+          <div className="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+            <h2 className="text-xl font-bold">Generated Content</h2>
+            <div className="flex items-center gap-3">
+              <button onClick={handleCopy} className="text-sm text-[#00C26D] hover:text-[#00A05A] transition-colors flex items-center gap-2">
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 bg-[#0F172A] rounded-xl p-6 border border-gray-800">
+            {output ? <p className="whitespace-pre-wrap text-gray-300 font-light">{output}</p> : <p className="text-gray-600 text-center mt-20">Your optimized CV content will appear here.</p>}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}

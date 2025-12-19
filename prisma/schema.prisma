@@ -1,0 +1,49 @@
+// -----------------------------
+// SoloBotAgency Prisma Schema
+// -----------------------------
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------
+// Workspace Model
+// -----------------------------
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// -----------------------------
+// Pulse Feed Events
+// -----------------------------
+model PulseEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      String   @default("ALERT") // ALERT | BILLING | BOT | SYSTEM
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// -----------------------------
+// Inbox Messages
+// -----------------------------
+model InboxMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  sender    String
+  subject   String
+  body      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

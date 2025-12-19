@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Add base styles for dark mode if needed */
+body {
+  @apply bg-gray-900 text-slate-200; /* Example dark theme base */
+}
+

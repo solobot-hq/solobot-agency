@@ -1,0 +1,59 @@
+{
+  "1227af9d-49c8-4587-ac0e-484a44b377f6": {
+    "status": "done",
+    "progress": 100,
+    "payload": {
+      "topic": "Video Generation Job: Topic: Announce a 24-hour flash sale for SoloBotAgency SaaS bots.\n. Style: Tutorial. Platform: TikTok. Duration: 30s. Script Override: None.",
+      "style": "Explainer",
+      "platform": "TikTok",
+      "tone": "Conversational",
+      "duration": 30,
+      "script_override": ""
+    },
+    "startTime": 1763951174993,
+    "files": {
+      "vertical": "https://pub-xxxxxxxxxx.r2.dev/videos/1227af9d-49c8-4587-ac0e-484a44b377f6/vertical.mp4",
+      "horizontal": "https://pub-xxxxxxxxxx.r2.dev/videos/1227af9d-49c8-4587-ac0e-484a44b377f6/horizontal.mp4",
+      "srt": "https://pub-xxxxxxxxxx.r2.dev/videos/1227af9d-49c8-4587-ac0e-484a44b377f6/captions.srt",
+      "thumb": "https://pub-xxxxxxxxxx.r2.dev/videos/1227af9d-49c8-4587-ac0e-484a44b377f6/thumbnail.jpg"
+    }
+  },
+  "95d222be-60f2-4422-9b73-dd45481f4d9f": {
+    "status": "done",
+    "progress": 100,
+    "payload": {
+      "topic": "Video Generation Job: Topic: Announce a 24-hour flash sale for SoloBotAgency SaaS bots.\n. Style: Tutorial. Platform: TikTok. Duration: 30s. Script Override: None.",
+      "style": "Explainer",
+      "platform": "TikTok",
+      "tone": "Conversational",
+      "duration": 30,
+      "script_override": ""
+    },
+    "startTime": 1763951215521,
+    "files": {
+      "vertical": "https://pub-xxxxxxxxxx.r2.dev/videos/95d222be-60f2-4422-9b73-dd45481f4d9f/vertical.mp4",
+      "horizontal": "https://pub-xxxxxxxxxx.r2.dev/videos/95d222be-60f2-4422-9b73-dd45481f4d9f/horizontal.mp4",
+      "srt": "https://pub-xxxxxxxxxx.r2.dev/videos/95d222be-60f2-4422-9b73-dd45481f4d9f/captions.srt",
+      "thumb": "https://pub-xxxxxxxxxx.r2.dev/videos/95d222be-60f2-4422-9b73-dd45481f4d9f/thumbnail.jpg"
+    }
+  },
+  "e675b598-1621-412e-a0f5-be47ee168d00": {
+    "status": "done",
+    "progress": 100,
+    "payload": {
+      "topic": "Video Generation Job: Topic: Announce a 24-hour flash sale for SoloBotAgency SaaS bots.\n. Style: Tutorial. Platform: TikTok. Duration: 30s. Script Override: None.",
+      "style": "Explainer",
+      "platform": "TikTok",
+      "tone": "Conversational",
+      "duration": 30,
+      "script_override": ""
+    },
+    "startTime": 1763951805281,
+    "files": {
+      "vertical": "https://pub-xxxxxxxxxx.r2.dev/videos/e675b598-1621-412e-a0f5-be47ee168d00/vertical.mp4",
+      "horizontal": "https://pub-xxxxxxxxxx.r2.dev/videos/e675b598-1621-412e-a0f5-be47ee168d00/horizontal.mp4",
+      "srt": "https://pub-xxxxxxxxxx.r2.dev/videos/e675b598-1621-412e-a0f5-be47ee168d00/captions.srt",
+      "thumb": "https://pub-xxxxxxxxxx.r2.dev/videos/e675b598-1621-412e-a0f5-be47ee168d00/thumbnail.jpg"
+    }
+  }
+}
