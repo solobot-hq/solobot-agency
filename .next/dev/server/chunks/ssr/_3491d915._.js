@@ -331,11 +331,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$UpgradeModal$2
 ;
 ;
 ;
-// --- Configuration (Simulation Only) ---
-// Changed from 'free' to 'agency' to unlock unlimited testing
-const CURRENT_PLAN = "free";
-const DEMO_LIMIT_MS = 10000; // Ignored when plan is 'agency'
-// --- Currency Helper (GBP Standard) ---
+// --- Configuration ---
+// 👇 UPDATED: Set to 'enterprise' to show correct badge & remove limits
+const CURRENT_PLAN = "enterprise";
+const DEMO_LIMIT_MS = 10000;
+// --- Currency Helper ---
 const formatGBP = (amount)=>new Intl.NumberFormat("en-GB", {
         style: "currency",
         currency: "GBP",
@@ -364,7 +364,8 @@ function AISalesAgentPage() {
     // Metrics State
     const [stats, setStats] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         sent: 142,
-        replies: 12,
+        // 👇 UPDATED: Changed from 12 to 15 as requested
+        replies: 15,
         meetings: 3,
         saved: 1250.00
     });
@@ -381,7 +382,6 @@ function AISalesAgentPage() {
     ]);
     // --- The Simulation Engine ---
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        // ✅ TypeScript Timer Fixes Included
         let activityInterval;
         let demoTimer;
         if (isActive) {
@@ -395,7 +395,7 @@ function AISalesAgentPage() {
                         ...prev.slice(-20),
                         `[${timestamp}] ${randomMsg}`
                     ]);
-                // ✅ Realistic Stat Increments (£0.50 per email)
+                // Realistic Stat Increments
                 if (Math.random() > 0.7) {
                     const newEmails = Math.floor(Math.random() * 3) + 1;
                     const estimatedSavings = Number((newEmails * 0.50).toFixed(2));
@@ -407,16 +407,8 @@ function AISalesAgentPage() {
                 }
             }, 1500);
             // 2. Enforce Free Plan Limits (Only if plan is 'free')
-            if ("TURBOPACK compile-time truthy", 1) {
-                demoTimer = setTimeout(()=>{
-                    setIsActive(false);
-                    setIsUpgradeOpen(true);
-                    setLogs((prev)=>[
-                            ...prev,
-                            "⚠️ DEMO LIMIT REACHED. PAUSING AGENT."
-                        ]);
-                }, DEMO_LIMIT_MS);
-            }
+            if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+            ;
         }
         return ()=>{
             clearInterval(activityInterval);
@@ -630,7 +622,7 @@ function AISalesAgentPage() {
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             className: "mt-8 text-xs text-slate-500 text-center max-w-[200px]",
-                                            children: ("TURBOPACK compile-time truthy", 1) ? 'Demo Mode: Runs for 10s per session' : "TURBOPACK unreachable"
+                                            children: ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : 'Auto-Pilot Mode Ready'
                                         }, void 0, false, {
                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
                                             lineNumber: 196,
@@ -859,7 +851,7 @@ function AISalesAgentPage() {
                                             color: "text-emerald-400"
                                         }, void 0, false, {
                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                            lineNumber: 268,
+                                            lineNumber: 267,
                                             columnNumber: 16
                                         }, this)
                                     ]
@@ -881,7 +873,7 @@ function AISalesAgentPage() {
                                                             className: "w-3.5 h-3.5 text-slate-400"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 277,
+                                                            lineNumber: 276,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -889,13 +881,13 @@ function AISalesAgentPage() {
                                                             children: "agent_logs.log"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 278,
+                                                            lineNumber: 277,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 276,
+                                                    lineNumber: 275,
                                                     columnNumber: 18
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -905,26 +897,26 @@ function AISalesAgentPage() {
                                                             className: "w-2.5 h-2.5 rounded-full bg-slate-600"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 281,
+                                                            lineNumber: 280,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "w-2.5 h-2.5 rounded-full bg-slate-600"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 282,
+                                                            lineNumber: 281,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 280,
+                                                    lineNumber: 279,
                                                     columnNumber: 18
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                            lineNumber: 275,
+                                            lineNumber: 274,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -936,7 +928,7 @@ function AISalesAgentPage() {
                                                     children: "Press Power Button to Initialize..."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 292,
+                                                    lineNumber: 291,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -956,19 +948,19 @@ function AISalesAgentPage() {
                                                                     children: log.startsWith('[') ? '' : '>'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                                    lineNumber: 304,
+                                                                    lineNumber: 303,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 log
                                                             ]
                                                         }, i, true, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 298,
+                                                            lineNumber: 297,
                                                             columnNumber: 21
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 296,
+                                                    lineNumber: 295,
                                                     columnNumber: 17
                                                 }, this),
                                                 isActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -985,13 +977,13 @@ function AISalesAgentPage() {
                                                     className: "w-2 h-4 bg-[#00C26D] inline-block ml-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 311,
-                                                    columnNumber: 20
+                                                    lineNumber: 310,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                            lineNumber: 287,
+                                            lineNumber: 286,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1006,13 +998,13 @@ function AISalesAgentPage() {
                                                             children: "12%"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 321,
+                                                            lineNumber: 320,
                                                             columnNumber: 93
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 321,
+                                                    lineNumber: 320,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1024,13 +1016,13 @@ function AISalesAgentPage() {
                                                             children: "440MB"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 322,
+                                                            lineNumber: 321,
                                                             columnNumber: 93
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 322,
+                                                    lineNumber: 321,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1041,25 +1033,25 @@ function AISalesAgentPage() {
                                                             className: `w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#00C26D]' : 'bg-red-500'}`
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                            lineNumber: 325,
+                                                            lineNumber: 324,
                                                             columnNumber: 20
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                                    lineNumber: 323,
+                                                    lineNumber: 322,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                            lineNumber: 320,
+                                            lineNumber: 319,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                                    lineNumber: 272,
+                                    lineNumber: 271,
                                     columnNumber: 13
                                 }, this)
                             ]
@@ -1098,20 +1090,20 @@ const StatsCard = ({ label, value, icon: Icon, color })=>/*#__PURE__*/ (0, __TUR
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                        lineNumber: 342,
+                        lineNumber: 341,
                         columnNumber: 7
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                         className: `w-4 h-4 ${color}`
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                        lineNumber: 343,
+                        lineNumber: 342,
                         columnNumber: 7
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                lineNumber: 341,
+                lineNumber: 340,
                 columnNumber: 5
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1119,13 +1111,13 @@ const StatsCard = ({ label, value, icon: Icon, color })=>/*#__PURE__*/ (0, __TUR
                 children: value
             }, void 0, false, {
                 fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-                lineNumber: 345,
+                lineNumber: 344,
                 columnNumber: 5
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/app/dashboard/ai-sales-agent/page.tsx",
-        lineNumber: 340,
+        lineNumber: 339,
         columnNumber: 3
     }, ("TURBOPACK compile-time value", void 0));
 }),

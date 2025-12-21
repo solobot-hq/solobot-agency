@@ -18,14 +18,11 @@ import {
   Search, 
   Inbox, 
   Star, 
-  ChevronDown, 
-  HelpCircle, 
   PenTool, 
   Database, 
   BarChart, 
   Headphones, 
   Globe, 
-  Briefcase, 
   CalendarCheck 
 } from 'lucide-react';
 
@@ -79,37 +76,35 @@ export default function Sidebar() {
 
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-zinc-800 bg-[#0B1221] text-zinc-400 font-sans">
-      {/* Official Brand Header */}
-      <div className="flex h-16 items-center gap-3 border-b border-zinc-800 px-4">
-        {/* Logo Container - Full Square, No Border */}
-        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-           <Image 
-             src="/sl.png" 
-             alt="Solobotagency Logo" 
-             fill
-             className="object-cover" 
-             priority
-           />
-        </div>
-        <div className="flex flex-col justify-center">
-          <span className="text-sm font-bold text-zinc-100 tracking-tight leading-tight">Solobotagency</span>
-          <span className="text-[10px] text-emerald-500 font-medium">One Bot. Infinite Tasks.</span>
-        </div>
+      
+      {/* Logo Section */}
+      <div className="flex items-center justify-center px-6 py-6 mb-2">
+        <Image 
+          src="/sl.png" 
+          alt="Solobotagency Logo" 
+          width={160} 
+          height={160} 
+          className="rounded-xl" 
+          priority
+        />
       </div>
 
-      {/* Search */}
+      {/* 👇 FIXED SEARCH SECTION (Brighter Text) */}
       <div className="px-3 py-3">
         <div className="relative">
-          <Search size={14} className="absolute left-2.5 top-2 text-zinc-500" />
+          {/* Made icon lighter (zinc-400) */}
+          <Search size={14} className="absolute left-2.5 top-2 text-zinc-400" />
           <input 
             type="text" 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search 15 active bots..." 
-            className="h-8 w-full rounded-md border border-zinc-800 bg-zinc-900/50 pl-8 pr-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:border-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
+            // 👇 Made placeholder lighter (placeholder:text-zinc-400) so it is legible
+            className="h-8 w-full rounded-md border border-zinc-800 bg-zinc-900/50 pl-8 pr-3 text-xs text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
           />
         </div>
       </div>
+      {/* 👆 END FIX */}
 
       {/* Navigation Scroll Area */}
       <div className="flex-1 overflow-y-auto px-3 pb-4 scrollbar-thin scrollbar-thumb-zinc-800">

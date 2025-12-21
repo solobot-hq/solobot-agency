@@ -610,55 +610,22 @@ function Sidebar() {
         className: "flex h-screen w-64 shrink-0 flex-col border-r border-zinc-800 bg-[#0B1221] text-zinc-400 font-sans",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex h-16 items-center gap-3 border-b border-zinc-800 px-4",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "relative h-10 w-10 shrink-0 overflow-hidden rounded-lg",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                            src: "/sl.png",
-                            alt: "Solobotagency Logo",
-                            fill: true,
-                            className: "object-cover",
-                            priority: true
-                        }, void 0, false, {
-                            fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                            lineNumber: 86,
-                            columnNumber: 12
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                        lineNumber: 85,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-col justify-center",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-sm font-bold text-zinc-100 tracking-tight leading-tight",
-                                children: "Solobotagency"
-                            }, void 0, false, {
-                                fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 95,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-[10px] text-emerald-500 font-medium",
-                                children: "One Bot. Infinite Tasks."
-                            }, void 0, false, {
-                                fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 96,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                        lineNumber: 94,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                className: "flex items-center justify-center px-6 py-6 mb-2",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                    src: "/sl.png",
+                    alt: "Solobotagency Logo",
+                    width: 160,
+                    height: 160,
+                    className: "rounded-xl",
+                    priority: true
+                }, void 0, false, {
+                    fileName: "[project]/app/dashboard/components/Sidebar.tsx",
+                    lineNumber: 82,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                lineNumber: 83,
+                lineNumber: 81,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -668,10 +635,10 @@ function Sidebar() {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__["Search"], {
                             size: 14,
-                            className: "absolute left-2.5 top-2 text-zinc-500"
+                            className: "absolute left-2.5 top-2 text-zinc-400"
                         }, void 0, false, {
                             fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                            lineNumber: 103,
+                            lineNumber: 96,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -679,21 +646,22 @@ function Sidebar() {
                             value: search,
                             onChange: (e)=>setSearch(e.target.value),
                             placeholder: "Search 15 active bots...",
-                            className: "h-8 w-full rounded-md border border-zinc-800 bg-zinc-900/50 pl-8 pr-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:border-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
+                            // 👇 Made placeholder lighter (placeholder:text-zinc-400) so it is legible
+                            className: "h-8 w-full rounded-md border border-zinc-800 bg-zinc-900/50 pl-8 pr-3 text-xs text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
                         }, void 0, false, {
                             fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                            lineNumber: 104,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                    lineNumber: 102,
+                    lineNumber: 94,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                lineNumber: 101,
+                lineNumber: 93,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -713,19 +681,19 @@ function Sidebar() {
                                                     className: "fill-zinc-600"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                    lineNumber: 121,
+                                                    lineNumber: 116,
                                                     columnNumber: 53
                                                 }, this),
                                                 section.title
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                            lineNumber: 120,
+                                            lineNumber: 115,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                        lineNumber: 119,
+                                        lineNumber: 114,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -741,7 +709,7 @@ function Sidebar() {
                                                         className: isActive ? 'text-indigo-400' : 'text-zinc-500 group-hover:text-zinc-400'
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                        lineNumber: 140,
+                                                        lineNumber: 135,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -749,32 +717,32 @@ function Sidebar() {
                                                         children: item.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                        lineNumber: 142,
+                                                        lineNumber: 137,
                                                         columnNumber: 23
                                                     }, this),
                                                     isActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.5)]"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                        lineNumber: 144,
+                                                        lineNumber: 139,
                                                         columnNumber: 36
                                                     }, this)
                                                 ]
                                             }, item.href, true, {
                                                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                lineNumber: 131,
+                                                lineNumber: 126,
                                                 columnNumber: 21
                                             }, this);
                                         })
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                        lineNumber: 126,
+                                        lineNumber: 121,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, idx, true, {
                                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 118,
+                                lineNumber: 113,
                                 columnNumber: 13
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -784,7 +752,7 @@ function Sidebar() {
                                     children: "Platform Analytics"
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                    lineNumber: 154,
+                                    lineNumber: 149,
                                     columnNumber: 14
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -800,7 +768,7 @@ function Sidebar() {
                                                     className: isActive ? 'text-zinc-100' : 'text-zinc-500 group-hover:text-zinc-400'
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                    lineNumber: 170,
+                                                    lineNumber: 165,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -808,36 +776,36 @@ function Sidebar() {
                                                     children: item.label
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                                    lineNumber: 171,
+                                                    lineNumber: 166,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, item.href, true, {
                                             fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 156,
                                             columnNumber: 21
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                    lineNumber: 157,
+                                    lineNumber: 152,
                                     columnNumber: 14
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                            lineNumber: 153,
+                            lineNumber: 148,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                    lineNumber: 116,
+                    lineNumber: 111,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                lineNumber: 115,
+                lineNumber: 110,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -852,14 +820,14 @@ function Sidebar() {
                                 children: "78%"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 184,
+                                lineNumber: 179,
                                 columnNumber: 18
                             }, this),
                             " of Enterprise Plan"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                        lineNumber: 183,
+                        lineNumber: 178,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -868,12 +836,12 @@ function Sidebar() {
                             className: "h-full w-[78%] rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
                         }, void 0, false, {
                             fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                            lineNumber: 187,
+                            lineNumber: 182,
                             columnNumber: 12
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                        lineNumber: 186,
+                        lineNumber: 181,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -884,7 +852,7 @@ function Sidebar() {
                                 children: "SA"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 191,
+                                lineNumber: 186,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -895,7 +863,7 @@ function Sidebar() {
                                         children: "Supervisor Account"
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 190,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -903,13 +871,13 @@ function Sidebar() {
                                         children: "supervisor@solobot.agency"
                                     }, void 0, false, {
                                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                        lineNumber: 198,
+                                        lineNumber: 193,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 194,
+                                lineNumber: 189,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$settings$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Settings$3e$__["Settings"], {
@@ -917,25 +885,25 @@ function Sidebar() {
                                 className: "text-zinc-500 group-hover:text-zinc-300"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                                lineNumber: 202,
+                                lineNumber: 197,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                        lineNumber: 190,
+                        lineNumber: 185,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-                lineNumber: 182,
+                lineNumber: 177,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/dashboard/components/Sidebar.tsx",
-        lineNumber: 81,
+        lineNumber: 78,
         columnNumber: 5
     }, this);
 }

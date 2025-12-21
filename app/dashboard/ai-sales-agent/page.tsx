@@ -15,12 +15,12 @@ import {
 } from "lucide-react";
 import { UpgradeModal } from "@/components/UpgradeModal";
 
-// --- Configuration (Simulation Only) ---
-// Changed from 'free' to 'agency' to unlock unlimited testing
-const CURRENT_PLAN = "free"; 
-const DEMO_LIMIT_MS = 10000; // Ignored when plan is 'agency'
+// --- Configuration ---
+// 👇 UPDATED: Set to 'enterprise' to show correct badge & remove limits
+const CURRENT_PLAN = "enterprise"; 
+const DEMO_LIMIT_MS = 10000;
 
-// --- Currency Helper (GBP Standard) ---
+// --- Currency Helper ---
 const formatGBP = (amount: number) =>
   new Intl.NumberFormat("en-GB", {
     style: "currency",
@@ -53,7 +53,8 @@ export default function AISalesAgentPage() {
   // Metrics State
   const [stats, setStats] = useState({
     sent: 142,
-    replies: 12,
+    // 👇 UPDATED: Changed from 12 to 15 as requested
+    replies: 15, 
     meetings: 3,
     saved: 1250.00
   });
@@ -71,7 +72,6 @@ export default function AISalesAgentPage() {
 
   // --- The Simulation Engine ---
   useEffect(() => {
-    // ✅ TypeScript Timer Fixes Included
     let activityInterval: ReturnType<typeof setInterval>;
     let demoTimer: ReturnType<typeof setTimeout>;
 
@@ -82,7 +82,7 @@ export default function AISalesAgentPage() {
         const timestamp = new Date().toLocaleTimeString([], { hour12: false });
         setLogs(prev => [...prev.slice(-20), `[${timestamp}] ${randomMsg}`]);
 
-        // ✅ Realistic Stat Increments (£0.50 per email)
+        // Realistic Stat Increments
         if (Math.random() > 0.7) {
           const newEmails = Math.floor(Math.random() * 3) + 1; 
           const estimatedSavings = Number((newEmails * 0.50).toFixed(2)); 
@@ -264,7 +264,6 @@ export default function AISalesAgentPage() {
                <StatsCard label="Emails Sent" value={stats.sent} icon={Zap} color="text-yellow-400" />
                <StatsCard label="Replies" value={stats.replies} icon={Activity} color="text-[#00C26D]" />
                <StatsCard label="Meetings" value={stats.meetings} icon={BarChart3} color="text-indigo-400" />
-               {/* ✅ UK GBP FORMATTING APPLIED HERE */}
                <StatsCard label="Money Saved" value={formatGBP(stats.saved)} icon={Shield} color="text-emerald-400" />
             </div>
 
@@ -308,11 +307,11 @@ export default function AISalesAgentPage() {
                 </AnimatePresence>
                 
                 {isActive && (
-                   <motion.div 
-                     animate={{ opacity: [0, 1] }}
-                     transition={{ repeat: Infinity, duration: 0.8 }}
-                     className="w-2 h-4 bg-[#00C26D] inline-block ml-2"
-                   />
+                    <motion.div 
+                      animate={{ opacity: [0, 1] }}
+                      transition={{ repeat: Infinity, duration: 0.8 }}
+                      className="w-2 h-4 bg-[#00C26D] inline-block ml-2"
+                    />
                 )}
               </div>
 
@@ -344,4 +343,4 @@ const StatsCard = ({ label, value, icon: Icon, color }: any) => (
     </div>
     <div className="text-2xl font-bold text-slate-200">{value}</div>
   </div>
-);  
+);

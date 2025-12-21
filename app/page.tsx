@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Bot, Check, Zap, Globe, Shield } from "lucide-react";
+import { ArrowRight, Check, Zap, Globe, Shield } from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -8,10 +9,15 @@ export default function LandingPage() {
       {/* Navbar */}
       <nav className="border-b border-white/5 backdrop-blur-md fixed w-full z-50 bg-[#020817]/80">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
+          <div className="flex items-center gap-3 font-bold text-xl tracking-tight">
+            {/* 👇 UPDATED LOGO: Changed size to 60 for better visibility */}
+            <Image 
+              src="/sl.png" 
+              alt="SoloBot Logo" 
+              width={60} 
+              height={60} 
+              className="rounded-lg object-contain" 
+            />
             <span>SoloBot<span className="text-indigo-500">Agency</span></span>
           </div>
           <div className="flex items-center gap-6 text-sm font-medium">
