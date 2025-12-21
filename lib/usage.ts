@@ -1,7 +1,7 @@
 // lib/usage.ts
 export const FREE_LIMIT = 3;
 
-// ✅ IMPORTANT: The function must be named 'getUsageForUser'
+// ✅ The build needs this exact function name
 export async function getUsageForUser(userId: string) {
   return { count: 0 };
 }
