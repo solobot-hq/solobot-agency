@@ -3,7 +3,9 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    // ✅ FIX: Await auth() for Next.js 16/Clerk v5+ compatibility
+    const { userId } = await auth();
+    
     const body = await req.json();
     const { workspaceId } = body;
 
@@ -15,6 +17,7 @@ export async function POST(req: Request) {
       return new NextResponse("Workspace ID required", { status: 400 });
     }
 
+    // ✅ ClerkClient is already an async call in your version, so this is correct
     const client = await clerkClient();
 
     // Update Clerk User Metadata to persist preference across sessions/devices
