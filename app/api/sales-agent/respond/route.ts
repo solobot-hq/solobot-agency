@@ -1,22 +1,23 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { getUsageForUser, incrementUsage, FREE_LIMIT } from "@/lib/usage";
+import { getUsageForUser } from "@/lib/usage";
 
-// ✅ Enforce Node.js runtime (required for server logic)
+// ✅ Enforce Node.js runtime
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    // ✅ FIX: Added 'await' before auth()
+    const { userId } = await auth();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Safe usage check (stubbed)
+    // Safe usage check
     await getUsageForUser(userId);
 
-    // Minimal neutral response — no simulation, no intelligence
+    // Minimal neutral response
     return NextResponse.json({ status: "ok" });
 
   } catch (error) {

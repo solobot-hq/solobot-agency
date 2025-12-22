@@ -2,15 +2,17 @@ import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import OpenAI from "openai";
 import { getUserSubscriptionStatus } from "@/lib/subscription";
-// ✅ FIX: Import 'getUsageForUser' instead of 'getUsage'
 import { getUsageForUser, incrementUsage, FREE_LIMIT } from "@/lib/usage";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const ADMIN_EMAILS = ["solobotagency@gmail.com"];
 
 export async function POST(req: Request) {
-  const { userId } = auth();
+  // ✅ FIX: Added 'await' before auth()
+  const { userId } = await auth();
+  // ✅ FIX: Added 'await' before currentUser()
   const user = await currentUser();
+
   if (!userId || !user) return new NextResponse("Unauthorized", { status: 401 });
 
   const { messages, mode, leadContext } = await req.json();
@@ -19,7 +21,6 @@ export async function POST(req: Request) {
   const isAdmin = ADMIN_EMAILS.includes(email);
   const subscription = await getUserSubscriptionStatus(userId);
   
-  // ✅ FIX: Call 'getUsageForUser' instead of 'getUsage'
   const usage = await getUsageForUser(userId);
   
   const isPremium = isAdmin || subscription.isPremium;
