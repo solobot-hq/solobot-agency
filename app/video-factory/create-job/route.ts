@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-// ✅ FIX 1: Add the missing Clerk import
 import { auth } from "@clerk/nextjs/server"; 
-// ✅ FIX 2: Use the shared prisma instance
 import prisma from '@/lib/prisma';
-import { generateProcess } from '@/lib/videoFactory/processor';
+// ✅ FIX: Corrected filename from 'processor' to 'generation'
+import { generateProcess } from '@/lib/videoFactory/generation';
 
 export async function POST(request: Request) {
     try {
-        // ✅ FIX 3: Await auth() for Next.js 16
+        // 1. Clerk Auth (Next.js 16 requires await)
         const { userId } = await auth();
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -19,7 +18,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Topic is required' }, { status: 400 });
         }
         
-        // ✅ FIX 4: Await the database creation
+        // 2. Create the job in the database
         const job = await prisma.videoJob.create({
             data: {
                 userId,
@@ -29,10 +28,8 @@ export async function POST(request: Request) {
             }
         });
         
-        // ✅ FIX 5: Extract the string ID from the object
+        // 3. Extract the string ID and start the background process
         const jobId = job.id; 
-        
-        // Start the background process using the string ID
         generateProcess(jobId);
 
         return NextResponse.json({ jobId }, { status: 202 });
