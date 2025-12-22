@@ -6,7 +6,6 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    // ✅ FIX 1: Use standard async auth
     const { userId } = await auth();
     const user = await currentUser();
 
@@ -23,8 +22,7 @@ export async function POST(req: Request) {
 
     // Check usage limits
     const usage = await getUsageForUser(userId);
-    
-    // ✅ FIX 2: Use 'usage.count' and compare against imported 'FREE_LIMIT'
+
     if (usage.count >= FREE_LIMIT) {
       return NextResponse.json(
         { error: "UPGRADE_REQUIRED", message: "You have reached your plan limit." },
@@ -34,12 +32,17 @@ export async function POST(req: Request) {
 
     // Mock AI Generation (Simulated delay)
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    const generatedEmail = `Subject: Quick question regarding ${validation.data.topic}
+
+    // ✅ FIX: Match the schema property names (context & tone)
+    // The previous error was because 'topic' and 'style' didn't exist
+    const topic = validation.data.context; 
+    const style = validation.data.tone || "professional";
+
+    const generatedEmail = `Subject: Quick question regarding ${topic}
 
 Hi there,
 
-I noticed you're looking into ${validation.data.topic}. Based on your interest in ${validation.data.style} strategies, I thought you might find our approach helpful.
+I noticed you're looking into ${topic}. Based on your interest in ${style} strategies, I thought you might find our approach helpful.
 
 We specialize in helping businesses achieve their goals without the usual friction. 
 
