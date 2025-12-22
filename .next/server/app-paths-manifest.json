@@ -1,0 +1,19 @@
+{
+  "/(auth)/sign-in/[[...sign-in]]/page": "app/(auth)/sign-in/[[...sign-in]]/page.js",
+  "/(auth)/sign-up/[[...sign-up]]/page": "app/(auth)/sign-up/[[...sign-up]]/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/billing/page": "app/billing/page.js",
+  "/content/route": "app/content/route.js",
+  "/cv/route": "app/cv/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/docs/page": "app/docs/page.js",
+  "/generate/route": "app/generate/route.js",
+  "/hello/route": "app/hello/route.js",
+  "/outreach/route": "app/outreach/route.js",
+  "/page": "app/page.js",
+  "/proposal/route": "app/proposal/route.js",
+  "/usage/increment/route": "app/usage/increment/route.js",
+  "/usage/status/route": "app/usage/status/route.js",
+  "/workspace/switch/route": "app/workspace/switch/route.js"
+}

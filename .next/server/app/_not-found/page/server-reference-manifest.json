@@ -1,6 +1,6 @@
 {
   "node": {
-    "7f35d59189223d187e736eecbf6ef0ba8511d0a764": {
+    "7feead94291ed62f10846fbdd22d953f035e9641f6": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,
@@ -15,7 +15,7 @@
       "exportedName": "detectKeylessEnvDriftAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
     },
-    "7fb3a0219f78de1bcfc98835f20e7368197b4d0797": {
+    "7f365f05cd62dcf012aa5abd0dbd17d5d38d1d922f": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,
@@ -30,7 +30,7 @@
       "exportedName": "invalidateCacheAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
     },
-    "7f3d1abb97bd717bc09d7cda6f231351891169ebce": {
+    "7f25e806f321ba055833a7afca1a706d61ebb0f46d": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,
@@ -45,7 +45,7 @@
       "exportedName": "createOrReadKeylessAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
     },
-    "7f5fe9a46419639ee252ad5fe9ffd1626a301c19c6": {
+    "7f90677f31e11358fc45a394a99977504a0e34c364": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,
@@ -60,7 +60,7 @@
       "exportedName": "collectKeylessMetadata",
       "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
     },
-    "7fe060a605fdb6065adfb495e430cafce6a42aef44": {
+    "7fe5c65415ee96d246bc6965a21733282eae2e4f57": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,
@@ -75,7 +75,7 @@
       "exportedName": "formatMetadataHeaders",
       "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
     },
-    "7f9727ff463c09f2134b9d231e10ac0451cd5bf843": {
+    "7f6e6e5d20ecd996fd04a1600c06e3b13946366103": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,
@@ -90,7 +90,7 @@
       "exportedName": "deleteKeylessAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
     },
-    "7ff91c2449c87597fb0473969f5d059427d34d4134": {
+    "7fecf3113d41e69d4a8a640aeabd9fc9e0b49e9bfe": {
       "workers": {
         "app/_not-found/page": {
           "moduleId": 38487,

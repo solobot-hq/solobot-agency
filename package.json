@@ -52,7 +52,8 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
-    "@types/node": "20.14.12",
+    "@types/fluent-ffmpeg": "^2.1.28",
+    "@types/node": "^25.0.3",
     "@types/papaparse": "^5.5.2",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",

@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/dashboard/ai-sales-agent/page": "app/dashboard/ai-sales-agent/page.js",
-  "/dashboard/email-assistant/page": "app/dashboard/email-assistant/page.js",
-  "/dashboard/leads-engine/page": "app/dashboard/leads-engine/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js"
-}

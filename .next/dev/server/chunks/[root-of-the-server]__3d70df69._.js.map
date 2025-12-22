@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/bolad/Downloads/SoloBotAgency_SaaS_Starter/app/api/dashboard/tasks-today/route.ts"],"sourcesContent":["import { NextResponse } from 'next/server';\r\n\r\nexport async function GET() {\r\n  // Simulate tasks completed today\r\n  return NextResponse.json(320);\r\n}"],"names":[],"mappings":";;;;AAAA;;AAEO,eAAe;IACpB,iCAAiC;IACjC,OAAO,gJAAY,CAAC,IAAI,CAAC;AAC3B"}}]
-}

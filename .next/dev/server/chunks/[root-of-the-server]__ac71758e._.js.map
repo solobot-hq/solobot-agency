@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/bolad/Downloads/SoloBotAgency_SaaS_Starter/app/api/dashboard/active-users/route.ts"],"sourcesContent":["import { NextResponse } from 'next/server';\r\n\r\nexport async function GET() {\r\n  // Simulate active users count\r\n  return NextResponse.json(128);\r\n}"],"names":[],"mappings":";;;;AAAA;;AAEO,eAAe;IACpB,8BAA8B;IAC9B,OAAO,gJAAY,CAAC,IAAI,CAAC;AAC3B"}}]
-}
