@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import OpenAI from "openai";
 import { getUserSubscriptionStatus } from "@/lib/subscription";
-import { getUsage, incrementUsage, FREE_LIMIT } from "@/lib/usage";
+// ✅ FIX: Import 'getUsageForUser' instead of 'getUsage'
+import { getUsageForUser, incrementUsage, FREE_LIMIT } from "@/lib/usage";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const ADMIN_EMAILS = ["solobotagency@gmail.com"];
@@ -17,7 +18,10 @@ export async function POST(req: Request) {
 
   const isAdmin = ADMIN_EMAILS.includes(email);
   const subscription = await getUserSubscriptionStatus(userId);
-  const usage = await getUsage(userId);
+  
+  // ✅ FIX: Call 'getUsageForUser' instead of 'getUsage'
+  const usage = await getUsageForUser(userId);
+  
   const isPremium = isAdmin || subscription.isPremium;
 
   if (!isPremium && mode !== "Smart Reply Generator") {
