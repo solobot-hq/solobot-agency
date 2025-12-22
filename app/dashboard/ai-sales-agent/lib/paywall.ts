@@ -1,16 +1,18 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
-import { FREE_LIMIT, getUsage, incrementUsage } from "@/lib/usage";
+import { auth, currentUser } from "@clerk/nextjs/server";
+// ✅ FIX 1: Import 'getUsageForUser' instead of 'getUsage'
+import { FREE_LIMIT, getUsageForUser, incrementUsage } from "@/lib/usage";
 
 // HARD ADMIN OVERRIDE – ALWAYS UNLIMITED
 const ADMIN_EMAIL = "solobotagency@gmail.com";
 
 export async function checkUsage() {
-  const session = await auth();
-  const email =
-    session?.sessionClaims?.email ||
-    session?.user?.emailAddresses?.[0]?.emailAddress;
+  // ✅ FIX 2: Use currentUser() to get email correctly
+  const user = await currentUser();
+  const { userId } = await auth();
+
+  const email = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase();
 
   // 🔥 ADMIN ALWAYS UNLOCKED — NO STRIPE, NO LIMITS
   if (email === ADMIN_EMAIL) {
@@ -25,7 +27,6 @@ export async function checkUsage() {
   }
 
   // Normal users (free limit)
-  const { userId } = session;
   if (!userId) {
     return {
       usage: 0,
@@ -36,7 +37,8 @@ export async function checkUsage() {
     };
   }
 
-  const usage = await getUsage(userId);
+  // ✅ FIX 3: Use the correct function name
+  const usage = await getUsageForUser(userId);
   const used = usage.count || 0;
 
   return {
@@ -50,15 +52,14 @@ export async function checkUsage() {
 }
 
 export async function trackUsage() {
-  const session = await auth();
-  const email =
-    session?.sessionClaims?.email ||
-    session?.user?.emailAddresses?.[0]?.emailAddress;
+  const user = await currentUser();
+  const { userId } = await auth();
+
+  const email = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase();
 
   // 🔥 Admin never increments usage
   if (email === ADMIN_EMAIL) return;
 
-  const { userId } = session;
   if (!userId) return;
 
   await incrementUsage(userId);
@@ -66,10 +67,8 @@ export async function trackUsage() {
 
 // No Stripe checkout during development for admin
 export async function createCheckoutSession() {
-  const session = await auth();
-  const email =
-    session?.sessionClaims?.email ||
-    session?.user?.emailAddresses?.[0]?.emailAddress;
+  const user = await currentUser();
+  const email = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase();
 
   if (email === ADMIN_EMAIL) {
     return; // Admin never sees checkout
