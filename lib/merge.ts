@@ -13,8 +13,9 @@ const normalizeName = (name: string): string => {
 
 /**
  * Extracts a normalized domain from a website URL for deduplication.
+ * ✅ UPDATED: Added 'undefined' to the type signature
  */
-const getDomain = (website: string | null): string | null => {
+const getDomain = (website: string | null | undefined): string | null => {
   if (!website) return null;
   try {
     const host = new URL(website).hostname;
@@ -26,7 +27,6 @@ const getDomain = (website: string | null): string | null => {
 
 /**
  * Merges and deduplicates leads from multiple sources.
- * ✅ FIX: Changed parameter to '...arrays' to accept multiple lead arrays
  */
 export const mergeLeads = (...arrays: PartialLead[][]): Lead[] => {
   // Flatten all input arrays into a single list
@@ -36,6 +36,7 @@ export const mergeLeads = (...arrays: PartialLead[][]): Lead[] => {
   const leadMap = new Map<string, Lead>();
 
   for (const partial of leads) {
+    // ✅ FIX: getDomain now handles the potential undefined value from partial.website
     const domain = getDomain(partial.website);
     const normalizedName = normalizeName(partial.name);
 
@@ -55,11 +56,11 @@ export const mergeLeads = (...arrays: PartialLead[][]): Lead[] => {
 
     const current: Lead = {
       name: partial.name,
-      website: partial.website || null,
-      email: partial.email || null,
-      phone: partial.phone || null,
-      address: partial.address || null,
-      sizeOrRevenue: partial.sizeOrRevenue || null,
+      website: partial.website ?? null, // Use nullish coalescing for safety
+      email: partial.email ?? null,
+      phone: partial.phone ?? null,
+      address: partial.address ?? null,
+      sizeOrRevenue: partial.sizeOrRevenue ?? null,
       source: partial.source,
     };
 
