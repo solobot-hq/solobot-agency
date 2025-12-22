@@ -1,52 +1,43 @@
-// -----------------------------
-// SoloBotAgency Prisma Schema
-// -----------------------------
+// prisma/schema.prisma
 
 datasource db {
   provider = "postgresql"
-  // url is managed in prisma.config.ts for Prisma 7
+  // url is now managed in prisma.config.ts
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-// -----------------------------
-// User & Subscription Models
-// -----------------------------
 model User {
-  id               String   @id @default(cuid())
-  email            String   @unique
-  stripeCustomerId String?  @unique
-  plan             String?  
-  usageCount       Int      @default(0) 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id               String         @id @default(cuid())
+  email            String         @unique
+  stripeCustomerId String?        @unique
+  plan             String?        
+  usageCount       Int            @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   
-  // Relations
   subscriptions    Subscription[]
   videoJobs        VideoJob[]
-  emailLogs        EmailLog[]   // ✅ Added relation
+  emailLogs        EmailLog[]
 }
 
 model Subscription {
   id                   String   @id @default(cuid())
   userId               String   @unique
-  stripeSubscriptionId String?  @unique 
-  stripeCustomerId     String?  @unique 
+  stripeSubscriptionId String?  @unique
+  stripeCustomerId     String?  @unique
   stripePriceId        String?
-  plan                 String?  
-  status               String?  
-  currentPeriodEnd     DateTime? 
+  plan                 String?
+  status               String?
+  currentPeriodEnd     DateTime?
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// -----------------------------
-// Email Logging (New)
-// -----------------------------
 model EmailLog {
   id        String   @id @default(cuid())
   userId    String
@@ -56,23 +47,18 @@ model EmailLog {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// -----------------------------
-// Video Bot Models
-// -----------------------------
 model VideoJob {
   id        String   @id @default(cuid())
   userId    String
   status    String   @default("PENDING") 
   videoUrl  String?
   prompt    String?
+  settings  Json?    // Stores flexible video parameters
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// -----------------------------
-// Workspace & Other Models
-// -----------------------------
 model Workspace {
   id        String   @id @default(cuid())
   name      String
