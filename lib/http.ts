@@ -1,5 +1,6 @@
 import pLimit from 'p-limit';
-import ms from 'ms';
+// @ts-ignore
+import ms from 'ms'; // TypeScript cannot find types for 'ms', so we ignore the warning
 
 const limit = pLimit(3); // Global concurrency limit from spec
 
@@ -31,27 +32,21 @@ export async function fetchHtmlWithRateLimit(url: string): Promise<string | null
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                     'Accept-Encoding': 'gzip, deflate, br',
                     'Accept-Language': 'en-US,en;q=0.9',
-                    // Add other headers as needed, e.g., Referer, Cookie (use with caution)
                 },
-                // Consider adding a timeout specific to the fetch operation itself
-                 signal: AbortSignal.timeout(ms('15s')) // Example: 15-second timeout per fetch
+                // @ts-ignore
+                signal: AbortSignal.timeout(ms('15s')) // Per-fetch timeout
             });
 
             if (!response.ok) {
                 console.error(`[HTTP] Failed to fetch ${url}. Status: ${response.status} ${response.statusText}`);
-                // Optionally: Log response body if small and might contain clues (e.g., CAPTCHA page)
-                // const errorBody = await response.text();
-                // console.error(`[HTTP] Error body snippet: ${errorBody.substring(0, 200)}`);
-                return null; // Return null on non-2xx status codes
+                return null;
             }
 
-            // Check content type to ensure it's HTML before proceeding
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('text/html')) {
                 console.warn(`[HTTP] Received non-HTML content type (${contentType}) for ${url}`);
                 return null;
             }
-
 
             const html = await response.text();
             console.log(`[HTTP] Successfully fetched HTML from ${url} (length: ${html.length})`);
@@ -63,8 +58,7 @@ export async function fetchHtmlWithRateLimit(url: string): Promise<string | null
             } else {
                 console.error(`[HTTP] Network error fetching ${url}:`, error.message);
             }
-            return null; // Return null on network errors or timeouts
+            return null;
         }
     });
 }
-
