@@ -18,6 +18,8 @@ model User {
   id               String   @id @default(cuid())
   email            String   @unique
   stripeCustomerId String?  @unique
+  plan             String?  // ✅ Fixes Webhook error: User.update({ data: { plan } })
+  usageCount       Int      @default(0) // ✅ Fixes Webhook error: data: { usageCount: 0 }
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   
@@ -29,12 +31,12 @@ model User {
 model Subscription {
   id                   String   @id @default(cuid())
   userId               String   @unique
-  stripeSubscriptionId String?  @unique // Fixes Webhook error
-  stripeCustomerId     String?  @unique // Fixes Portal error
+  stripeSubscriptionId String?  @unique 
+  stripeCustomerId     String?  @unique 
   stripePriceId        String?
-  plan                 String?          // Fixes Webhook 'plan' error
-  status               String?          // active, canceled, past_due
-  currentPeriodEnd     DateTime?        // ✅ Fixes Webhook 'currentPeriodEnd' error
+  plan                 String?  
+  status               String?  
+  currentPeriodEnd     DateTime? 
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
