@@ -8,23 +8,32 @@ export const searchRequestSchema = z.object({
 });
 
 // =============== TYPES ===============
-// Type for input query after validation
-export type SearchQuery = z.infer<typeof searchRequestSchema> & { id?: number }; // Add optional id for history
+export type SearchQuery = z.infer<typeof searchRequestSchema> & { id?: number };
 
-
-// Type for data coming *from* the scrapers BEFORE email enrichment
 export interface ScrapedLead {
   name: string;
   website: string | null;
   email?: string | null;
   phone: string | null;
-  address?: string | null; // Full address string if available
-  sizeOrRevenue?: string | null; // Can be years active, employee count etc. depending on source
-  source: 'yelp' | 'opencorporates'; // Ensure source is typed
+  address?: string | null;
+  sizeOrRevenue?: string | null;
+  source: 'yelp' | 'opencorporates';
 }
 
-// ✅ Ensure Zod schemas are EXPORTED
-// Zod schema for the FINAL strict output object
+// ✅ FIX: Added Lead and PartialLead to resolve import errors in /lib/email/extract.ts
+export interface Lead {
+  name: string;
+  website: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  sizeOrRevenue: string | null;
+  source: string;
+}
+
+export type PartialLead = Partial<Lead> & { name: string; source: string };
+
+// =============== ZOD SCHEMAS ===============
 export const FinalLeadOutputSchema = z.object({
   business_name: z.string().min(1, { message: "Business name cannot be empty"}),
   website: z.string().default('N/A'),
@@ -33,28 +42,21 @@ export const FinalLeadOutputSchema = z.object({
   industry: z.string().default('Unknown'),
   revenue_estimate: z.string().default('N/A'),
   years_active: z.string().default('N/A'),
-  location: z.string().default('N/A') // Expecting City/State or similar summary
+  location: z.string().default('N/A')
 });
 
-// Type derived from Zod schema for the final output
 export type FinalLeadOutput = z.infer<typeof FinalLeadOutputSchema>;
+export const FinalLeadOutputArraySchema = z.array(FinalLeadOutputSchema).min(0);
 
-// ✅ Ensure Zod schemas are EXPORTED
-// Zod schema for the array of final outputs (used for seeding validation)
-export const FinalLeadOutputArraySchema = z.array(FinalLeadOutputSchema).min(0); // Allow 0 for safety if seeding fails
-
-
-// Type for the overall API response
 export interface SearchResponse {
   leads: FinalLeadOutput[];
   meta: {
     tookMs: number;
-    sourceCounts?: { // Make optional as seed won't have counts
+    sourceCounts?: {
       yelp: number;
       opencorporates: number;
     };
     fallbackApiCallCount: number;
-    source?: 'scrape_enrich' | 'fallback_seed'; // Flag for UI banner logic
+    source?: 'scrape_enrich' | 'fallback_seed';
   };
 }
-
