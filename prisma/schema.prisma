@@ -27,15 +27,17 @@ model User {
 }
 
 model Subscription {
-  id               String   @id @default(cuid())
-  userId           String   @unique
-  stripeCustomerId String?  @unique // ✅ Added this line to fix the portal error
-  stripePriceId    String?
-  status           String?  // active, canceled, past_due
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  stripeSubscriptionId String?  @unique // ✅ Fixes Webhook error
+  stripeCustomerId     String?  @unique // ✅ Fixes Portal error
+  stripePriceId        String?
+  plan                 String?          // ✅ Fixes Webhook 'plan' error
+  status               String?  // active, canceled, past_due
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // -----------------------------
@@ -44,7 +46,7 @@ model Subscription {
 model VideoJob {
   id        String   @id @default(cuid())
   userId    String
-  status    String   @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED
+  status    String   @default("PENDING") 
   videoUrl  String?
   prompt    String?
   createdAt DateTime @default(now())
@@ -53,7 +55,7 @@ model VideoJob {
 }
 
 // -----------------------------
-// Workspace Model
+// Workspace & Other Models
 // -----------------------------
 model Workspace {
   id        String   @id @default(cuid())
@@ -63,22 +65,16 @@ model Workspace {
   updatedAt DateTime @updatedAt
 }
 
-// -----------------------------
-// Pulse Feed Events
-// -----------------------------
 model PulseEvent {
   id        String   @id @default(cuid())
   userId    String
   title     String
   message   String
-  type      String   @default("ALERT") // ALERT | BILLING | BOT | SYSTEM
+  type      String   @default("ALERT")
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 
-// -----------------------------
-// Inbox Messages
-// -----------------------------
 model InboxMessage {
   id        String   @id @default(cuid())
   userId    String
