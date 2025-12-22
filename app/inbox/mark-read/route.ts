@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+// ✅ FIX 1: Import the shared prisma instance
+import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    // ✅ FIX 2: Await auth() for Next.js 16
+    const { userId } = await auth();
+    
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -30,7 +31,6 @@ export async function POST(req: Request) {
     // Handle Single Message Read
     else {
       // Use updateMany with userId filter to ensure user owns the message
-      // (updateMany returns count, simple update throws if not found)
       await prisma.inboxMessage.updateMany({
         where: { 
           id, 
