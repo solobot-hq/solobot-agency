@@ -1,13 +1,15 @@
-import 'dotenv/config'; // 1. Crucial for loading .env variables
-import { defineConfig, env } from 'prisma/config'; // 2. Correct import path
+// prisma.config.ts
+import 'dotenv/config';
+import { defineConfig } from '@prisma/config';
+
+// 1️⃣ Get the URL from standard Node process.env
+// 2️⃣ Provide a fallback string so 'prisma generate' doesn't crash the build.
+// This fallback is ONLY used for generating types, NOT for connecting at runtime.
+const DATABASE_URL = process.env.DATABASE_URL || "postgresql://unused:unused@localhost:5432/unused";
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
-  migrations: {
-    path: 'prisma/migrations',
-  },
   datasource: {
-    // 3. The env() helper ensures the variable is present
-    url: env('DATABASE_URL'), 
+    url: DATABASE_URL,
   },
 });
