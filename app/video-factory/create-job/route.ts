@@ -1,15 +1,5 @@
-// /app/api/video-factory/create-job/route.ts
-import { NextResponse } from 'next/server';
-import { auth } from "@clerk/nextjs/server";
-import { createNewJob } from '@/lib/videoFactory/jobs';
-import { generateProcess } from '@/lib/videoFactory/generation';
-
-// Set max duration low, as this route must return quickly
-export const maxDuration = 10; 
-
 export async function POST(request: Request) {
     try {
-        // 1. Security Check (Next.js 16 requires await for auth)
         const { userId } = await auth();
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -21,14 +11,16 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Topic is required' }, { status: 400 });
         }
         
-        // 2. Create Job and get ID
-        // ✅ FIX: Added await here so jobId is a string, not a Promise
-        const jobId = await createNewJob({ ...payload, userId });
+        // 1. Create Job and get the Job Object
+        const job = await createNewJob({ ...payload, userId });
         
-        // 3. Start the asynchronous generation process
-        // Now that jobId is a real string, this will no longer throw a Type Error
+        // ✅ FIX: Extract the string ID from the object
+        const jobId = job.id; 
+        
+        // 2. Start the process using the string ID
         generateProcess(jobId);
 
+        // 3. Return the string ID to the frontend
         return NextResponse.json({ jobId }, { status: 202 });
 
     } catch (e: any) {
