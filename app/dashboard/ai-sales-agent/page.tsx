@@ -16,8 +16,8 @@ import {
 import { UpgradeModal } from "@/components/UpgradeModal";
 
 // --- Configuration ---
-// 👇 UPDATED: Set to 'enterprise' to show correct badge & remove limits
-const CURRENT_PLAN = "enterprise"; 
+// 👇 FIX: Added ': string' so TypeScript allows the 'free' check later
+const CURRENT_PLAN: string = "enterprise"; 
 const DEMO_LIMIT_MS = 10000;
 
 // --- Currency Helper ---
@@ -53,7 +53,6 @@ export default function AISalesAgentPage() {
   // Metrics State
   const [stats, setStats] = useState({
     sent: 142,
-    // 👇 UPDATED: Changed from 12 to 15 as requested
     replies: 15, 
     meetings: 3,
     saved: 1250.00
@@ -272,14 +271,14 @@ export default function AISalesAgentPage() {
               
               {/* Terminal Header */}
               <div className="bg-[#1E293B] px-4 py-2 border-b border-slate-700 flex justify-between items-center">
-                 <div className="flex items-center gap-2">
-                    <Terminal className="w-3.5 h-3.5 text-slate-400" />
-                    <span className="text-xs font-mono text-slate-400">agent_logs.log</span>
-                 </div>
-                 <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
-                 </div>
+                  <div className="flex items-center gap-2">
+                     <Terminal className="w-3.5 h-3.5 text-slate-400" />
+                     <span className="text-xs font-mono text-slate-400">agent_logs.log</span>
+                  </div>
+                  <div className="flex gap-1.5">
+                     <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+                     <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+                  </div>
               </div>
 
               {/* Scrollable Logs */}
