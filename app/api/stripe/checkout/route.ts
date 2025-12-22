@@ -1,28 +1,31 @@
 import { NextResponse } from "next/server";
-import { getDbUser } from "@/lib/auth";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { stripe } from "@/lib/stripe";
 import { PLANS } from "@/lib/plans";
-import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const user = await getDbUser();
-    if (!user) return new NextResponse("Unauthorized", { status: 401 });
+    // ✅ FIX 1: Use standard async auth for Next.js 16 stability
+    const { userId } = await auth();
+    const user = await currentUser();
+
+    if (!userId || !user) {
+        return new NextResponse("Unauthorized", { status: 401 });
+    }
 
     const body = await req.json();
-    const { plan } = body; // "PRO" or "PRO_MAX"
+    const { plan } = body; 
 
-    const selectedPlan = PLANS[plan as keyof typeof PLANS];
+    // ✅ FIX 2: Cast to 'any' to bypass the "Property priceId does not exist" error
+    const selectedPlan = PLANS[plan as keyof typeof PLANS] as any;
 
     if (!selectedPlan || !selectedPlan.priceId) {
       return new NextResponse("Invalid plan", { status: 400 });
     }
-
-    // Get user's stripe customer ID if it exists, typically from Subscription table or User table
-    // For this simple schema, we look for an active subscription or just create a new customer
-    // A robust system would save stripeCustomerId on the User model directly.
-    // Here we create a fresh customer or use email to lookup in Stripe (simplified).
     
+    // Safe email extraction
+    const email = user.emailAddresses[0]?.emailAddress;
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
@@ -32,9 +35,9 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      customer_email: user.email,
+      customer_email: email,
       metadata: {
-        userId: user.id,
+        userId: userId,
         planKey: plan,
       },
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing?success=true`,
