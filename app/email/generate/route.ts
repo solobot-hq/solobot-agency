@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
-import { getDbUser } from "@/lib/auth";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { generateEmailSchema } from "@/lib/validators";
-import { getUsageForUser, incrementUsage } from "@/lib/usage";
+import { getUsageForUser, incrementUsage, FREE_LIMIT } from "@/lib/usage";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const user = await getDbUser();
-    if (!user) {
+    // ✅ FIX 1: Use standard async auth
+    const { userId } = await auth();
+    const user = await currentUser();
+
+    if (!userId || !user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -19,9 +22,10 @@ export async function POST(req: Request) {
     }
 
     // Check usage limits
-    const usage = await getUsageForUser(user.id);
+    const usage = await getUsageForUser(userId);
     
-    if (usage.used >= usage.limit) {
+    // ✅ FIX 2: Use 'usage.count' and compare against imported 'FREE_LIMIT'
+    if (usage.count >= FREE_LIMIT) {
       return NextResponse.json(
         { error: "UPGRADE_REQUIRED", message: "You have reached your plan limit." },
         { status: 403 }
@@ -29,7 +33,6 @@ export async function POST(req: Request) {
     }
 
     // Mock AI Generation (Simulated delay)
-    // In a real app, this is where you'd call OpenAI
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
     const generatedEmail = `Subject: Quick question regarding ${validation.data.topic}
@@ -48,17 +51,17 @@ Best,
     // Save log
     await prisma.emailLog.create({
       data: {
-        userId: user.id,
+        userId: userId,
         text: generatedEmail,
       }
     });
 
     // Increment usage
-    await incrementUsage(user.id);
+    await incrementUsage(userId);
 
     return NextResponse.json({ 
       email: generatedEmail,
-      remaining: usage.limit - (usage.used + 1)
+      remaining: FREE_LIMIT - (usage.count + 1)
     });
 
   } catch (error) {
