@@ -2,9 +2,13 @@ import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { stripe } from "@/lib/stripe";
 
+// Force dynamic ensures this always fetches fresh data
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
-    const { userId } = auth();
+    // ✅ FIX: Added 'await' before auth()
+    const { userId } = await auth();
     const user = await currentUser();
 
     if (!userId || !user) {
