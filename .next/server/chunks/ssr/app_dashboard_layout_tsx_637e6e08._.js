@@ -1,3 +1,0 @@
-module.exports=[46927,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsx)("div",{className:"flex h-screen w-full bg-zinc-950 text-zinc-100 antialiased overflow-hidden font-sans",children:(0,b.jsx)("main",{className:"flex flex-1 flex-col min-w-0 overflow-hidden relative bg-zinc-950",children:a})})}a.s(["default",()=>c])}];
-
-//# sourceMappingURL=app_dashboard_layout_tsx_637e6e08._.js.map
