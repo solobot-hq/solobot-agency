@@ -1,15 +1,14 @@
 // prisma.config.ts
-import 'dotenv/config';
-import { defineConfig } from '@prisma/config';
-
-// 1️⃣ Get the URL from standard Node process.env
-// 2️⃣ Provide a fallback string so 'prisma generate' doesn't crash the build.
-// This fallback is ONLY used for generating types, NOT for connecting at runtime.
-const DATABASE_URL = process.env.DATABASE_URL || "postgresql://unused:unused@localhost:5432/unused";
+import 'dotenv/config'; // 👈 CRITICAL: Must be the very first line to load .env
+import { defineConfig, env } from 'prisma/config';
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   datasource: {
-    url: DATABASE_URL,
+    // Prisma 7 uses the 'env' helper which specifically looks for loaded variables
+    url: env("DIRECT_URL") ?? env("DATABASE_URL"),
   },
+  migrations: {
+    path: 'prisma/migrations',
+  }
 });

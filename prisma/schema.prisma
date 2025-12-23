@@ -1,26 +1,32 @@
 // prisma/schema.prisma
 
-datasource db {
-  provider = "postgresql"
-  // url is now managed in prisma.config.ts
+generator client {
+  provider        = "prisma-client-js"
+  // Required in Prisma 7: Specify a path outside node_modules
+  output          = "../generated/client"
+  // Required to use the 'pg' adapter you've installed
+  previewFeatures = ["driverAdapters"]
 }
 
-generator client {
-  provider = "prisma-client-js"
+datasource db {
+  provider = "postgresql"
+  // Note: The 'url' property is deprecated here in Prisma 7.
+  // Connection strings are now managed in prisma.config.ts.
 }
 
 model User {
-  id               String         @id @default(cuid())
-  email            String         @unique
-  stripeCustomerId String?        @unique
-  plan             String?        
-  usageCount       Int            @default(0)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id                String         @id @default(cuid())
+  email             String         @unique
+  clerkId           String         @unique 
+  stripeCustomerId  String?        @unique
+  plan              String?        
+  usageCount        Int            @default(0)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
   
-  subscriptions    Subscription[]
-  videoJobs        VideoJob[]
-  emailLogs        EmailLog[]
+  subscriptions     Subscription[]
+  videoJobs         VideoJob[]
+  emailLogs         EmailLog[]
 }
 
 model Subscription {
@@ -53,7 +59,7 @@ model VideoJob {
   status    String   @default("PENDING") 
   videoUrl  String?
   prompt    String?
-  settings  Json?    // Stores flexible video parameters
+  settings  Json?    
   createdAt DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

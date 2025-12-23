@@ -101,6 +101,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/api/webhooks/clerk/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/webhooks/clerk">> = Specific
+  const handler = {} as typeof import("../../app/api/webhooks/clerk/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/content/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/content">> = Specific

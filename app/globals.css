@@ -1,9 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Optional: Add base styles for dark mode if needed */
-body {
-  @apply bg-gray-900 text-slate-200; /* Example dark theme base */
+/* If you need custom variables, use the new @theme block */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui;
 }
 
+/* Any custom base styles */
+body {
+  @apply bg-white text-black;
+}

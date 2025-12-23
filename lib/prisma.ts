@@ -1,14 +1,25 @@
-import { PrismaClient } from "@prisma/client";
+// /lib/prisma.ts
+
+// 1. IMPORT FROM THE CUSTOM OUTPUT PATH DEFINED IN YOUR SCHEMA
+import { PrismaClient } from "../generated/client"; 
 import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
-// @ts-ignore — pg has no type declarations in this project
-import pg from "pg";
+/**
+ * 2. Setup the connection pool.
+ * Note: Use the DIRECT_URL for migrations, but the standard DATABASE_URL 
+ * for the application pool to handle pooling correctly.
+ */
+const pool = new Pool({ 
+  connectionString: process.env.DATABASE_URL 
+});
 
-// 1. Setup the connection pool using your environment variable
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 
-// 2. Define the singleton function with the adapter
+/**
+ * 3. Define the singleton function.
+ * Passing the 'adapter' is mandatory in Prisma 7 when using 'prisma-client'.
+ */
 const prismaClientSingleton = () => {
   return new PrismaClient({
     adapter,
@@ -19,12 +30,17 @@ const prismaClientSingleton = () => {
   });
 };
 
+/**
+ * 4. Type definition for the global object.
+ */
 declare global {
   // eslint-disable-next-line no-var
   var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
-// 3. Initialize or retrieve the existing instance
+/**
+ * 5. Initialize or retrieve the existing instance.
+ */
 const prisma = globalThis.prisma ?? prismaClientSingleton();
 
 export default prisma;
