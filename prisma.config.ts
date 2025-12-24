@@ -1,14 +1,12 @@
 // prisma.config.ts
-import 'dotenv/config'; // 👈 CRITICAL: Must be the very first line to load .env
-import { defineConfig, env } from 'prisma/config';
+import "dotenv/config";
+import { defineConfig } from "prisma/config";
 
 export default defineConfig({
-  schema: 'prisma/schema.prisma',
+  schema: "prisma/schema.prisma",
   datasource: {
-    // Prisma 7 uses the 'env' helper which specifically looks for loaded variables
-    url: env("DIRECT_URL") ?? env("DATABASE_URL"),
+    // Fallback allows 'prisma generate' to run even if DATABASE_URL isn't 
+    // injected yet during the early install phase on Vercel.
+    url: process.env.DATABASE_URL || "postgresql://placeholder:5432", 
   },
-  migrations: {
-    path: 'prisma/migrations',
-  }
 });
