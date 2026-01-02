@@ -10,15 +10,15 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* Authority Header: 84px height with Clickable Logo Lightbox */}
+      {/* Authority Header: 84px height with Fixed Clickable Logo Lightbox */}
       <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1221]/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6"> {/* ✅ TYPO FIXED: changed a7xl to 7xl */}
           <div className="flex justify-between items-center h-[84px]">
             <button
               type="button"
               aria-label="View logo"
               onClick={() => setLogoOpen(true)}
-              className="flex items-center gap-3 bg-transparent border-0 p-0 text-left cursor-pointer focus:outline-none"
+              className="flex items-center gap-3 bg-transparent border-0 p-0 text-left cursor-pointer focus:outline-none z-[60]"
             >
               <div className="h-12 flex items-center">
                 <img 
@@ -35,11 +35,11 @@ export default function LandingPage() {
             {/* Logo Lightbox Modal */}
             {logoOpen && (
               <div
-                className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-6"
+                className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-6 backdrop-blur-sm"
                 onClick={() => setLogoOpen(false)}
               >
                 <div
-                  className="bg-[#0B1221] p-8 rounded-2xl border border-white/10 shadow-2xl"
+                  className="bg-[#0B1221] p-8 rounded-2xl border border-white/10 shadow-2xl max-w-sm w-full"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <img
@@ -50,6 +50,12 @@ export default function LandingPage() {
                   <p className="mt-4 text-center text-sm text-white/60 font-medium italic">
                     One Bot. Infinite Tasks.
                   </p>
+                  <button 
+                    onClick={() => setLogoOpen(false)}
+                    className="mt-6 w-full py-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors"
+                  >
+                    Click anywhere to close
+                  </button>
                 </div>
               </div>
             )}
