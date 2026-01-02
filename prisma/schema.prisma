@@ -1,30 +1,33 @@
 generator client {
-  provider   = "prisma-client"
-  output     = "../src/generated/prisma"
-  engineType = "node"
+  // Use the new Prisma 7 default provider
+  provider        = "prisma-client"
+  // Keep your custom output path as it is now required by the "prisma-client" generator
+  output          = "../src/generated/prisma"
+  // Standard node engine for Next.js environments
+  engineType      = "node"
 }
 
 datasource db {
   provider = "postgresql"
-  // DATABASE_URL is defined via prisma.config.ts (Prisma 7)
+  // In Prisma 7, the URL is defined in prisma.config.ts, so it remains empty here
 }
 
 model User {
-  id               String    @id @default(cuid())
-  email            String    @unique
-  clerkId          String    @unique
-  stripeCustomerId String?   @unique
+  id               String   @id @default(cuid())
+  email            String   @unique
+  clerkId          String   @unique
+  stripeCustomerId String?  @unique
 
-  tier             String    @default("STARTER") 
+  tier             String   @default("STARTER") 
   
-  dailyUsageCount  Int       @default(0) 
-  lastUsageReset   DateTime  @default(now())
+  dailyUsageCount  Int      @default(0) 
+  lastUsageReset   DateTime @default(now())
   
-  activeTaskCount  Int       @default(0)
-  overageBalance   Int       @default(0)
+  activeTaskCount  Int      @default(0)
+  overageBalance   Int      @default(0)
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   emailLogs        EmailLog[]
   leads            Lead[]
@@ -45,6 +48,7 @@ model Bot {
   lastRun   DateTime @default(now())
   createdAt DateTime @default(now())
 
+  // Relation fixed:userId references clerkId specifically for your bot logic
   user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 }
 

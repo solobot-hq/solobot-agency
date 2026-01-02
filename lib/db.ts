@@ -1,54 +1,25 @@
-// /lib/db.ts
-import { PrismaClient } from "../src/generated/prisma";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import ws from "ws";
+// /lib/db.ts or /lib/prisma.ts
 
-/**
- * WebSocket configuration for Neon (Node.js only)
- */
-if (typeof window === "undefined") {
-  neonConfig.webSocketConstructor = ws;
-}
+// 1. Point to the actual generated file, not the npm package
+import { PrismaClient } from "../src/generated/prisma/client"; 
+import { PrismaNeon } from "@prisma/adapter-pg"; // or @prisma/adapter-neon for Neon
+import { Pool } from "pg";
 
-/**
- * Enforce DATABASE_URL at runtime
- */
-const DATABASE_URL = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaNeon(pool);
 
-if (!DATABASE_URL) {
-  throw new Error(
-    "FATAL: DATABASE_URL is not defined. Check environment variables."
-  );
-}
-
-/**
- * Prisma singleton factory
- */
 const prismaClientSingleton = () => {
-  const pool = new Pool({ connectionString: DATABASE_URL });
-  const adapter = new PrismaNeon(pool);
-
-  return new PrismaClient({
-    adapter,
-    log:
-      process.env.NODE_ENV === "development"
-        ? ["error", "warn"]
-        : ["error"],
-  });
+  // 2. In Prisma 7, you MUST pass the adapter to the constructor
+  return new PrismaClient({ adapter });
 };
 
-/**
- * Global singleton to prevent hot-reload leaks
- */
-const globalForPrisma = globalThis as unknown as {
-  prisma?: PrismaClient;
-};
-
-const db = globalForPrisma.prisma ?? prismaClientSingleton();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = db;
+declare global {
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
 }
+
+const db = globalThis.prisma ?? prismaClientSingleton();
 
 export default db;
+
+if (process.env.NODE_ENV !== "production") globalThis.prisma = db;

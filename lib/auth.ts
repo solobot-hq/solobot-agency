@@ -1,6 +1,7 @@
 // lib/auth.ts
 import { auth, currentUser } from "@clerk/nextjs/server";
-import prisma from "./prisma";
+// ✅ FIXED: Using named import for Prisma 7 singleton
+import { prisma } from "./prisma";
 
 export const getAuthUser = async () => {
   const { userId } = await auth();
@@ -16,6 +17,10 @@ export const getAuthUser = async () => {
   };
 };
 
+/**
+ * ✅ GET DATABASE USER
+ * Synchronized with the Official Autonomy Model schema.
+ */
 export const getDbUser = async () => {
   const authUser = await getAuthUser();
   if (!authUser) return null;
@@ -24,7 +29,6 @@ export const getDbUser = async () => {
     // We use upsert to: 
     // 1. Try to find the user by clerkId
     // 2. If not found, create them.
-    // This is much safer than findUnique + create.
     const dbUser = await prisma.user.upsert({
       where: { clerkId: authUser.id },
       update: {
@@ -33,8 +37,11 @@ export const getDbUser = async () => {
       create: {
         clerkId: authUser.id,
         email: authUser.email,
-        plan: "FREE",
-        usageCount: 0,
+        // ✅ UPDATED: Matching your new schema fields
+        tier: "STARTER",        // Formerly 'plan: "FREE"'
+        dailyUsageCount: 0,     // Formerly 'usageCount'
+        lastUsageReset: new Date(),
+        activeTaskCount: 0,
       },
     });
 

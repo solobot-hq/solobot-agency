@@ -1,0 +1,10 @@
+publicRoutes: [
+  "/",
+  "/sign-in(.*)",   
+  "/sign-up(.*)",   
+  "/api/public(.*)",
+  "/favicon.ico",
+  "/robots.txt",
+  "/manifest.json",
+  "/_next/static(.*)",
+],

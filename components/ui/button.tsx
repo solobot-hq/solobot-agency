@@ -46,6 +46,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        /** * ✅ FIX: suppressHydrationWarning prevents ID mismatches 
+         * caused by browser extensions or Radix dynamic IDs.
+         */
+        suppressHydrationWarning
         {...props}
       />
     )

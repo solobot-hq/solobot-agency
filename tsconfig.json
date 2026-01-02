@@ -23,9 +23,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"],
+      // ✅ Allow shorthand imports for the generated client
+      "@/generated/*": ["src/generated/*"]
     },
     "target": "ES2017"
   },
@@ -34,7 +34,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    // ✅ Include the generated directory for type checking
+    "src/generated/**/*.ts"
   ],
   "exclude": [
     "node_modules",
