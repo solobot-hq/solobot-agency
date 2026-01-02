@@ -85,6 +85,8 @@ export const UserScalarFieldEnum = {
   clerkId: 'clerkId',
   stripeCustomerId: 'stripeCustomerId',
   tier: 'tier',
+  creditsUsed: 'creditsUsed',
+  creditsTotal: 'creditsTotal',
   dailyUsageCount: 'dailyUsageCount',
   lastUsageReset: 'lastUsageReset',
   activeTaskCount: 'activeTaskCount',

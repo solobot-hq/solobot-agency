@@ -27,12 +27,16 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
+  creditsUsed: number | null
+  creditsTotal: number | null
   dailyUsageCount: number | null
   activeTaskCount: number | null
   overageBalance: number | null
 }
 
 export type UserSumAggregateOutputType = {
+  creditsUsed: number | null
+  creditsTotal: number | null
   dailyUsageCount: number | null
   activeTaskCount: number | null
   overageBalance: number | null
@@ -44,6 +48,8 @@ export type UserMinAggregateOutputType = {
   clerkId: string | null
   stripeCustomerId: string | null
   tier: string | null
+  creditsUsed: number | null
+  creditsTotal: number | null
   dailyUsageCount: number | null
   lastUsageReset: Date | null
   activeTaskCount: number | null
@@ -58,6 +64,8 @@ export type UserMaxAggregateOutputType = {
   clerkId: string | null
   stripeCustomerId: string | null
   tier: string | null
+  creditsUsed: number | null
+  creditsTotal: number | null
   dailyUsageCount: number | null
   lastUsageReset: Date | null
   activeTaskCount: number | null
@@ -72,6 +80,8 @@ export type UserCountAggregateOutputType = {
   clerkId: number
   stripeCustomerId: number
   tier: number
+  creditsUsed: number
+  creditsTotal: number
   dailyUsageCount: number
   lastUsageReset: number
   activeTaskCount: number
@@ -83,12 +93,16 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserAvgAggregateInputType = {
+  creditsUsed?: true
+  creditsTotal?: true
   dailyUsageCount?: true
   activeTaskCount?: true
   overageBalance?: true
 }
 
 export type UserSumAggregateInputType = {
+  creditsUsed?: true
+  creditsTotal?: true
   dailyUsageCount?: true
   activeTaskCount?: true
   overageBalance?: true
@@ -100,6 +114,8 @@ export type UserMinAggregateInputType = {
   clerkId?: true
   stripeCustomerId?: true
   tier?: true
+  creditsUsed?: true
+  creditsTotal?: true
   dailyUsageCount?: true
   lastUsageReset?: true
   activeTaskCount?: true
@@ -114,6 +130,8 @@ export type UserMaxAggregateInputType = {
   clerkId?: true
   stripeCustomerId?: true
   tier?: true
+  creditsUsed?: true
+  creditsTotal?: true
   dailyUsageCount?: true
   lastUsageReset?: true
   activeTaskCount?: true
@@ -128,6 +146,8 @@ export type UserCountAggregateInputType = {
   clerkId?: true
   stripeCustomerId?: true
   tier?: true
+  creditsUsed?: true
+  creditsTotal?: true
   dailyUsageCount?: true
   lastUsageReset?: true
   activeTaskCount?: true
@@ -229,6 +249,8 @@ export type UserGroupByOutputType = {
   clerkId: string
   stripeCustomerId: string | null
   tier: string
+  creditsUsed: number
+  creditsTotal: number
   dailyUsageCount: number
   lastUsageReset: Date
   activeTaskCount: number
@@ -266,6 +288,8 @@ export type UserWhereInput = {
   clerkId?: Prisma.StringFilter<"User"> | string
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
   tier?: Prisma.StringFilter<"User"> | string
+  creditsUsed?: Prisma.IntFilter<"User"> | number
+  creditsTotal?: Prisma.IntFilter<"User"> | number
   dailyUsageCount?: Prisma.IntFilter<"User"> | number
   lastUsageReset?: Prisma.DateTimeFilter<"User"> | Date | string
   activeTaskCount?: Prisma.IntFilter<"User"> | number
@@ -287,6 +311,8 @@ export type UserOrderByWithRelationInput = {
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   tier?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   lastUsageReset?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
@@ -311,6 +337,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   tier?: Prisma.StringFilter<"User"> | string
+  creditsUsed?: Prisma.IntFilter<"User"> | number
+  creditsTotal?: Prisma.IntFilter<"User"> | number
   dailyUsageCount?: Prisma.IntFilter<"User"> | number
   lastUsageReset?: Prisma.DateTimeFilter<"User"> | Date | string
   activeTaskCount?: Prisma.IntFilter<"User"> | number
@@ -332,6 +360,8 @@ export type UserOrderByWithAggregationInput = {
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   tier?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   lastUsageReset?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
@@ -354,6 +384,8 @@ export type UserScalarWhereWithAggregatesInput = {
   clerkId?: Prisma.StringWithAggregatesFilter<"User"> | string
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   tier?: Prisma.StringWithAggregatesFilter<"User"> | string
+  creditsUsed?: Prisma.IntWithAggregatesFilter<"User"> | number
+  creditsTotal?: Prisma.IntWithAggregatesFilter<"User"> | number
   dailyUsageCount?: Prisma.IntWithAggregatesFilter<"User"> | number
   lastUsageReset?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   activeTaskCount?: Prisma.IntWithAggregatesFilter<"User"> | number
@@ -368,6 +400,8 @@ export type UserCreateInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -389,6 +423,8 @@ export type UserUncheckedCreateInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -410,6 +446,8 @@ export type UserUpdateInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -431,6 +469,8 @@ export type UserUncheckedUpdateInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -452,6 +492,8 @@ export type UserCreateManyInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -466,6 +508,8 @@ export type UserUpdateManyMutationInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -480,6 +524,8 @@ export type UserUncheckedUpdateManyInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -494,6 +540,8 @@ export type UserCountOrderByAggregateInput = {
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   lastUsageReset?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
@@ -503,6 +551,8 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserAvgOrderByAggregateInput = {
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
   overageBalance?: Prisma.SortOrder
@@ -514,6 +564,8 @@ export type UserMaxOrderByAggregateInput = {
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   lastUsageReset?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
@@ -528,6 +580,8 @@ export type UserMinOrderByAggregateInput = {
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   lastUsageReset?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
@@ -537,6 +591,8 @@ export type UserMinOrderByAggregateInput = {
 }
 
 export type UserSumOrderByAggregateInput = {
+  creditsUsed?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
   dailyUsageCount?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
   overageBalance?: Prisma.SortOrder
@@ -671,6 +727,8 @@ export type UserCreateWithoutBotsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -691,6 +749,8 @@ export type UserUncheckedCreateWithoutBotsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -727,6 +787,8 @@ export type UserUpdateWithoutBotsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -747,6 +809,8 @@ export type UserUncheckedUpdateWithoutBotsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -767,6 +831,8 @@ export type UserCreateWithoutSubscriptionsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -787,6 +853,8 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -823,6 +891,8 @@ export type UserUpdateWithoutSubscriptionsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -843,6 +913,8 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -863,6 +935,8 @@ export type UserCreateWithoutLeadsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -883,6 +957,8 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -919,6 +995,8 @@ export type UserUpdateWithoutLeadsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -939,6 +1017,8 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -959,6 +1039,8 @@ export type UserCreateWithoutEmailLogsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -979,6 +1061,8 @@ export type UserUncheckedCreateWithoutEmailLogsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1015,6 +1099,8 @@ export type UserUpdateWithoutEmailLogsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1035,6 +1121,8 @@ export type UserUncheckedUpdateWithoutEmailLogsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1055,6 +1143,8 @@ export type UserCreateWithoutVideoJobsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1075,6 +1165,8 @@ export type UserUncheckedCreateWithoutVideoJobsInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1111,6 +1203,8 @@ export type UserUpdateWithoutVideoJobsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1131,6 +1225,8 @@ export type UserUncheckedUpdateWithoutVideoJobsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1151,6 +1247,8 @@ export type UserCreateWithoutActivitiesInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1171,6 +1269,8 @@ export type UserUncheckedCreateWithoutActivitiesInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1207,6 +1307,8 @@ export type UserUpdateWithoutActivitiesInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1227,6 +1329,8 @@ export type UserUncheckedUpdateWithoutActivitiesInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1247,6 +1351,8 @@ export type UserCreateWithoutTasksInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1267,6 +1373,8 @@ export type UserUncheckedCreateWithoutTasksInput = {
   clerkId: string
   stripeCustomerId?: string | null
   tier?: string
+  creditsUsed?: number
+  creditsTotal?: number
   dailyUsageCount?: number
   lastUsageReset?: Date | string
   activeTaskCount?: number
@@ -1303,6 +1411,8 @@ export type UserUpdateWithoutTasksInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1323,6 +1433,8 @@ export type UserUncheckedUpdateWithoutTasksInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
   dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1419,6 +1531,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   clerkId?: boolean
   stripeCustomerId?: boolean
   tier?: boolean
+  creditsUsed?: boolean
+  creditsTotal?: boolean
   dailyUsageCount?: boolean
   lastUsageReset?: boolean
   activeTaskCount?: boolean
@@ -1441,6 +1555,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   clerkId?: boolean
   stripeCustomerId?: boolean
   tier?: boolean
+  creditsUsed?: boolean
+  creditsTotal?: boolean
   dailyUsageCount?: boolean
   lastUsageReset?: boolean
   activeTaskCount?: boolean
@@ -1455,6 +1571,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   clerkId?: boolean
   stripeCustomerId?: boolean
   tier?: boolean
+  creditsUsed?: boolean
+  creditsTotal?: boolean
   dailyUsageCount?: boolean
   lastUsageReset?: boolean
   activeTaskCount?: boolean
@@ -1469,6 +1587,8 @@ export type UserSelectScalar = {
   clerkId?: boolean
   stripeCustomerId?: boolean
   tier?: boolean
+  creditsUsed?: boolean
+  creditsTotal?: boolean
   dailyUsageCount?: boolean
   lastUsageReset?: boolean
   activeTaskCount?: boolean
@@ -1477,7 +1597,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "clerkId" | "stripeCustomerId" | "tier" | "dailyUsageCount" | "lastUsageReset" | "activeTaskCount" | "overageBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "clerkId" | "stripeCustomerId" | "tier" | "creditsUsed" | "creditsTotal" | "dailyUsageCount" | "lastUsageReset" | "activeTaskCount" | "overageBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   emailLogs?: boolean | Prisma.User$emailLogsArgs<ExtArgs>
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
@@ -1508,6 +1628,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     clerkId: string
     stripeCustomerId: string | null
     tier: string
+    creditsUsed: number
+    creditsTotal: number
     dailyUsageCount: number
     lastUsageReset: Date
     activeTaskCount: number
@@ -1949,6 +2071,8 @@ export interface UserFieldRefs {
   readonly clerkId: Prisma.FieldRef<"User", 'String'>
   readonly stripeCustomerId: Prisma.FieldRef<"User", 'String'>
   readonly tier: Prisma.FieldRef<"User", 'String'>
+  readonly creditsUsed: Prisma.FieldRef<"User", 'Int'>
+  readonly creditsTotal: Prisma.FieldRef<"User", 'Int'>
   readonly dailyUsageCount: Prisma.FieldRef<"User", 'Int'>
   readonly lastUsageReset: Prisma.FieldRef<"User", 'DateTime'>
   readonly activeTaskCount: Prisma.FieldRef<"User", 'Int'>
