@@ -1,10 +1,10 @@
 <header className="fixed top-0 w-full z-50 bg-background border-b shadow-none">
   <div className="max-w-7xl mx-auto px-6">
-    {/* ✅ Header height increased to 72px to end the 'cramped' look */}
+    {/* ✅ Promote height to 72px so the 40px logo has breathing room */}
     <div className="flex justify-between items-center h-[72px]">
       <div className="flex items-center">
         <div className="h-10 flex items-center gap-3">
-          {/* ✅ FIXED PATH: Changed /logo.png to /sl.png to match your public folder */}
+          {/* ✅ PATH FIX: Pointing to the real file 'sl.png' from your public folder */}
           <img 
             src="/sl.png" 
             alt="SoloBot" 

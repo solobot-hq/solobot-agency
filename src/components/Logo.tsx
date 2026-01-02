@@ -1,15 +1,17 @@
-// ✅ AFTER: Responsive Logo that inherits parent size
+// ✅ Final Normalized Logo: Direct scaling
 export const Logo = () => {
   return (
-    <div className="h-full w-full flex items-center justify-center">
+    <>
       <img 
         src="/logo.png" 
         alt="Logo" 
-        className="h-full w-auto object-contain" // ✅ This forces it to fill the h-10 container
+        // ✅ h-full ensures it matches the 40px container height
+        // ✅ w-auto maintains the correct aspect ratio
+        className="h-full w-auto object-contain" 
       />
       <span className="ml-2 font-bold text-xl tracking-tight text-foreground">
         SOLOBOTAGENCY
       </span>
-    </div>
+    </>
   );
 };
