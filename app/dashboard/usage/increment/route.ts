@@ -18,25 +18,20 @@ export async function POST() {
 
   try {
     /**
-     * ✅ Prisma 7 Atomic Update:
-     * Using 'dailyUsageCount' to match your updated schema.
-     * Increments the value directly in the database to prevent race conditions.
+     * ✅ Schema Alignment:
+     * We use 'dailyUsageCount' to match the field exactly as defined 
+     * in your schema.prisma file.
      */
     await db.user.update({
-      where: {
-        clerkId: userId,
-      },
+      where: { clerkId: userId },
       data: {
-        dailyUsageCount: {
-          increment: 1,
-        },
+        dailyUsageCount: { increment: 1 },
       },
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Usage increment failed:", error);
-
     return NextResponse.json(
       { error: "Failed to increment usage" },
       { status: 500 }
