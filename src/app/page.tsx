@@ -5,18 +5,18 @@ import Link from "next/link";
 export default function LandingPage() {
   return (
     <>
-      {/* Manually Injected Authority Header */}
+      {/* Authority Header: Increased to 84px height with 48px logo container */}
       <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1221]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-[72px]">
+          <div className="flex justify-between items-center h-[84px]">
             <div className="flex items-center gap-3">
-              {/* Force the 40px scale using the verified /sl.png path */}
-              <img 
-                src="/sl.png" 
-                alt="SoloBot" 
-                className="block object-contain"
-                style={{ height: '40px', width: 'auto', minHeight: '40px' }} 
-              />
+              <div className="h-12 flex items-center">
+                <img 
+                  src="/sl.png" 
+                  alt="SoloBot" 
+                  className="h-full w-auto block object-contain"
+                />
+              </div>
               <span className="font-bold text-xl tracking-tight text-white uppercase leading-none">
                 SOLOBOTAGENCY
               </span>
@@ -35,7 +35,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main className="min-h-screen bg-[#0B1221] pt-[72px]">
+      <main className="min-h-screen bg-[#0B1221] pt-[84px]">
         {/* Hero Section */}
         <section className="relative pt-24 pb-24 px-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-500/15 via-[#0B1221] to-[#0B1221] overflow-hidden">
           <div className="max-w-7xl mx-auto text-center relative z-10">
@@ -50,7 +50,6 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-black hover:bg-slate-200 font-bold px-8 py-6 text-lg rounded-xl" asChild>
-                {/* Fixed the arrow error here by using the proper character entity */}
                 <Link href="/sign-up">START STARTER TRIAL &rarr;</Link>
               </Button>
               <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-slate-800 px-8 py-6 text-lg rounded-xl" asChild>
