@@ -1,5 +1,5 @@
 // /lib/db.ts
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from "../src/generated/prisma";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { Pool, neonConfig } from "@neondatabase/serverless";
 import ws from "ws";
