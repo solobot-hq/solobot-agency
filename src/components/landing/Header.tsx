@@ -1,10 +1,10 @@
 <header className="fixed top-0 w-full z-50 bg-background border-b shadow-none">
   <div className="max-w-7xl mx-auto px-6">
-    {/* ✅ Promote height to 72px so the 40px logo has breathing room */}
+    {/* ✅ CHANGE 1: Increased header height to 72px for visual breathing room */}
     <div className="flex justify-between items-center h-[72px]">
       <div className="flex items-center">
         <div className="h-10 flex items-center gap-3">
-          {/* ✅ PATH FIX: Pointing to the real file 'sl.png' from your public folder */}
+          {/* ✅ CHANGE 2: Fixed the path to /sl.png to match your real file */}
           <img 
             src="/sl.png" 
             alt="SoloBot" 
