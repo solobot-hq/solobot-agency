@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function LandingPage() {
   return (
     <>
-      {/* Authority Header: Forced 72px height and 40px logo */}
+      {/* Manually Injected Header: Forced 72px height and 40px logo */}
       <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1221]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center h-[72px]">
@@ -49,7 +49,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-black hover:bg-slate-200 font-bold px-8 py-6 text-lg rounded-xl" asChild>
-                {/* Fixed the arrow error here */}
+                {/* Fixed the syntax error here by using &rarr; */}
                 <Link href="/sign-up">START STARTER TRIAL &rarr;</Link>
               </Button>
               <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-slate-800 px-8 py-6 text-lg rounded-xl" asChild>
