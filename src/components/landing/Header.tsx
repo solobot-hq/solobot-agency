@@ -2,9 +2,17 @@
   <div className="max-w-7xl mx-auto px-6">
     <div className="flex justify-between items-center h-[64px]">
       <div className="flex items-center">
-        {/* ✅ FIX: Changed h-8 to h-10 (40px) and updated padding to py-1.5 */}
-        <div className="h-10 flex items-center py-1.5 px-1 max-w-[180px]">
-          <Logo />
+        {/* Bypass the Logo component to force explicit sizing */}
+        <div className="h-10 flex items-center gap-3">
+          <img 
+            src="/logo.png" 
+            alt="SoloBot" 
+            className="h-8 w-8 object-contain" 
+            style={{ minHeight: '32px', minWidth: '32px' }}
+          />
+          <span className="font-bold text-xl tracking-tight text-foreground uppercase">
+            SOLOBOTAGENCY
+          </span>
         </div>
       </div>
       <nav className="hidden md:flex space-x-8">
