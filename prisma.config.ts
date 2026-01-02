@@ -1,4 +1,3 @@
-// /prisma.config.ts
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
@@ -12,10 +11,10 @@ export default defineConfig({
 
   datasource: {
     /**
-     * ✅ The "Build-Safe" Connection String:
+     * ✅ Build-Safe Connection String:
      * We use a standard OR logical check. If DIRECT_URL is missing 
-     * (common during Vercel build/postinstall), we provide a dummy 
-     * string so 'prisma generate' can finish without crashing.
+     * during build, we provide a dummy string so generation finishes.
+     * The actual connection happens at runtime via Vercel env vars.
      */
     url: process.env.DIRECT_URL || 
          process.env.DATABASE_URL || 
