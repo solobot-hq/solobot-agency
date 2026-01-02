@@ -1,17 +1,13 @@
 generator client {
-  // ✅ Prisma 7 now uses "prisma-client" (replaces prisma-client-js)
-  provider     = "prisma-client"
-  
-  // ✅ Custom output path is REQUIRED for the new generator
-  output       = "../src/generated/prisma"
-  
-  // ✅ Standard node engine for Next.js
-  engineType   = "node"
+  // ✅ Prisma 7 standard provider
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  engineType      = "node"
 }
 
 datasource db {
   provider = "postgresql"
-  // 💡 URL is now defined in prisma.config.ts
+  // 💡 URL is now managed in prisma.config.ts
 }
 
 model User {
@@ -19,22 +15,16 @@ model User {
   email            String   @unique
   clerkId          String   @unique
   stripeCustomerId String?  @unique
-
   tier             String   @default("STARTER") 
-  
-  // Credit & Usage Fields
   creditsUsed      Int      @default(0)
   creditsTotal     Int      @default(10)
-  
+  plan             String   @default("FREE")
   dailyUsageCount  Int      @default(0) 
   lastUsageReset   DateTime @default(now())
-  
   activeTaskCount  Int      @default(0)
   overageBalance   Int      @default(0)
-
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-
   emailLogs        EmailLog[]
   leads            Lead[]
   subscriptions    Subscription?
@@ -53,8 +43,6 @@ model Bot {
   desc      String
   lastRun   DateTime @default(now())
   createdAt DateTime @default(now())
-
-  // Relation fixed: userId references clerkId specifically for your bot logic
   user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 }
 
@@ -67,12 +55,9 @@ model Subscription {
   plan                 String?
   status               String?
   currentPeriodEnd     DateTime?
-
   discountApplied      Boolean  @default(false)
-
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -87,7 +72,6 @@ model Lead {
   location     String?
   source       String   @default("scraper")
   createdAt    DateTime @default(now())
-
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -96,7 +80,6 @@ model EmailLog {
   userId    String
   text      String
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -108,7 +91,6 @@ model VideoJob {
   prompt    String?
   settings  Json?
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -118,7 +100,6 @@ model Activity {
   action    String
   metadata  Json?
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -128,7 +109,6 @@ model Task {
   type      String
   status    String   @default("PENDING")
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
