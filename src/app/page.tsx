@@ -5,11 +5,12 @@ import Link from "next/link";
 export default function LandingPage() {
   return (
     <>
-      {/* Manually Injected Header: Forced 72px height and 40px logo */}
+      {/* Manually Injected Authority Header */}
       <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1221]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center h-[72px]">
             <div className="flex items-center gap-3">
+              {/* Force the 40px scale using the verified /sl.png path */}
               <img 
                 src="/sl.png" 
                 alt="SoloBot" 
@@ -49,7 +50,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-black hover:bg-slate-200 font-bold px-8 py-6 text-lg rounded-xl" asChild>
-                {/* Fixed the syntax error here by using &rarr; */}
+                {/* Fixed the arrow error here by using the proper character entity */}
                 <Link href="/sign-up">START STARTER TRIAL &rarr;</Link>
               </Button>
               <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-slate-800 px-8 py-6 text-lg rounded-xl" asChild>
@@ -59,7 +60,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Features & Pricing Sections */}
+        {/* Features Preview Section */}
         <section id="features" className="py-24 px-6 border-t border-white/5">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 rounded-2xl bg-white/5 border border-white/10">
