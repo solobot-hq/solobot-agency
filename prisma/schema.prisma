@@ -1,28 +1,51 @@
-// prisma/schema.prisma
-
 generator client {
-  // ✅ REQUIRED for Vercel + Next.js + Prisma 7
-  provider = "prisma-client-js"
+  provider   = "prisma-client"
+  output     = "../src/generated/prisma"
+  engineType = "node"
 }
 
 datasource db {
   provider = "postgresql"
-  // ✅ URL is correctly managed via prisma.config.ts
+  // DATABASE_URL is defined via prisma.config.ts (Prisma 7)
 }
 
 model User {
-  id               String         @id @default(cuid())
-  email            String         @unique
-  clerkId          String         @unique
-  stripeCustomerId String?        @unique
-  plan             String?
-  usageCount       Int            @default(0)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id               String    @id @default(cuid())
+  email            String    @unique
+  clerkId          String    @unique
+  stripeCustomerId String?   @unique
 
-  subscriptions    Subscription[]
-  videoJobs        VideoJob[]
+  tier             String    @default("STARTER") 
+  
+  dailyUsageCount  Int       @default(0) 
+  lastUsageReset   DateTime  @default(now())
+  
+  activeTaskCount  Int       @default(0)
+  overageBalance   Int       @default(0)
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
   emailLogs        EmailLog[]
+  leads            Lead[]
+  subscriptions    Subscription?
+  videoJobs        VideoJob[]
+  activities       Activity[]
+  tasks            Task[]
+  bots             Bot[]
+}
+
+model Bot {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  type      String
+  status    String   @default("Idle")
+  desc      String
+  lastRun   DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 }
 
 model Subscription {
@@ -34,19 +57,37 @@ model Subscription {
   plan                 String?
   status               String?
   currentPeriodEnd     DateTime?
+
+  discountApplied      Boolean  @default(false)
+
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Lead {
+  id           String   @id @default(cuid())
+  userId       String
+  businessName String
+  website      String?
+  email        String?
+  phone        String?
+  industry     String?
+  location     String?
+  source       String   @default("scraper")
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model EmailLog {
   id        String   @id @default(cuid())
   userId    String
-  text      String   @db.Text
+  text      String
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VideoJob {
@@ -58,15 +99,27 @@ model VideoJob {
   settings  Json?
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Workspace {
+model Activity {
   id        String   @id @default(cuid())
-  name      String
-  ownerId   String
+  userId    String
+  action    String
+  metadata  Json?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PulseEvent {
