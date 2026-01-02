@@ -1,17 +1,17 @@
 generator client {
-  // ✅ Prisma 7 now uses the standard "prisma-client" provider
-  provider        = "prisma-client"
+  // ✅ Prisma 7 now uses "prisma-client" (replaces prisma-client-js)
+  provider     = "prisma-client"
   
-  // ✅ Custom output path remains supported and is recommended in v7
-  output          = "../src/generated/prisma"
+  // ✅ Custom output path is REQUIRED for the new generator
+  output       = "../src/generated/prisma"
   
-  // ✅ Standard node engine for Next.js environments
-  engineType      = "node"
+  // ✅ Standard node engine for Next.js
+  engineType   = "node"
 }
 
 datasource db {
   provider = "postgresql"
-  // 💡 In Prisma 7, the 'url' property is moved to prisma.config.ts
+  // 💡 URL is now defined in prisma.config.ts
 }
 
 model User {
@@ -54,7 +54,7 @@ model Bot {
   lastRun   DateTime @default(now())
   createdAt DateTime @default(now())
 
-  // Relation fixed: userId references clerkId specifically
+  // Relation fixed: userId references clerkId specifically for your bot logic
   user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 }
 
