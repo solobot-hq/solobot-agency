@@ -13,9 +13,8 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     /**
-     * ✅ FIX 2: Direct Auth check
-     * Bypass any intermediate helpers that might be instantiating their 
-     * own Prisma clients.
+     * ✅ FIX 2: Async Auth check
+     * Modern Clerk SDK requires awaiting the auth() helper.
      */
     const { userId } = await auth();
     
@@ -24,19 +23,21 @@ export async function GET() {
     }
 
     /**
-     * ✅ FIX 3: Singleton usage
-     * Querying via the shared 'db' ensures the PrismaNeon adapter is active.
+     * ✅ FIX 3: Singleton usage & Field Alignment
+     * Fields must match schema.prisma: usageCount -> dailyUsageCount, plan -> tier.
+     * St statically typed, ensuring you don't access unselected fields.
      */
     const user = await db.user.findUnique({
       where: { clerkId: userId },
       select: { 
-        usageCount: true, 
-        plan: true 
+        dailyUsageCount: true, // ✅ Matches schema
+        tier: true            // ✅ Matches schema
       }
     });
 
     if (!user) {
-      return NextResponse.json({ usageCount: 0, plan: "free" });
+      // Return defaults using the new field names for consistency
+      return NextResponse.json({ dailyUsageCount: 0, tier: "STARTER" });
     }
 
     return NextResponse.json(user);
