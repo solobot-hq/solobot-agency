@@ -10,24 +10,25 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* Authority Header: 84px height with Fixed Clickable Logo Lightbox */}
+      {/* Expanded Canvas Header: 100px height with 64px logo authority */}
       <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1221]/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6"> {/* ✅ TYPO FIXED: changed a7xl to 7xl */}
-          <div className="flex justify-between items-center h-[84px]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center h-[100px]">
             <button
               type="button"
               aria-label="View logo"
               onClick={() => setLogoOpen(true)}
-              className="flex items-center gap-3 bg-transparent border-0 p-0 text-left cursor-pointer focus:outline-none z-[60]"
+              className="flex items-center gap-4 bg-transparent border-0 p-0 text-left cursor-pointer focus:outline-none z-[60]"
             >
-              <div className="h-12 flex items-center">
+              {/* Logo Container expanded to 64px (h-16) */}
+              <div className="h-16 flex items-center">
                 <img 
                   src="/sl.png" 
                   alt="SoloBot" 
                   className="h-full w-auto block object-contain"
                 />
               </div>
-              <span className="font-bold text-xl tracking-tight text-white uppercase leading-none">
+              <span className="font-bold text-2xl tracking-tight text-white uppercase leading-none">
                 SOLOBOTAGENCY
               </span>
             </button>
@@ -39,20 +40,20 @@ export default function LandingPage() {
                 onClick={() => setLogoOpen(false)}
               >
                 <div
-                  className="bg-[#0B1221] p-8 rounded-2xl border border-white/10 shadow-2xl max-w-sm w-full"
+                  className="bg-[#0B1221] p-10 rounded-2xl border border-white/10 shadow-2xl max-w-md w-full"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <img
                     src="/sl.png"
                     alt="SoloBot Logo"
-                    className="w-[260px] h-auto object-contain mx-auto"
+                    className="w-[320px] h-auto object-contain mx-auto"
                   />
-                  <p className="mt-4 text-center text-sm text-white/60 font-medium italic">
+                  <p className="mt-6 text-center text-lg text-white/60 font-medium italic">
                     One Bot. Infinite Tasks.
                   </p>
                   <button 
                     onClick={() => setLogoOpen(false)}
-                    className="mt-6 w-full py-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors"
+                    className="mt-8 w-full py-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors"
                   >
                     Click anywhere to close
                   </button>
@@ -60,21 +61,22 @@ export default function LandingPage() {
               </div>
             )}
 
-            <div className="flex items-center gap-6">
-              <nav className="hidden md:flex space-x-8">
-                <Link href="#features" className="text-sm font-medium text-white/70 hover:text-white">Features</Link>
-                <Link href="#pricing" className="text-sm font-medium text-white/70 hover:text-white">Pricing</Link>
+            <div className="flex items-center gap-8">
+              <nav className="hidden md:flex space-x-10">
+                <Link href="#features" className="text-base font-medium text-white/70 hover:text-white">Features</Link>
+                <Link href="#pricing" className="text-base font-medium text-white/70 hover:text-white">Pricing</Link>
               </nav>
-              <div className="flex items-center gap-4">
-                <Link href="/login" className="text-sm font-medium text-white/70 hover:text-white">LOGIN</Link>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">GET STARTED</Button>
+              <div className="flex items-center gap-6">
+                <Link href="/login" className="text-base font-medium text-white/70 hover:text-white">LOGIN</Link>
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8">GET STARTED</Button>
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="min-h-screen bg-[#0B1221] pt-[84px]">
+      {/* Main content pushed down by 100px to match new header canvas */}
+      <main className="min-h-screen bg-[#0B1221] pt-[100px]">
         {/* Hero Section */}
         <section className="relative pt-24 pb-24 px-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-500/15 via-[#0B1221] to-[#0B1221] overflow-hidden">
           <div className="max-w-7xl mx-auto text-center relative z-10">
