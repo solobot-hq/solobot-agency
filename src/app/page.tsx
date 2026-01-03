@@ -14,25 +14,26 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-[#0B1221] text-white antialiased">
-        {/* GLOBAL HEADER — BRUTE FORCE 120PX CANVAS */}
+        {/* GLOBAL HEADER — FORCED 120PX CANVAS */}
         <header 
-          className="fixed top-0 w-full z-[60] border-b border-white/10 bg-[#0B1221]/95 backdrop-blur-md !h-[120px]"
-          style={{ height: '120px !important' }}
+          className="fixed top-0 w-full z-[60] border-b border-white/10 bg-[#0B1221]/95 backdrop-blur-md"
+          style={{ height: '120px !important', minHeight: '120px !important' }}
         >
           <div className="max-w-7xl mx-auto px-6 h-full">
-            <div className="flex justify-between items-center h-full">
+            <div className="flex justify-between items-center h-full" style={{ height: '120px !important' }}>
               {/* LOGO AREA - Click to Enlarge */}
               <button
                 type="button"
                 aria-label="View logo"
                 onClick={() => setLogoOpen(true)}
-                className="flex items-center gap-5 bg-transparent border-0 p-0 cursor-pointer focus:outline-none transition-transform hover:scale-[1.02]"
+                className="flex items-center gap-5 bg-transparent border-0 p-0 cursor-pointer focus:outline-none"
               >
-                <div className="flex items-center !h-[80px]">
+                <div style={{ height: '80px !important' }} className="flex items-center">
                   <img
                     src="/sl.png"
                     alt="SoloBot"
-                    className="block object-contain !h-full w-auto"
+                    className="block object-contain"
+                    style={{ height: '80px !important', width: 'auto' }}
                   />
                 </div>
                 <span className="font-bold text-3xl tracking-tight uppercase leading-none text-white">
@@ -43,31 +44,12 @@ export default function RootLayout({
               {/* NAV + CTA */}
               <div className="flex items-center gap-10">
                 <nav className="hidden lg:flex space-x-12">
-                  <Link
-                    href="#features"
-                    className="text-lg font-medium text-white/70 hover:text-white transition-colors"
-                  >
-                    Features
-                  </Link>
-                  <Link
-                    href="#pricing"
-                    className="text-lg font-medium text-white/70 hover:text-white transition-colors"
-                  >
-                    Pricing
-                  </Link>
+                  <Link href="#features" className="text-lg font-medium text-white/70 hover:text-white">Features</Link>
+                  <Link href="#pricing" className="text-lg font-medium text-white/70 hover:text-white">Pricing</Link>
                 </nav>
-
                 <div className="flex items-center gap-8">
-                  <Link
-                    href="/login"
-                    className="text-lg font-medium text-white/70 hover:text-white transition-colors"
-                  >
-                    LOGIN
-                  </Link>
-
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-10 py-7 text-lg font-bold">
-                    GET STARTED
-                  </Button>
+                  <Link href="/login" className="text-lg font-medium text-white/70 hover:text-white">LOGIN</Link>
+                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-10 py-7 text-lg font-bold">GET STARTED</Button>
                 </div>
               </div>
             </div>
@@ -92,18 +74,12 @@ export default function RootLayout({
               <p className="mt-8 text-center text-xl text-white/60 font-medium italic">
                 One Bot. Infinite Tasks.
               </p>
-              <button 
-                onClick={() => setLogoOpen(false)}
-                className="mt-8 w-full py-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors"
-              >
-                Click anywhere to close
-              </button>
             </div>
           </div>
         )}
 
-        {/* PAGE CONTENT — Force Padding to Match 120px Header */}
-        <main className="!pt-[120px] min-h-screen">
+        {/* PAGE CONTENT — Forced Offset for 120px Header */}
+        <main style={{ paddingTop: '120px !important' }} className="min-h-screen">
           {children}
         </main>
       </body>
