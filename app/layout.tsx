@@ -18,14 +18,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem
             disableTransitionOnChange
           >
-            {/* 🏛️ GLOBAL HEADER: Uniform 120px Canvas */}
+            {/* 🏛️ GLOBAL UNIFORM HEADER (120px) */}
             <header 
               className="fixed top-0 w-full z-[60] border-b border-white/10 bg-[#0B1221]/95 backdrop-blur-md"
-              style={{ height: '120px !important', minHeight: '120px !important' }}
+              style={{ height: '120px !important' }}
             >
               <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-                <Link href="/" className="flex items-center gap-5 shrink-0 transition-transform hover:scale-[1.02]">
-                  <div className="relative" style={{ height: '80px !important', width: '80px !important' }}>
+                <Link href="/" className="flex items-center gap-5 transition-transform hover:scale-[1.02]">
+                  <div className="relative" style={{ height: '80px', width: '80px' }}>
                     <Image 
                       src="/sl.png" 
                       alt="SoloBotAgency" 
@@ -41,25 +41,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 
                 <div className="flex items-center gap-10">
                   <nav className="hidden lg:flex space-x-12">
-                    <Link href="/#pricing" className="text-lg font-medium text-white/70 hover:text-white transition-colors">
-                      Pricing
-                    </Link>
-                    <Link href="/dashboard" className="text-lg font-medium text-white/70 hover:text-white transition-colors">
+                    <Link href="/dashboard" className="text-lg font-medium text-white/70 hover:text-white">
                       Dashboard
                     </Link>
                   </nav>
-                  
-                  <div className="flex items-center gap-8">
-                    <Link href="/sign-in" className="text-lg font-bold text-white px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20">
-                      GET STARTED
-                    </Link>
-                  </div>
+                  <Link href="/sign-in" className="text-lg font-bold text-white px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 transition-all">
+                    GET STARTED
+                  </Link>
                 </div>
               </div>
             </header>
 
-            {/* 📦 CONTENT OFFSET */}
-            <main className="min-h-screen" style={{ paddingTop: '120px !important' }}>
+            {/* 📦 CONTENT OFFSET (120px) */}
+            <main className="min-h-screen" style={{ paddingTop: '120px' }}>
               {children}
             </main>
             
