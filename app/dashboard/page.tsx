@@ -2,7 +2,6 @@
 
 import React from "react";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import {
   Zap,
@@ -38,7 +37,7 @@ export default async function OverviewPage() {
     // pb-40 ensures the bottom status bar doesn't overlap the charts on scroll
     <div className="pt-16 pb-40 space-y-12 animate-in fade-in duration-700 min-h-screen">
       
-      {/* 1. HEADER */}
+      {/* 1. HEADER - Redundant UserButton Removed */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-4xl font-black text-white tracking-tight">
@@ -48,11 +47,10 @@ export default async function OverviewPage() {
         </div>
         
         <div className="flex items-center gap-3">
-          <UserButton afterSignOutUrl="/" />
-          {/* ✅ DOT REMOVED: Clean route to prevent Clerk handshake loop */}
+          {/* ✅ Navigates to workspace to start bot creation */}
           <Link 
             href="/dashboard/workspace" 
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-black transition-all shadow-lg shadow-indigo-600/30 active:scale-95"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl text-sm font-black transition-all shadow-lg shadow-indigo-600/30 active:scale-95"
           >
             <Plus className="w-5 h-5" /> START NEW PROJECT
           </Link>
