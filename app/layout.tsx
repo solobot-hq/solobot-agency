@@ -24,8 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               style={{ height: '120px !important' }}
             >
               <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-                <Link href="/" className="flex items-center gap-5 transition-transform hover:scale-[1.02]">
-                  <div className="relative" style={{ height: '80px', width: '80px' }}>
+                <Link href="/" className="flex items-center gap-6 transition-transform hover:scale-[1.02]">
+                  {/* 🚀 INCREASED LOGO SIZE: 100px x 100px */}
+                  <div className="relative" style={{ height: '100px', width: '100px' }}>
                     <Image 
                       src="/sl.png" 
                       alt="SoloBotAgency" 
@@ -34,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       priority 
                     />
                   </div>
-                  <span className="text-3xl font-black uppercase tracking-tight text-white">
+                  <span className="text-4xl font-black uppercase tracking-tighter text-white">
                     SoloBotAgency
                   </span>
                 </Link>
@@ -56,7 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="min-h-screen" style={{ paddingTop: '120px' }}>
               {children}
             </main>
-            
           </ThemeProvider>
         </body>
       </html>
