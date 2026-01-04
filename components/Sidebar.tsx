@@ -16,7 +16,9 @@ import {
   LogOut,
   Sparkles,
   Bot,
-  FileText
+  FileText,
+  Server,
+  Database
 } from "lucide-react";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 
@@ -24,12 +26,24 @@ function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const PRIMARY_NAV = [
-  { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Workspace', href: '/dashboard/workspace', icon: Layers },
-  { name: 'Usage', href: '/dashboard/usage', icon: Activity },
-  { name: 'Inbox', href: '/dashboard/inbox', icon: Inbox },
-  { name: 'Docs', href: '/dashboard/docs', icon: FileText },
+// 📂 REORGANIZED NAVIGATION STRUCTURE
+const NAV_GROUPS = [
+  {
+    group: "Terminal",
+    routes: [
+      { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'Workspace', href: '/dashboard/workspace', icon: Layers },
+    ]
+  },
+  {
+    group: "Agency",
+    routes: [
+      { name: 'Usage', href: '/dashboard/usage', icon: Activity },
+      { name: 'Infrastructure', href: '/dashboard/infrastructure', icon: Server },
+      { name: 'Inbox', href: '/dashboard/inbox', icon: Inbox },
+      { name: 'Docs', href: '/dashboard/docs', icon: FileText },
+    ]
+  }
 ];
 
 export default function Sidebar() {
@@ -43,53 +57,62 @@ export default function Sidebar() {
       isCollapsed ? "w-[72px]" : "w-[260px]"
     )}>
       
-      {/* BRAND HEADER - Priority 1: Locked Container & Sub-label Removed */}
+      {/* BRAND HEADER - Matches 120px Header Alignment */}
       <div className="h-24 flex items-center px-6 mb-2 flex-shrink-0 border-b border-white/[0.03]">
         <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 shadow-none">
           <Bot className="w-6 h-6 text-indigo-400" />
         </div>
         {!isCollapsed && (
           <div className="ml-3 flex flex-col">
-            <span className="text-sm font-bold text-white tracking-tight leading-none">
+            <span className="text-sm font-bold text-white tracking-tight leading-none uppercase">
               SoloBotAgency
             </span>
           </div>
         )}
       </div>
 
-      {/* PRIMARY NAVIGATION - UI Discipline Enforcement */}
-      <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto scrollbar-hide">
-        {!isCollapsed && (
-          <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.2em] px-3 mb-4">
-            Terminal
-          </p>
-        )}
-        
-        {PRIMARY_NAV.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className={cn(
-              "group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-200 relative",
-              "text-sm font-medium",
-              pathname === item.href 
-                ? "bg-white/5 text-white" 
-                : "text-zinc-500 hover:text-white hover:bg-white/5"
+      {/* PRIMARY NAVIGATION - Grouped for Professional Flow */}
+      <nav className="flex-1 px-3 py-6 space-y-8 overflow-y-auto scrollbar-hide">
+        {NAV_GROUPS.map((group) => (
+          <div key={group.group} className="space-y-1">
+            {!isCollapsed && (
+              <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-3 mb-4">
+                {group.group}
+              </p>
             )}
-          >
-            {pathname === item.href && (
-              <div className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded-r-full" />
-            )}
-            <item.icon className={cn("w-4 h-4 transition-colors", 
-              pathname === item.href ? "text-indigo-400" : "text-zinc-500 group-hover:text-zinc-300"
-            )} />
-            {!isCollapsed && <span>{item.name}</span>}
-          </Link>
+            {group.routes.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-200 relative",
+                  "text-sm font-medium",
+                  pathname === item.href 
+                    ? "bg-white/5 text-white" 
+                    : "text-zinc-500 hover:text-white hover:bg-white/5"
+                )}
+              >
+                {pathname === item.href && (
+                  <div className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded-r-full" />
+                )}
+                <item.icon className={cn("w-4 h-4 transition-colors", 
+                  pathname === item.href ? "text-indigo-400" : "text-zinc-500 group-hover:text-zinc-300"
+                )} />
+                {!isCollapsed && <span>{item.name}</span>}
+              </Link>
+            ))}
+          </div>
         ))}
       </nav>
 
-      {/* FOOTER - Normalized Administrative Actions */}
+      {/* FOOTER - Account & Administrative Actions */}
       <div className="p-3 border-t border-white/[0.08] bg-[#0B1221] space-y-1">
+        {!isCollapsed && (
+          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-3 mb-2 pt-2">
+            Account
+          </p>
+        )}
+        
         <Link
           href="/dashboard/billing"
           className={cn(
