@@ -17,8 +17,7 @@ import {
   Sparkles,
   Bot,
   FileText,
-  Server,
-  Database
+  Server
 } from "lucide-react";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 
@@ -57,9 +56,9 @@ export default function Sidebar() {
       isCollapsed ? "w-[72px]" : "w-[260px]"
     )}>
       
-      {/* BRAND HEADER - Matches 120px Header Alignment */}
-      <div className="h-24 flex items-center px-6 mb-2 flex-shrink-0 border-b border-white/[0.03]">
-        <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 shadow-none">
+      {/* 🏛️ HEADER ALIGNMENT SPACER (Matching your 120px header) */}
+      <div className="h-[120px] flex items-center px-6 mb-2 flex-shrink-0 border-b border-white/[0.03]">
+        <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
           <Bot className="w-6 h-6 text-indigo-400" />
         </div>
         {!isCollapsed && (
@@ -71,7 +70,7 @@ export default function Sidebar() {
         )}
       </div>
 
-      {/* PRIMARY NAVIGATION - Grouped for Professional Flow */}
+      {/* 🚀 REORGANIZED PRIMARY NAVIGATION */}
       <nav className="flex-1 px-3 py-6 space-y-8 overflow-y-auto scrollbar-hide">
         {NAV_GROUPS.map((group) => (
           <div key={group.group} className="space-y-1">
@@ -105,7 +104,7 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* FOOTER - Account & Administrative Actions */}
+      {/* ⚙️ FOOTER - Administrative Actions */}
       <div className="p-3 border-t border-white/[0.08] bg-[#0B1221] space-y-1">
         {!isCollapsed && (
           <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-3 mb-2 pt-2">
@@ -141,7 +140,6 @@ export default function Sidebar() {
           </button>
         </div>
         
-        {/* USER PROFILE - Simplified & Contained */}
         <div className={cn(
           "mt-2 pt-3 border-t border-white/[0.05] flex items-center gap-3 p-2 rounded-xl transition-all group",
           isCollapsed && "justify-center"
