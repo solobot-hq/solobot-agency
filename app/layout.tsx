@@ -1,65 +1,60 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/theme-provider";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
-const inter = Inter({ subsets: ["latin"] });
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [logoOpen, setLogoOpen] = useState(false);
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.className} antialiased bg-[#0B1221] text-white`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {/* 🏛️ GLOBAL UNIFORM HEADER (120px) */}
-            <header 
-              className="fixed top-0 w-full z-[60] border-b border-white/10 bg-[#0B1221]/95 backdrop-blur-md"
-              style={{ height: '120px !important' }}
-            >
-              <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-                <Link href="/" className="flex items-center gap-6 transition-transform hover:scale-[1.02]">
-                  {/* 🚀 INCREASED LOGO SIZE: 100px x 100px */}
-                  <div className="relative" style={{ height: '100px', width: '100px' }}>
-                    <Image 
-                      src="/sl.png" 
-                      alt="SoloBotAgency" 
-                      fill 
-                      className="object-contain" 
-                      priority 
-                    />
-                  </div>
-                  <span className="text-4xl font-black uppercase tracking-tighter text-white">
-                    SoloBotAgency
-                  </span>
-                </Link>
-                
-                <div className="flex items-center gap-10">
-                  <nav className="hidden lg:flex space-x-12">
-                    <Link href="/dashboard" className="text-lg font-medium text-white/70 hover:text-white">
-                      Dashboard
-                    </Link>
-                  </nav>
-                  <Link href="/sign-in" className="text-lg font-bold text-white px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 transition-all">
-                    GET STARTED
-                  </Link>
+    <html lang="en" className="dark">
+      <body className="bg-[#0B1221] text-white">
+        <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1221]/80 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex justify-between items-center h-[96px]">
+              <button
+                type="button"
+                onClick={() => setLogoOpen(true)}
+                className="flex items-center gap-4 bg-transparent border-0 p-0 cursor-pointer"
+              >
+                <div className="h-16 flex items-center">
+                  <img
+                    src="/sl.png"
+                    alt="SoloBot"
+                    className="h-full w-auto object-contain"
+                  />
                 </div>
-              </div>
-            </header>
+                <span className="font-bold text-2xl uppercase leading-none">
+                  SOLOBOTAGENCY
+                </span>
+              </button>
 
-            {/* 📦 CONTENT OFFSET (120px) */}
-            <main className="min-h-screen" style={{ paddingTop: '120px' }}>
-              {children}
-            </main>
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+              <div className="flex items-center gap-6">
+                <Link href="/dashboard" className="text-sm text-white/70 hover:text-white">
+                  DASHBOARD
+                </Link>
+                <Button size="sm">GET STARTED</Button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {logoOpen && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center"
+            onClick={() => setLogoOpen(false)}
+          >
+            <img src="/sl.png" className="w-[320px]" />
+          </div>
+        )}
+
+        <main className="pt-[96px]">{children}</main>
+      </body>
+    </html>
   );
 }
