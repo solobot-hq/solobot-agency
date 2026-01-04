@@ -13,18 +13,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" suppressHydrationWarning>
         <body className={`${inter.className} antialiased bg-[#0B1221] text-white`}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            {/* 🏛️ GLOBAL HEADER: 120px Height */}
             <header 
               className="fixed top-0 w-full z-[60] border-b border-white/10 bg-[#0B1221]/95 backdrop-blur-md"
-              style={{ height: '120px !important' }}
+              style={{ height: '120px' }}
             >
               <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
                 <Link href="/" className="flex items-center gap-6">
-                  {/* 🚀 LOGO SIZE: 100px */}
                   <div className="relative" style={{ height: '100px', width: '100px' }}>
                     <Image src="/sl.png" alt="SoloBotAgency" fill className="object-contain" priority />
                   </div>
-                  <span className="text-4xl font-black uppercase tracking-tighter text-white">SoloBotAgency</span>
+                  <span className="text-4xl font-black uppercase tracking-tighter">SoloBotAgency</span>
                 </Link>
                 <div className="flex items-center gap-10">
                   <nav className="hidden lg:flex space-x-12">
