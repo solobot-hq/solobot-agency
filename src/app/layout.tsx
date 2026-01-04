@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           style={{ height: '120px !important', minHeight: '120px !important' }}
         >
           <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-            {/* BRANDING: Uniform Logo Canvas */}
+            {/* BRANDING: TEST TEXT TO CONFIRM FILE PRIORITY */}
             <button 
               onClick={() => setLogoOpen(true)} 
               className="flex items-center gap-5 cursor-pointer bg-transparent border-0 p-0 focus:outline-none"
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 />
               </div>
               <span className="font-bold text-3xl uppercase tracking-tight text-white">
-                SOLOBOTAGENCY
+                SOLOBOT_DEBUG_MODE
               </span>
             </button>
 
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </div>
         )}
 
-        {/* 📦 CONTENT OFFSET: Forced 120px to match the header exactly */}
+        {/* 📦 CONTENT OFFSET */}
         <main style={{ paddingTop: '120px !important' }} className="min-h-screen">
           {children}
         </main>
@@ -74,4 +74,4 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   );
 }
 
-// Cache-Buster-ID: 12345
+// Cache-Buster-ID: 99999
