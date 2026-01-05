@@ -5,7 +5,7 @@ import { User, Shield, Mail, Globe } from "lucide-react";
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-10 animate-in fade-in duration-700 p-8 max-w-5xl">
+    <div className="space-y-10 animate-in fade-in duration-700 p-8 max-w-6xl">
       {/* 1. Header — Matching Workspace Heading Hierarchy */}
       <div>
         <h1 className="text-4xl font-bold text-white tracking-tight">Settings</h1>
@@ -21,20 +21,20 @@ export default function SettingsPage() {
 
         {/* 3. Main Content — Wrapped in Premium Workspace Tiles */}
         <div className="md:col-span-3 space-y-4">
-          <section className="bg-[#111827] border border-zinc-800 rounded-[2rem] p-8 space-y-8">
-            <h2 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">Profile details</h2>
+          <section className="bg-[#111827] border border-white/[0.08] rounded-[2rem] p-8 space-y-8 shadow-xl">
+            <h2 className="text-xs font-black text-zinc-500 uppercase tracking-widest">Profile details</h2>
             
             <div className="flex items-center justify-between group">
               <div className="flex items-center gap-6">
-                <div className="w-16 h-16 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center overflow-hidden">
+                <div className="w-16 h-16 rounded-full bg-indigo-500/20 border border-white/[0.05] flex items-center justify-center overflow-hidden">
                    <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600" />
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-white">solobot agency</p>
+                  <p className="text-xl font-black text-white lowercase">solobot agency</p>
                   <p className="text-sm text-zinc-500 lowercase">personal account</p>
                 </div>
               </div>
-              <button className="text-[10px] font-black px-4 py-2 rounded-full border border-white/[0.05] text-zinc-500 hover:text-white transition-colors uppercase">
+              <button className="text-[10px] font-black px-4 py-2 rounded-full border border-white/[0.1] text-zinc-400 hover:text-white transition-colors uppercase">
                 Update profile
               </button>
             </div>
@@ -55,9 +55,9 @@ export default function SettingsPage() {
           </section>
 
           {/* 4. Danger Zone Metadata */}
-          <div className="p-8 border border-red-500/10 rounded-[2rem] bg-red-500/[0.02] flex items-center justify-between">
-            <p className="text-sm font-medium text-red-500/50 lowercase">deactivate account and purge agent data</p>
-            <button className="text-[10px] font-black px-4 py-2 rounded-full border border-red-500/20 text-red-500 uppercase">
+          <div className="p-8 border border-red-500/20 rounded-[2rem] bg-red-500/[0.02] flex items-center justify-between">
+            <p className="text-sm font-medium text-red-500/50 lowercase italic">deactivate account and purge agent data</p>
+            <button className="text-[10px] font-black px-4 py-2 rounded-full border border-red-500/30 text-red-500 uppercase hover:bg-red-500/10 transition-all">
               Delete
             </button>
           </div>
@@ -70,7 +70,7 @@ export default function SettingsPage() {
 function NavButton({ label, icon: Icon, active }: any) {
   return (
     <button className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-      active ? "bg-zinc-800 text-white" : "text-zinc-500 hover:text-zinc-300"
+      active ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-300"
     }`}>
       <Icon className="w-4 h-4" />
       <span className="lowercase">{label}</span>
@@ -85,11 +85,11 @@ function SettingRow({ label, value, pill, icon: Icon }: any) {
         <Icon className="w-4 h-4 text-zinc-600" />
         <div>
           <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{label}</p>
-          <p className="text-sm font-medium text-zinc-300">{value}</p>
+          <p className="text-sm font-bold text-white lowercase">{value}</p>
         </div>
       </div>
       {pill && (
-        <span className="text-[10px] font-black px-2 py-1 rounded bg-zinc-800 text-zinc-500 border border-white/[0.05] uppercase">
+        <span className="text-[10px] font-black px-3 py-1 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase">
           {pill}
         </span>
       )}
