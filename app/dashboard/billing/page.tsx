@@ -6,40 +6,42 @@ export default function BillingPage() {
 
   return (
     <div className="p-8 max-w-4xl space-y-10 animate-in fade-in duration-500">
-      {/* 1. Page Header — Lowercase per Workspace standard */}
+      {/* 1. Page Header — strictly lowercase and quiet */}
       <div>
         <h1 className="text-4xl font-black text-white tracking-tight lowercase">billing</h1>
-        <p className="text-zinc-500 mt-2 font-medium lowercase">plan specifications and current subscription status.</p>
+        <p className="text-zinc-500 mt-2 font-medium lowercase italic">plan specifications and current subscription status.</p>
       </div>
 
-      {/* 2. Administrative List — No icons, no shadows, no rounded-[2rem] cards */}
-      <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-transparent">
-        {/* Header Row */}
-        <div className="grid grid-cols-4 p-4 border-b border-white/[0.05] text-[10px] font-black text-zinc-600 uppercase tracking-widest">
-          <div>tier</div>
-          <div>monthly rate</div>
-          <div>infrastructure</div>
-          <div className="text-right">status</div>
-        </div>
-
-        {/* Plan Rows — Factual and Neutral */}
+      {/* 2. Reverted Vertical List — no table headers, no grid columns */}
+      <div className="space-y-4">
         {AVAILABLE_PLANS.map((plan) => (
           <div 
             key={plan.id} 
-            className="grid grid-cols-4 p-4 border-b border-white/[0.05] last:border-0 items-center transition-colors"
+            className={`flex items-center justify-between p-6 border rounded-xl transition-all ${
+              plan.id === currentPlanId 
+                ? "border-white/[0.08] bg-white/[0.02]" 
+                : "border-white/[0.04] bg-transparent"
+            }`}
           >
-            <div className="text-sm font-bold text-white lowercase">
-              {plan.name}
+            {/* Left Alignment: Identity and Rate */}
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-white lowercase">
+                {plan.name} plan
+              </h3>
+              <p className="text-xs text-zinc-500 font-mono">
+                £{plan.pricing.monthly} /mo
+              </p>
             </div>
-            <div className="text-sm font-mono text-zinc-400">
-              £{plan.pricing.monthly}
-            </div>
-            <div className="text-xs text-zinc-500 lowercase truncate pr-4">
-              {plan.features[0]}
-            </div>
-            <div className="text-right">
+
+            {/* Right Alignment: Detail and Status */}
+            <div className="flex items-center gap-8 text-right">
+              <div className="hidden md:block">
+                <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest mb-1">capacity</p>
+                <p className="text-xs text-zinc-400 lowercase">{plan.features[0]}</p>
+              </div>
+
               {plan.id === currentPlanId ? (
-                <span className="text-[10px] font-black px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                <span className="text-[10px] font-black px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase">
                   ACTIVE
                 </span>
               ) : (
@@ -52,7 +54,7 @@ export default function BillingPage() {
         ))}
       </div>
 
-      {/* 3. Footer Metadata — Aligned with global density */}
+      {/* 3. Footer Metadata — administrative and neutral */}
       <div className="pt-10 border-t border-white/[0.05]">
         <div className="flex gap-8 text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
           <span>billing_provider: pending</span>
