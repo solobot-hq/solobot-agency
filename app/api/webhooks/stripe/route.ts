@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe/stripe";
-import { db } from "@/lib/db"; // Ensure this points to your Prisma/Neon client
+import db from "@/lib/db"; // UPDATED: Changed from { db } to db to match default export
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -46,7 +46,9 @@ export async function POST(req: Request) {
     const subscription = await stripe.subscriptions.retrieve(session.subscription);
 
     await db.userSubscription.update({
-      where: { stripeSubscriptionId: subscription.id },
+      where: {
+        stripeSubscriptionId: subscription.id,
+      },
       data: {
         stripePriceId: subscription.items.data[0].price.id,
         stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),

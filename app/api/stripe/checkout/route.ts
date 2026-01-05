@@ -1,58 +1,49 @@
-import { headers } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe/stripe";
-import { db } from "@/lib/db"; // Ensure this points to your Prisma/Neon client
+import { AVAILABLE_PLANS } from "@/lib/billing/plans";
+import db from "@/lib/db"; // UPDATED: Use default export to fix build error
 
 export async function POST(req: Request) {
-  const body = await req.text();
-  const signature = headers().get("Stripe-Signature") as string;
-
-  let event;
-
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
-  } catch (error: any) {
-    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
-  }
+    const { userId } = auth();
+    const { planId, interval } = await req.json();
 
-  const session = event.data.object as any;
-
-  // 💳 Handle Successful Subscription
-  if (event.type === "checkout.session.completed") {
-    const subscription = await stripe.subscriptions.retrieve(session.subscription);
-
-    if (!session?.metadata?.userId) {
-      return new NextResponse("User id is required", { status: 400 });
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Update your Neon database via Prisma
-    await db.userSubscription.create({
-      data: {
-        userId: session.metadata.userId,
-        stripeSubscriptionId: subscription.id,
-        stripeCustomerId: subscription.customer as string,
-        stripePriceId: subscription.items.data[0].price.id,
-        stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    const plan = AVAILABLE_PLANS.find((p) => p.id === planId);
+    if (!plan) {
+      return new NextResponse("Plan not found", { status: 404 });
+    }
+
+    // Determine the correct Price ID based on selection
+    const priceId = interval === "yearly" 
+      ? plan.stripePriceIdYearly 
+      : plan.stripePriceIdMonthly;
+
+    // Create Stripe Checkout Session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: "subscription",
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?canceled=true`,
+      metadata: {
+        userId,
+        planId,
       },
     });
+
+    return NextResponse.json({ url: session.url });
+  } catch (error) {
+    console.error("[STRIPE_CHECKOUT_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
-
-  // 🔄 Handle Renewals or Plan Changes
-  if (event.type === "invoice.payment_succeeded") {
-    const subscription = await stripe.subscriptions.retrieve(session.subscription);
-
-    await db.userSubscription.update({
-      where: { stripeSubscriptionId: subscription.id },
-      data: {
-        stripePriceId: subscription.items.data[0].price.id,
-        stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
-      },
-    });
-  }
-
-  return new NextResponse(null, { status: 200 });
 }
