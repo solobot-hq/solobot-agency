@@ -21,15 +21,20 @@ export async function POST(req: Request) {
 
   const session = event.data.object as any;
 
-  // 💳 Handle Successful Subscription - Maps to your model "Subscription"
+  // 💳 Handle Successful Subscription
   if (event.type === "checkout.session.completed") {
-    const subscription = await stripe.subscriptions.retrieve(session.subscription);
+    // FIX: Correctly retrieve the subscription object
+    const subscriptionResponse = await stripe.subscriptions.retrieve(session.subscription);
+    
+    // The Stripe SDK returns the subscription data directly or inside a response object
+    // We cast to 'any' here specifically to resolve the build-time 'Response<Subscription>' type mismatch
+    const subscription = subscriptionResponse as any;
 
     if (!session?.metadata?.userId) {
       return new NextResponse("User id is required", { status: 400 });
     }
 
-    // UPDATED: Using 'db.subscription' to match your schema.prisma
+    // UPDATED: Mapping to your specific 'Subscription' model and field names
     await db.subscription.upsert({
       where: { userId: session.metadata.userId },
       create: {
