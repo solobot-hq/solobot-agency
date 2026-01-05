@@ -1,85 +1,69 @@
-"use client";
-
-import React, { useState } from "react";
 import { AVAILABLE_PLANS } from "@/lib/billing/plans";
 import { usageData } from "@/lib/usage/usage";
 
 export default function BillingPage() {
-  const [interval, setInterval] = useState<"monthly" | "yearly">("monthly");
   const currentPlanId = usageData.plan;
 
   return (
-    <div className="p-8 max-w-6xl space-y-12 animate-in fade-in duration-500">
-      {/* 1. Header with Discount Indicator */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-black text-white tracking-tight lowercase">billing</h1>
-            <span className="text-[10px] font-black bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded-md uppercase tracking-widest">
-              10% off yearly
-            </span>
-          </div>
-          <p className="text-zinc-500 font-medium lowercase">manage subscription and infrastructure caps.</p>
-        </div>
-
-        {/* 2. Workspace Toggle Component */}
-        <div className="flex gap-1 bg-zinc-900/80 p-1.5 rounded-xl border border-white/[0.05]">
-          {(["monthly", "yearly"] as const).map((t) => (
-            <button 
-              key={t}
-              onClick={() => setInterval(t)}
-              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
-                interval === t ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-300"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
+    <div className="p-8 max-w-4xl space-y-10 animate-in fade-in duration-500">
+      {/* 1. Header — strictly lowercase matching workspace hierarchy */}
+      <div>
+        <h1 className="text-4xl font-black text-white tracking-tight lowercase">billing</h1>
+        <p className="text-zinc-500 mt-2 font-medium lowercase">plan specifications and current subscription status.</p>
       </div>
 
-      {/* 3. Interactive Plan Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* 2. Plan Specification List — matching workspace density and row rhythm */}
+      <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-[#0D1525]/30">
+        {/* Table Header Row */}
+        <div className="grid grid-cols-4 p-4 border-b border-white/[0.05] text-[10px] font-black text-zinc-600 uppercase tracking-widest bg-white/[0.02]">
+          <div>tier</div>
+          <div>rate</div>
+          <div>infrastructure</div>
+          <div className="text-right">status</div>
+        </div>
+
+        {/* Plan Rows */}
         {AVAILABLE_PLANS.map((plan) => (
           <div 
             key={plan.id} 
-            className={`p-8 rounded-[2rem] border transition-all duration-500 flex flex-col justify-between ${
-              plan.id === currentPlanId 
-                ? "bg-indigo-500/[0.02] border-indigo-500/40" 
-                : "bg-zinc-900/20 border-white/[0.05]"
-            }`}
+            className="grid grid-cols-4 p-6 border-b border-white/[0.05] last:border-0 items-center hover:bg-white/[0.01] transition-colors"
           >
-            <div>
-              <h3 className="text-xl font-bold text-white lowercase tracking-tight">{plan.name}</h3>
-              <div className="flex items-baseline gap-1 mt-4">
-                <span className="text-4xl font-black text-white tracking-tighter">
-                  £{interval === "monthly" ? plan.pricing.monthly : plan.pricing.yearly}
-                </span>
-                <span className="text-zinc-600 font-bold text-sm lowercase">/mo</span>
-              </div>
-              
-              <ul className="mt-8 space-y-4 flex-1">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="text-sm font-medium text-zinc-400 lowercase flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+            <div className="text-sm font-bold text-white lowercase tracking-tight">
+              {plan.name}
             </div>
-            
-            <button 
-              disabled={plan.id === currentPlanId}
-              className={`mt-10 w-full py-4 rounded-2xl text-sm font-bold transition-all ${
-                plan.id === currentPlanId 
-                  ? "bg-zinc-800/50 text-zinc-600 cursor-default" 
-                  : "bg-white text-black hover:bg-zinc-200 active:scale-[0.98]"
-              }`}
-            >
-              {plan.id === currentPlanId ? "currently active" : "start building now"}
-            </button>
+            <div className="text-sm font-mono text-zinc-400">
+              £{plan.pricing.monthly} /mo
+            </div>
+            <div className="text-xs text-zinc-500 lowercase truncate pr-4">
+              {plan.features[0]}
+            </div>
+            <div className="text-right">
+              {plan.id === currentPlanId ? (
+                <span className="text-[10px] font-black px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-widest">
+                  ACTIVE
+                </span>
+              ) : (
+                <span className="text-[10px] font-black text-zinc-700 uppercase tracking-widest">
+                  available
+                </span>
+              )}
+            </div>
           </div>
         ))}
+      </div>
+
+      {/* 3. Transaction History Boundary — utilitarian and boring */}
+      <div className="space-y-4">
+        <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em]">transaction history</p>
+        <div className="bg-[#0D1525]/30 border border-white/[0.05] rounded-xl p-8 text-center">
+           <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">no recent invoices found</span>
+        </div>
+      </div>
+
+      {/* 4. Footer Metadata */}
+      <div className="pt-8 border-t border-white/[0.05] flex gap-8 text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
+        <div>billing_provider: pending</div>
+        <div>currency_lock: gbp</div>
       </div>
     </div>
   );
