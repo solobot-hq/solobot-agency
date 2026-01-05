@@ -1,22 +1,45 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { AVAILABLE_PLANS } from "@/lib/billing/plans";
 import { usageData } from "@/lib/usage/usage";
-import { CreditCard, CheckCircle2 } from "lucide-react";
+import { CreditCard } from "lucide-react";
 
 export default function BillingPage() {
+  const [interval, setInterval] = useState<"monthly" | "yearly">("monthly");
   const currentPlanId = usageData.plan;
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 p-8">
-      {/* 1. Header — Matching Workspace Heading Hierarchy */}
-      <div>
-        <h1 className="text-4xl font-bold text-white tracking-tight">Billing</h1>
-        <p className="text-zinc-500 mt-2 font-medium">Manage subscription and infrastructure caps.</p>
+      {/* 1. Header with Workspace Toggle Integration */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-4xl font-bold text-white tracking-tight">Billing</h1>
+            <span className="text-[10px] font-black bg-indigo-500/10 text-indigo-400 px-2 py-1 rounded border border-indigo-500/20 uppercase tracking-widest">
+              10% off yearly
+            </span>
+          </div>
+          <p className="text-zinc-500 mt-2 font-medium">Manage subscription and infrastructure caps.</p>
+        </div>
+
+        {/* Restore Functional Toggle Component */}
+        <div className="flex gap-1 bg-zinc-900/80 p-1 rounded-xl border border-white/[0.05]">
+          {(["monthly", "yearly"] as const).map((t) => (
+            <button 
+              key={t}
+              onClick={() => setInterval(t)}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
+                interval === t ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* 2. Plan Tiles — Matching Workspace Card Style and Spacing */}
+      {/* 2. Restored Plan Tiles with Interval Logic */}
       <div className="space-y-4">
         {AVAILABLE_PLANS.map((plan) => (
           <div 
@@ -26,7 +49,6 @@ export default function BillingPage() {
             }`}
           >
             <div className="flex items-center gap-6">
-              {/* Restored Workspace Icon Container */}
               <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
                 <CreditCard className={`w-5 h-5 ${plan.id === currentPlanId ? 'text-indigo-400' : 'text-zinc-500'}`} />
               </div>
@@ -35,17 +57,19 @@ export default function BillingPage() {
                 <h3 className="text-lg font-bold text-white tracking-tight">
                   {plan.name} Plan
                 </h3>
-                <p className="text-sm text-zinc-500 font-medium">
-                  £{plan.pricing.monthly} per month
-                </p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-lg font-bold text-white">
+                    £{interval === "monthly" ? plan.pricing.monthly : plan.pricing.yearly}
+                  </span>
+                  <span className="text-[10px] font-bold text-zinc-600 uppercase">/ month</span>
+                </div>
               </div>
             </div>
 
-            {/* Right-side Plan Details and Status */}
             <div className="flex items-center gap-12">
               <div className="hidden md:flex flex-col items-end">
-                <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-1">Infrastucture Cap</p>
-                <p className="text-sm font-bold text-zinc-300">{plan.features[0]}</p>
+                <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-1 text-right">Infrastructure Cap</p>
+                <p className="text-sm font-bold text-zinc-300 lowercase text-right">{plan.features[0]}</p>
               </div>
 
               {plan.id === currentPlanId ? (
@@ -62,10 +86,12 @@ export default function BillingPage() {
         ))}
       </div>
 
-      {/* 3. Footer Metadata — Utilitarian and Boring */}
-      <div className="pt-8 border-t border-white/[0.05] flex gap-8 text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
-        <div>billing_provider: pending</div>
-        <div>currency: gbp</div>
+      {/* 3. Transaction History Boundary */}
+      <div className="space-y-4">
+        <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em]">Transaction History</p>
+        <div className="bg-[#111827] border border-zinc-800 rounded-[2rem] p-8 text-center">
+           <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">No recent invoices found</span>
+        </div>
       </div>
     </div>
   );
