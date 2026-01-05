@@ -1,10 +1,11 @@
+// 🔒 STABLE USAGE CONTRACT — ALIGNED WITH STARTER TIER
 export type UsageContract = {
-  plan: "free" | "starter" | "pro";
+  plan: "starter" | "pro" | "pro_max";
   periodStart: string;
   periodEnd: string;
   limits: {
-    requests: number;
-    agents: number;
+    requests: number; // Daily Runs
+    agents: number;   // Concurrent Threads
   };
   usage: {
     requests: number;
@@ -13,11 +14,11 @@ export type UsageContract = {
 };
 
 export const usageData: UsageContract = {
-  plan: "free",
+  plan: "starter",
   periodStart: "2026-01-01",
   periodEnd: "2026-01-31",
   limits: {
-    requests: 1000,
+    requests: 20,
     agents: 1,
   },
   usage: {
