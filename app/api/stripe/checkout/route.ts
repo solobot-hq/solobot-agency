@@ -5,20 +5,22 @@ import { AVAILABLE_PLANS } from "@/lib/billing/plans";
 
 export async function POST(req: Request) {
   try {
-    // FIX: Await the async auth() call for latest Clerk SDK
+    // 1. Resolve Clerk Auth (Async Fix)
     const { userId } = await auth(); 
     const { planId, interval } = await req.json();
 
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
+    // 2. Find Plan
     const plan = AVAILABLE_PLANS.find((p) => p.id === planId);
     if (!plan) return new NextResponse("Plan not found", { status: 404 });
 
-    // FIX: Access Stripe IDs using the names defined in the interface above
+    // 3. Select Stripe ID based on the Interval
     const priceId = interval === "yearly" 
       ? plan.stripePriceIdYearly 
       : plan.stripePriceIdMonthly;
 
+    // 4. Create Stripe Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
