@@ -1,6 +1,6 @@
-// 🔒 STABLE BILLING CONTRACT — PHASE 1
+// 🔒 STABLE BILLING CONTRACT — PHASE 1 (GBP UPDATED)
 export type PlanTier = {
-  id: "starter" | "pro_agency" | "pro_max";
+  id: "starter" | "pro" | "pro_max";
   name: string;
   price: number;
   currency: string;
@@ -15,15 +15,15 @@ export const AVAILABLE_PLANS: PlanTier[] = [
     price: 29,
     currency: "GBP",
     interval: "month",
-    features: ["20 ai runs/day", "1 concurrent task", "core bots only"],
+    features: ["20 daily runs", "1 concurrent thread", "human-reviewed execution"],
   },
   {
-    id: "pro_agency",
-    name: "pro agency",
+    id: "pro",
+    name: "pro",
     price: 99,
     currency: "GBP",
     interval: "month",
-    features: ["150 ai runs/day", "3 concurrent tasks", "all core bots"],
+    features: ["150 daily runs", "3 concurrent threads", "semi-autonomous operation"],
   },
   {
     id: "pro_max",
@@ -31,6 +31,6 @@ export const AVAILABLE_PLANS: PlanTier[] = [
     price: 249,
     currency: "GBP",
     interval: "month",
-    features: ["600 ai runs/day", "10 concurrent tasks", "full autonomy"],
+    features: ["600 daily runs", "10 concurrent threads", "full operational autonomy"],
   },
 ];
