@@ -23,18 +23,15 @@ export async function POST(req: Request) {
 
   // 💳 Handle Successful Subscription
   if (event.type === "checkout.session.completed") {
-    // FIX: Correctly retrieve the subscription object
+    // FIX: Retrieve subscription and cast to 'any' to bypass 'Response<Subscription>' build error
     const subscriptionResponse = await stripe.subscriptions.retrieve(session.subscription);
-    
-    // The Stripe SDK returns the subscription data directly or inside a response object
-    // We cast to 'any' here specifically to resolve the build-time 'Response<Subscription>' type mismatch
     const subscription = subscriptionResponse as any;
 
     if (!session?.metadata?.userId) {
       return new NextResponse("User id is required", { status: 400 });
     }
 
-    // UPDATED: Mapping to your specific 'Subscription' model and field names
+    // UPDATED: Syncing with your 'Subscription' model and field names
     await db.subscription.upsert({
       where: { userId: session.metadata.userId },
       create: {
@@ -51,6 +48,20 @@ export async function POST(req: Request) {
         status: subscription.status,
         currentPeriodEnd: new Date(subscription.current_period_end * 1000),
       }
+    });
+  }
+
+  // 🔄 Handle Successful Payments (Renewals)
+  if (event.type === "invoice.payment_succeeded") {
+    const subscriptionResponse = await stripe.subscriptions.retrieve(session.subscription);
+    const subscription = subscriptionResponse as any;
+
+    await db.subscription.update({
+      where: { stripeSubscriptionId: subscription.id },
+      data: {
+        stripePriceId: subscription.items.data[0].price.id,
+        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+      },
     });
   }
 
