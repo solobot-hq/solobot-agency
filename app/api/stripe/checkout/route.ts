@@ -5,22 +5,19 @@ import { AVAILABLE_PLANS } from "@/lib/billing/plans";
 
 export async function POST(req: Request) {
   try {
-    // 1. Resolve Clerk Auth (Async Fix)
-    const { userId } = await auth(); 
+    const { userId } = await auth(); // Async Fix
     const { planId, interval } = await req.json();
 
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
-    // 2. Find Plan
     const plan = AVAILABLE_PLANS.find((p) => p.id === planId);
     if (!plan) return new NextResponse("Plan not found", { status: 404 });
 
-    // 3. Select Stripe ID based on the Interval
+    // Map interval to the hidden IDs in your contract
     const priceId = interval === "yearly" 
       ? plan.stripePriceIdYearly 
       : plan.stripePriceIdMonthly;
 
-    // 4. Create Stripe Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
