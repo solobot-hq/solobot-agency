@@ -17,7 +17,7 @@ export default function BillingPage() {
           <p className="text-zinc-500 mt-2 font-medium lowercase">plan specifications and current subscription status.</p>
         </div>
 
-        {/* Toggle - Matching Workspace Layout */}
+        {/* Toggle - Exact Workspace Component with Dynamic State */}
         <div className="flex gap-1 bg-zinc-900/80 p-1 rounded-xl border border-white/[0.05]">
           {(["monthly", "yearly"] as const).map((t) => (
             <button 
@@ -33,7 +33,7 @@ export default function BillingPage() {
         </div>
       </div>
 
-      {/* 2. Workspace Tiles - Exact bg-[#111827] with Brightened Pricing */}
+      {/* 2. Workspace Tiles - bg-[#111827] with Dynamic Interval Labels */}
       <div className="space-y-4">
         {AVAILABLE_PLANS.map((plan) => (
           <div 
@@ -44,16 +44,19 @@ export default function BillingPage() {
                 : "bg-[#111827]/80 border-white/[0.04]"
             }`}
           >
-            {/* Left: Tier and High-Legibility Pricing */}
+            {/* Left: Tier and Corrected Dynamic Pricing */}
             <div className="space-y-1">
               <h3 className="text-lg font-bold text-zinc-300 lowercase">
                 {plan.name} plan
               </h3>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-black text-white tracking-tight">
+                <span className="text-3xl font-black text-white tracking-tight">
                   £{interval === "monthly" ? plan.pricing.monthly : plan.pricing.yearly}
                 </span>
-                <span className="text-xs font-bold text-zinc-500 lowercase">/mo</span>
+                {/* Fix: Label now correctly tracks the toggle state */}
+                <span className="text-xs font-bold text-zinc-500 lowercase">
+                  /{interval === "monthly" ? "mo" : "yr"}
+                </span>
               </div>
             </div>
 
@@ -65,7 +68,7 @@ export default function BillingPage() {
               </div>
 
               {plan.id === currentPlanId ? (
-                <span className="text-[10px] font-black px-3 py-1.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase">
+                <span className="text-[10px] font-black px-3 py-1.5 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase">
                   ACTIVE
                 </span>
               ) : (
@@ -78,14 +81,14 @@ export default function BillingPage() {
         ))}
       </div>
 
-      {/* 3. Administrative Footer */}
+      {/* 3. Footer Metadata */}
       <div className="pt-8 border-t border-white/[0.05] flex justify-between items-center text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
         <div className="flex gap-8">
           <span>billing_provider: pending</span>
           <span>currency: gbp</span>
         </div>
         <div className="lowercase italic opacity-50">
-          prices reflect {interval} billing cycle
+          selected interval: {interval}
         </div>
       </div>
     </div>
