@@ -17,7 +17,8 @@ import {
   Sparkles,
   Bot,
   FileText,
-  Server
+  Server,
+  Zap
 } from "lucide-react";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 
@@ -25,22 +26,22 @@ function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-// 📂 REORGANIZED NAVIGATION STRUCTURE
+// 📂 NAVIGATION STRUCTURE
 const NAV_GROUPS = [
   {
-    group: "Terminal",
+    group: "terminal",
     routes: [
-      { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-      { name: 'Workspace', href: '/dashboard/workspace', icon: Layers },
+      { name: 'overview', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'workspace', href: '/dashboard/workspace', icon: Layers },
     ]
   },
   {
-    group: "Agency",
+    group: "agency",
     routes: [
-      { name: 'Usage', href: '/dashboard/usage', icon: Activity },
-      { name: 'Infrastructure', href: '/dashboard/infrastructure', icon: Server },
-      { name: 'Inbox', href: '/dashboard/inbox', icon: Inbox },
-      { name: 'Docs', href: '/dashboard/docs', icon: FileText },
+      { name: 'usage', href: '/dashboard/usage', icon: Activity },
+      { name: 'infrastructure', href: '/dashboard/infrastructure', icon: Server },
+      { name: 'inbox', href: '/dashboard/inbox', icon: Inbox },
+      { name: 'docs', href: '/dashboard/docs', icon: FileText },
     ]
   }
 ];
@@ -52,30 +53,30 @@ export default function Sidebar() {
 
   return (
     <aside className={cn(
-      "h-screen bg-[#0B1221] border-r border-white/[0.08] flex flex-col transition-all duration-300 z-40 select-none",
+      "h-screen bg-[#0B0F1A] border-r border-white/[0.05] flex flex-col transition-all duration-300 z-40 select-none",
       isCollapsed ? "w-[72px]" : "w-[260px]"
     )}>
       
-      {/* 🏛️ HEADER ALIGNMENT SPACER (Matching your 120px header) */}
-      <div className="h-[120px] flex items-center px-6 mb-2 flex-shrink-0 border-b border-white/[0.03]">
-        <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-          <Bot className="w-6 h-6 text-indigo-400" />
+      {/* 🏛️ HEADER - Sync with Workspace Logo Style */}
+      <div className="h-[120px] flex items-center px-6 flex-shrink-0 border-b border-white/[0.03]">
+        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-white/10 shrink-0">
+          <Zap className="w-6 h-6 text-black" />
         </div>
         {!isCollapsed && (
           <div className="ml-3 flex flex-col">
-            <span className="text-sm font-bold text-white tracking-tight leading-none uppercase">
-              SoloBotAgency
+            <span className="text-lg font-black text-white tracking-tighter leading-none lowercase">
+              solobot
             </span>
           </div>
         )}
       </div>
 
-      {/* 🚀 REORGANIZED PRIMARY NAVIGATION */}
-      <nav className="flex-1 px-3 py-6 space-y-8 overflow-y-auto scrollbar-hide">
+      {/* 🚀 PRIMARY NAVIGATION - strictly lowercase */}
+      <nav className="flex-1 px-3 py-8 space-y-10 overflow-y-auto scrollbar-hide">
         {NAV_GROUPS.map((group) => (
-          <div key={group.group} className="space-y-1">
+          <div key={group.group} className="space-y-2">
             {!isCollapsed && (
-              <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-3 mb-4">
+              <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-4 mb-4">
                 {group.group}
               </p>
             )}
@@ -84,18 +85,15 @@ export default function Sidebar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-200 relative",
-                  "text-sm font-medium",
+                  "group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 relative",
+                  "text-sm font-bold lowercase",
                   pathname === item.href 
-                    ? "bg-white/5 text-white" 
-                    : "text-zinc-500 hover:text-white hover:bg-white/5"
+                    ? "bg-white/[0.05] text-white" 
+                    : "text-zinc-500 hover:text-white hover:bg-white/[0.02]"
                 )}
               >
-                {pathname === item.href && (
-                  <div className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded-r-full" />
-                )}
                 <item.icon className={cn("w-4 h-4 transition-colors", 
-                  pathname === item.href ? "text-indigo-400" : "text-zinc-500 group-hover:text-zinc-300"
+                  pathname === item.href ? "text-white" : "text-zinc-600 group-hover:text-zinc-400"
                 )} />
                 {!isCollapsed && <span>{item.name}</span>}
               </Link>
@@ -104,54 +102,48 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* ⚙️ FOOTER - Administrative Actions */}
-      <div className="p-3 border-t border-white/[0.08] bg-[#0B1221] space-y-1">
+      {/* ⚙️ FOOTER - Administrative Actions & High-Contrast Upgrade */}
+      <div className="p-4 border-t border-white/[0.05] bg-[#0B0F1A] space-y-4">
         {!isCollapsed && (
-          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-3 mb-2 pt-2">
-            Account
-          </p>
+          <Link href="/dashboard/billing" className="block">
+            <button className="w-full py-4 rounded-2xl bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all active:scale-95 shadow-xl">
+              upgrade plan
+            </button>
+          </Link>
         )}
         
-        <Link
-          href="/dashboard/billing"
-          className={cn(
-            "group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-            pathname === "/dashboard/billing" ? "text-white bg-white/5" : "text-zinc-500 hover:text-white"
-          )}
-        >
-          <CreditCard className="w-4 h-4" />
-          {!isCollapsed && <span>Billing</span>}
-        </Link>
-
-        <Link
-          href="/dashboard/settings"
-          className={cn(
-            "group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-            pathname === "/dashboard/settings" ? "text-white bg-white/5" : "text-zinc-500 hover:text-white"
-          )}
-        >
-          <Settings className="w-4 h-4" />
-          {!isCollapsed && <span>Settings</span>}
-        </Link>
-        
-        <div className="flex justify-end pt-2">
-          <button onClick={() => setIsCollapsed(!isCollapsed)} className="text-zinc-600 hover:text-white p-2 transition-colors">
-            {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-          </button>
+        <div className="space-y-1">
+          <Link
+            href="/dashboard/settings"
+            className={cn(
+              "group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all lowercase",
+              pathname === "/dashboard/settings" ? "text-white bg-white/5" : "text-zinc-500 hover:text-white"
+            )}
+          >
+            <Settings className="w-4 h-4" />
+            {!isCollapsed && <span>settings</span>}
+          </Link>
+          
+          <div className="flex justify-end pr-2">
+            <button onClick={() => setIsCollapsed(!isCollapsed)} className="text-zinc-600 hover:text-white p-2 transition-colors">
+              {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
         
+        {/* User Profile - High Contrast Sync */}
         <div className={cn(
-          "mt-2 pt-3 border-t border-white/[0.05] flex items-center gap-3 p-2 rounded-xl transition-all group",
+          "mt-2 pt-4 border-t border-white/[0.05] flex items-center gap-3 p-2 rounded-xl transition-all group",
           isCollapsed && "justify-center"
         )}>
-          <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10 overflow-hidden shrink-0">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center border border-white/10 overflow-hidden shrink-0">
             {user?.imageUrl ? <img src={user.imageUrl} className="w-full h-full object-cover" alt="Profile" /> : <User className="w-4 h-4 text-white" />}
           </div>
           {!isCollapsed && (
             <div className="flex-1 overflow-hidden">
-              <p className="text-sm font-bold text-white truncate">{user?.firstName || "Admin"}</p>
-              <p className="text-[10px] text-emerald-400 font-bold flex items-center gap-1 mt-0.5">
-                <Sparkles className="w-2.5 h-2.5 shrink-0" /> PRO
+              <p className="text-sm font-black text-white truncate lowercase">{user?.firstName || "admin"}</p>
+              <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-tighter mt-0.5">
+                starter plan
               </p>
             </div>
           )}
