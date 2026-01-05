@@ -1,36 +1,35 @@
-// 🔒 STABLE BILLING CONTRACT — PHASE 1 (GBP UPDATED)
+// 🔒 STABLE BILLING CONTRACT — PHASE 2 (MULTI-INTERVAL)
 export type PlanTier = {
   id: "starter" | "pro" | "pro_max";
   name: string;
-  price: number;
   currency: string;
-  interval: "month";
   features: string[];
+  pricing: {
+    monthly: number;
+    yearly: number; // Reflects the ~10% discount
+  };
 };
 
 export const AVAILABLE_PLANS: PlanTier[] = [
   {
     id: "starter",
     name: "starter",
-    price: 29,
     currency: "GBP",
-    interval: "month",
     features: ["20 daily runs", "1 concurrent thread", "human-reviewed execution"],
+    pricing: { monthly: 29, yearly: 26 } // ~10% discount applied
   },
   {
     id: "pro",
     name: "pro",
-    price: 99,
     currency: "GBP",
-    interval: "month",
     features: ["150 daily runs", "3 concurrent threads", "semi-autonomous operation"],
+    pricing: { monthly: 99, yearly: 89 } // ~10% discount applied
   },
   {
     id: "pro_max",
     name: "pro max",
-    price: 249,
     currency: "GBP",
-    interval: "month",
     features: ["600 daily runs", "10 concurrent threads", "full operational autonomy"],
+    pricing: { monthly: 249, yearly: 224 } // ~10% discount applied
   },
 ];
