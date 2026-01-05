@@ -1,37 +1,35 @@
 generator client {
-  // ✅ Prisma 7 standard provider
-  provider        = "prisma-client"
-  output          = "../src/generated/prisma"
-  engineType      = "node"
+  provider   = "prisma-client"
+  output     = "../src/generated/prisma"
+  engineType = "node"
 }
 
 datasource db {
   provider = "postgresql"
-  // 💡 URL is now managed in prisma.config.ts
 }
 
 model User {
-  id               String   @id @default(cuid())
-  email            String   @unique
-  clerkId          String   @unique
-  stripeCustomerId String?  @unique
-  tier             String   @default("STARTER") 
-  creditsUsed      Int      @default(0)
-  creditsTotal     Int      @default(10)
-  plan             String   @default("FREE")
-  dailyUsageCount  Int      @default(0) 
-  lastUsageReset   DateTime @default(now())
-  activeTaskCount  Int      @default(0)
-  overageBalance   Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id               String        @id @default(cuid())
+  email            String        @unique
+  clerkId          String        @unique
+  stripeCustomerId String?       @unique
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  activeTaskCount  Int           @default(0)
+  dailyUsageCount  Int           @default(0)
+  lastUsageReset   DateTime      @default(now())
+  overageBalance   Int           @default(0)
+  tier             String        @default("STARTER")
+  creditsTotal     Int           @default(10)
+  creditsUsed      Int           @default(0)
+  plan             String        @default("FREE")
+  activities       Activity[]
+  bots             Bot[]
   emailLogs        EmailLog[]
   leads            Lead[]
   subscriptions    Subscription?
-  videoJobs        VideoJob[]
-  activities       Activity[]
   tasks            Task[]
-  bots             Bot[]
+  videoJobs        VideoJob[]
 }
 
 model Bot {
@@ -47,18 +45,18 @@ model Bot {
 }
 
 model Subscription {
-  id                   String   @id @default(cuid())
-  userId               String   @unique
-  stripeSubscriptionId String?  @unique
-  stripeCustomerId     String?  @unique
+  id                   String    @id @default(cuid())
+  userId               String    @unique
+  stripeSubscriptionId String?   @unique
+  stripeCustomerId     String?   @unique
   stripePriceId        String?
   plan                 String?
   status               String?
   currentPeriodEnd     DateTime?
-  discountApplied      Boolean  @default(false)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  discountApplied      Boolean   @default(false)
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Lead {

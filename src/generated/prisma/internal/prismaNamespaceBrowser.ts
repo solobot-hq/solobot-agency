@@ -84,15 +84,16 @@ export const UserScalarFieldEnum = {
   email: 'email',
   clerkId: 'clerkId',
   stripeCustomerId: 'stripeCustomerId',
-  tier: 'tier',
-  creditsUsed: 'creditsUsed',
-  creditsTotal: 'creditsTotal',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  activeTaskCount: 'activeTaskCount',
   dailyUsageCount: 'dailyUsageCount',
   lastUsageReset: 'lastUsageReset',
-  activeTaskCount: 'activeTaskCount',
   overageBalance: 'overageBalance',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  tier: 'tier',
+  creditsTotal: 'creditsTotal',
+  creditsUsed: 'creditsUsed',
+  plan: 'plan'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -121,9 +122,9 @@ export const SubscriptionScalarFieldEnum = {
   plan: 'plan',
   status: 'status',
   currentPeriodEnd: 'currentPeriodEnd',
-  discountApplied: 'discountApplied',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  discountApplied: 'discountApplied'
 } as const
 
 export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]

@@ -27,19 +27,19 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
-  creditsUsed: number | null
-  creditsTotal: number | null
-  dailyUsageCount: number | null
   activeTaskCount: number | null
+  dailyUsageCount: number | null
   overageBalance: number | null
+  creditsTotal: number | null
+  creditsUsed: number | null
 }
 
 export type UserSumAggregateOutputType = {
-  creditsUsed: number | null
-  creditsTotal: number | null
-  dailyUsageCount: number | null
   activeTaskCount: number | null
+  dailyUsageCount: number | null
   overageBalance: number | null
+  creditsTotal: number | null
+  creditsUsed: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -47,15 +47,16 @@ export type UserMinAggregateOutputType = {
   email: string | null
   clerkId: string | null
   stripeCustomerId: string | null
-  tier: string | null
-  creditsUsed: number | null
-  creditsTotal: number | null
-  dailyUsageCount: number | null
-  lastUsageReset: Date | null
-  activeTaskCount: number | null
-  overageBalance: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  activeTaskCount: number | null
+  dailyUsageCount: number | null
+  lastUsageReset: Date | null
+  overageBalance: number | null
+  tier: string | null
+  creditsTotal: number | null
+  creditsUsed: number | null
+  plan: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -63,15 +64,16 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   clerkId: string | null
   stripeCustomerId: string | null
-  tier: string | null
-  creditsUsed: number | null
-  creditsTotal: number | null
-  dailyUsageCount: number | null
-  lastUsageReset: Date | null
-  activeTaskCount: number | null
-  overageBalance: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  activeTaskCount: number | null
+  dailyUsageCount: number | null
+  lastUsageReset: Date | null
+  overageBalance: number | null
+  tier: string | null
+  creditsTotal: number | null
+  creditsUsed: number | null
+  plan: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -79,33 +81,34 @@ export type UserCountAggregateOutputType = {
   email: number
   clerkId: number
   stripeCustomerId: number
-  tier: number
-  creditsUsed: number
-  creditsTotal: number
-  dailyUsageCount: number
-  lastUsageReset: number
-  activeTaskCount: number
-  overageBalance: number
   createdAt: number
   updatedAt: number
+  activeTaskCount: number
+  dailyUsageCount: number
+  lastUsageReset: number
+  overageBalance: number
+  tier: number
+  creditsTotal: number
+  creditsUsed: number
+  plan: number
   _all: number
 }
 
 
 export type UserAvgAggregateInputType = {
-  creditsUsed?: true
-  creditsTotal?: true
-  dailyUsageCount?: true
   activeTaskCount?: true
+  dailyUsageCount?: true
   overageBalance?: true
+  creditsTotal?: true
+  creditsUsed?: true
 }
 
 export type UserSumAggregateInputType = {
-  creditsUsed?: true
-  creditsTotal?: true
-  dailyUsageCount?: true
   activeTaskCount?: true
+  dailyUsageCount?: true
   overageBalance?: true
+  creditsTotal?: true
+  creditsUsed?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -113,15 +116,16 @@ export type UserMinAggregateInputType = {
   email?: true
   clerkId?: true
   stripeCustomerId?: true
-  tier?: true
-  creditsUsed?: true
-  creditsTotal?: true
-  dailyUsageCount?: true
-  lastUsageReset?: true
-  activeTaskCount?: true
-  overageBalance?: true
   createdAt?: true
   updatedAt?: true
+  activeTaskCount?: true
+  dailyUsageCount?: true
+  lastUsageReset?: true
+  overageBalance?: true
+  tier?: true
+  creditsTotal?: true
+  creditsUsed?: true
+  plan?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -129,15 +133,16 @@ export type UserMaxAggregateInputType = {
   email?: true
   clerkId?: true
   stripeCustomerId?: true
-  tier?: true
-  creditsUsed?: true
-  creditsTotal?: true
-  dailyUsageCount?: true
-  lastUsageReset?: true
-  activeTaskCount?: true
-  overageBalance?: true
   createdAt?: true
   updatedAt?: true
+  activeTaskCount?: true
+  dailyUsageCount?: true
+  lastUsageReset?: true
+  overageBalance?: true
+  tier?: true
+  creditsTotal?: true
+  creditsUsed?: true
+  plan?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -145,15 +150,16 @@ export type UserCountAggregateInputType = {
   email?: true
   clerkId?: true
   stripeCustomerId?: true
-  tier?: true
-  creditsUsed?: true
-  creditsTotal?: true
-  dailyUsageCount?: true
-  lastUsageReset?: true
-  activeTaskCount?: true
-  overageBalance?: true
   createdAt?: true
   updatedAt?: true
+  activeTaskCount?: true
+  dailyUsageCount?: true
+  lastUsageReset?: true
+  overageBalance?: true
+  tier?: true
+  creditsTotal?: true
+  creditsUsed?: true
+  plan?: true
   _all?: true
 }
 
@@ -248,15 +254,16 @@ export type UserGroupByOutputType = {
   email: string
   clerkId: string
   stripeCustomerId: string | null
-  tier: string
-  creditsUsed: number
-  creditsTotal: number
-  dailyUsageCount: number
-  lastUsageReset: Date
-  activeTaskCount: number
-  overageBalance: number
   createdAt: Date
   updatedAt: Date
+  activeTaskCount: number
+  dailyUsageCount: number
+  lastUsageReset: Date
+  overageBalance: number
+  tier: string
+  creditsTotal: number
+  creditsUsed: number
+  plan: string
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -287,22 +294,23 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   clerkId?: Prisma.StringFilter<"User"> | string
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
-  tier?: Prisma.StringFilter<"User"> | string
-  creditsUsed?: Prisma.IntFilter<"User"> | number
-  creditsTotal?: Prisma.IntFilter<"User"> | number
-  dailyUsageCount?: Prisma.IntFilter<"User"> | number
-  lastUsageReset?: Prisma.DateTimeFilter<"User"> | Date | string
-  activeTaskCount?: Prisma.IntFilter<"User"> | number
-  overageBalance?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  activeTaskCount?: Prisma.IntFilter<"User"> | number
+  dailyUsageCount?: Prisma.IntFilter<"User"> | number
+  lastUsageReset?: Prisma.DateTimeFilter<"User"> | Date | string
+  overageBalance?: Prisma.IntFilter<"User"> | number
+  tier?: Prisma.StringFilter<"User"> | string
+  creditsTotal?: Prisma.IntFilter<"User"> | number
+  creditsUsed?: Prisma.IntFilter<"User"> | number
+  plan?: Prisma.StringFilter<"User"> | string
+  activities?: Prisma.ActivityListRelationFilter
+  bots?: Prisma.BotListRelationFilter
   emailLogs?: Prisma.EmailLogListRelationFilter
   leads?: Prisma.LeadListRelationFilter
   subscriptions?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
-  videoJobs?: Prisma.VideoJobListRelationFilter
-  activities?: Prisma.ActivityListRelationFilter
   tasks?: Prisma.TaskListRelationFilter
-  bots?: Prisma.BotListRelationFilter
+  videoJobs?: Prisma.VideoJobListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -310,22 +318,23 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  tier?: Prisma.SortOrder
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
-  lastUsageReset?: Prisma.SortOrder
-  activeTaskCount?: Prisma.SortOrder
-  overageBalance?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
+  lastUsageReset?: Prisma.SortOrder
+  overageBalance?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
+  activities?: Prisma.ActivityOrderByRelationAggregateInput
+  bots?: Prisma.BotOrderByRelationAggregateInput
   emailLogs?: Prisma.EmailLogOrderByRelationAggregateInput
   leads?: Prisma.LeadOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByWithRelationInput
-  videoJobs?: Prisma.VideoJobOrderByRelationAggregateInput
-  activities?: Prisma.ActivityOrderByRelationAggregateInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
-  bots?: Prisma.BotOrderByRelationAggregateInput
+  videoJobs?: Prisma.VideoJobOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -336,22 +345,23 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  tier?: Prisma.StringFilter<"User"> | string
-  creditsUsed?: Prisma.IntFilter<"User"> | number
-  creditsTotal?: Prisma.IntFilter<"User"> | number
-  dailyUsageCount?: Prisma.IntFilter<"User"> | number
-  lastUsageReset?: Prisma.DateTimeFilter<"User"> | Date | string
-  activeTaskCount?: Prisma.IntFilter<"User"> | number
-  overageBalance?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  activeTaskCount?: Prisma.IntFilter<"User"> | number
+  dailyUsageCount?: Prisma.IntFilter<"User"> | number
+  lastUsageReset?: Prisma.DateTimeFilter<"User"> | Date | string
+  overageBalance?: Prisma.IntFilter<"User"> | number
+  tier?: Prisma.StringFilter<"User"> | string
+  creditsTotal?: Prisma.IntFilter<"User"> | number
+  creditsUsed?: Prisma.IntFilter<"User"> | number
+  plan?: Prisma.StringFilter<"User"> | string
+  activities?: Prisma.ActivityListRelationFilter
+  bots?: Prisma.BotListRelationFilter
   emailLogs?: Prisma.EmailLogListRelationFilter
   leads?: Prisma.LeadListRelationFilter
   subscriptions?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
-  videoJobs?: Prisma.VideoJobListRelationFilter
-  activities?: Prisma.ActivityListRelationFilter
   tasks?: Prisma.TaskListRelationFilter
-  bots?: Prisma.BotListRelationFilter
+  videoJobs?: Prisma.VideoJobListRelationFilter
 }, "id" | "email" | "clerkId" | "stripeCustomerId">
 
 export type UserOrderByWithAggregationInput = {
@@ -359,15 +369,16 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  tier?: Prisma.SortOrder
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
-  lastUsageReset?: Prisma.SortOrder
-  activeTaskCount?: Prisma.SortOrder
-  overageBalance?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
+  lastUsageReset?: Prisma.SortOrder
+  overageBalance?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -383,15 +394,16 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   clerkId?: Prisma.StringWithAggregatesFilter<"User"> | string
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  tier?: Prisma.StringWithAggregatesFilter<"User"> | string
-  creditsUsed?: Prisma.IntWithAggregatesFilter<"User"> | number
-  creditsTotal?: Prisma.IntWithAggregatesFilter<"User"> | number
-  dailyUsageCount?: Prisma.IntWithAggregatesFilter<"User"> | number
-  lastUsageReset?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  activeTaskCount?: Prisma.IntWithAggregatesFilter<"User"> | number
-  overageBalance?: Prisma.IntWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  activeTaskCount?: Prisma.IntWithAggregatesFilter<"User"> | number
+  dailyUsageCount?: Prisma.IntWithAggregatesFilter<"User"> | number
+  lastUsageReset?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  overageBalance?: Prisma.IntWithAggregatesFilter<"User"> | number
+  tier?: Prisma.StringWithAggregatesFilter<"User"> | string
+  creditsTotal?: Prisma.IntWithAggregatesFilter<"User"> | number
+  creditsUsed?: Prisma.IntWithAggregatesFilter<"User"> | number
+  plan?: Prisma.StringWithAggregatesFilter<"User"> | string
 }
 
 export type UserCreateInput = {
@@ -399,22 +411,23 @@ export type UserCreateInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -422,22 +435,23 @@ export type UserUncheckedCreateInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -445,22 +459,23 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -468,22 +483,23 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -491,15 +507,16 @@ export type UserCreateManyInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
 }
 
 export type UserUpdateManyMutationInput = {
@@ -507,15 +524,16 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -523,15 +541,16 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -539,23 +558,24 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
-  tier?: Prisma.SortOrder
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
-  lastUsageReset?: Prisma.SortOrder
-  activeTaskCount?: Prisma.SortOrder
-  overageBalance?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
+  lastUsageReset?: Prisma.SortOrder
+  overageBalance?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
   overageBalance?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -563,15 +583,16 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
-  tier?: Prisma.SortOrder
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
-  lastUsageReset?: Prisma.SortOrder
-  activeTaskCount?: Prisma.SortOrder
-  overageBalance?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
+  lastUsageReset?: Prisma.SortOrder
+  overageBalance?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -579,23 +600,24 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   clerkId?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
-  tier?: Prisma.SortOrder
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
-  lastUsageReset?: Prisma.SortOrder
-  activeTaskCount?: Prisma.SortOrder
-  overageBalance?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
+  lastUsageReset?: Prisma.SortOrder
+  overageBalance?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
-  creditsUsed?: Prisma.SortOrder
-  creditsTotal?: Prisma.SortOrder
-  dailyUsageCount?: Prisma.SortOrder
   activeTaskCount?: Prisma.SortOrder
+  dailyUsageCount?: Prisma.SortOrder
   overageBalance?: Prisma.SortOrder
+  creditsTotal?: Prisma.SortOrder
+  creditsUsed?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -611,16 +633,16 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type UserCreateNestedOneWithoutBotsInput = {
@@ -726,21 +748,22 @@ export type UserCreateWithoutBotsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBotsInput = {
@@ -748,21 +771,22 @@ export type UserUncheckedCreateWithoutBotsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBotsInput = {
@@ -786,21 +810,22 @@ export type UserUpdateWithoutBotsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBotsInput = {
@@ -808,21 +833,22 @@ export type UserUncheckedUpdateWithoutBotsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -830,21 +856,22 @@ export type UserCreateWithoutSubscriptionsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
-  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -852,21 +879,22 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
-  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -890,21 +918,22 @@ export type UserUpdateWithoutSubscriptionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -912,21 +941,22 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLeadsInput = {
@@ -934,21 +964,22 @@ export type UserCreateWithoutLeadsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLeadsInput = {
@@ -956,21 +987,22 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLeadsInput = {
@@ -994,21 +1026,22 @@ export type UserUpdateWithoutLeadsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLeadsInput = {
@@ -1016,21 +1049,22 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmailLogsInput = {
@@ -1038,21 +1072,22 @@ export type UserCreateWithoutEmailLogsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmailLogsInput = {
@@ -1060,21 +1095,22 @@ export type UserUncheckedCreateWithoutEmailLogsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmailLogsInput = {
@@ -1098,21 +1134,22 @@ export type UserUpdateWithoutEmailLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailLogsInput = {
@@ -1120,21 +1157,22 @@ export type UserUncheckedUpdateWithoutEmailLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutVideoJobsInput = {
@@ -1142,21 +1180,22 @@ export type UserCreateWithoutVideoJobsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVideoJobsInput = {
@@ -1164,21 +1203,22 @@ export type UserUncheckedCreateWithoutVideoJobsInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVideoJobsInput = {
@@ -1202,21 +1242,22 @@ export type UserUpdateWithoutVideoJobsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVideoJobsInput = {
@@ -1224,21 +1265,22 @@ export type UserUncheckedUpdateWithoutVideoJobsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutActivitiesInput = {
@@ -1246,21 +1288,22 @@ export type UserCreateWithoutActivitiesInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -1268,21 +1311,22 @@ export type UserUncheckedCreateWithoutActivitiesInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
+  videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -1306,21 +1350,22 @@ export type UserUpdateWithoutActivitiesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -1328,21 +1373,22 @@ export type UserUncheckedUpdateWithoutActivitiesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
+  videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTasksInput = {
@@ -1350,21 +1396,22 @@ export type UserCreateWithoutTasksInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   videoJobs?: Prisma.VideoJobCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTasksInput = {
@@ -1372,21 +1419,22 @@ export type UserUncheckedCreateWithoutTasksInput = {
   email: string
   clerkId: string
   stripeCustomerId?: string | null
-  tier?: string
-  creditsUsed?: number
-  creditsTotal?: number
-  dailyUsageCount?: number
-  lastUsageReset?: Date | string
-  activeTaskCount?: number
-  overageBalance?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeTaskCount?: number
+  dailyUsageCount?: number
+  lastUsageReset?: Date | string
+  overageBalance?: number
+  tier?: string
+  creditsTotal?: number
+  creditsUsed?: number
+  plan?: string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
   emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   videoJobs?: Prisma.VideoJobUncheckedCreateNestedManyWithoutUserInput
-  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
-  bots?: Prisma.BotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTasksInput = {
@@ -1410,21 +1458,22 @@ export type UserUpdateWithoutTasksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   videoJobs?: Prisma.VideoJobUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTasksInput = {
@@ -1432,21 +1481,22 @@ export type UserUncheckedUpdateWithoutTasksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tier?: Prisma.StringFieldUpdateOperationsInput | string
-  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
-  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeTaskCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyUsageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsageReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  overageBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  creditsTotal?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
   emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   videoJobs?: Prisma.VideoJobUncheckedUpdateManyWithoutUserNestedInput
-  activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
-  bots?: Prisma.BotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1455,21 +1505,21 @@ export type UserUncheckedUpdateWithoutTasksInput = {
  */
 
 export type UserCountOutputType = {
+  activities: number
+  bots: number
   emailLogs: number
   leads: number
-  videoJobs: number
-  activities: number
   tasks: number
-  bots: number
+  videoJobs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  activities?: boolean | UserCountOutputTypeCountActivitiesArgs
+  bots?: boolean | UserCountOutputTypeCountBotsArgs
   emailLogs?: boolean | UserCountOutputTypeCountEmailLogsArgs
   leads?: boolean | UserCountOutputTypeCountLeadsArgs
-  videoJobs?: boolean | UserCountOutputTypeCountVideoJobsArgs
-  activities?: boolean | UserCountOutputTypeCountActivitiesArgs
   tasks?: boolean | UserCountOutputTypeCountTasksArgs
-  bots?: boolean | UserCountOutputTypeCountBotsArgs
+  videoJobs?: boolean | UserCountOutputTypeCountVideoJobsArgs
 }
 
 /**
@@ -1480,6 +1530,20 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountActivitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ActivityWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BotWhereInput
 }
 
 /**
@@ -1499,20 +1563,6 @@ export type UserCountOutputTypeCountLeadsArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountVideoJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.VideoJobWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountActivitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ActivityWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TaskWhereInput
 }
@@ -1520,8 +1570,8 @@ export type UserCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountBotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BotWhereInput
+export type UserCountOutputTypeCountVideoJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VideoJobWhereInput
 }
 
 
@@ -1530,22 +1580,23 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   clerkId?: boolean
   stripeCustomerId?: boolean
-  tier?: boolean
-  creditsUsed?: boolean
-  creditsTotal?: boolean
-  dailyUsageCount?: boolean
-  lastUsageReset?: boolean
-  activeTaskCount?: boolean
-  overageBalance?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeTaskCount?: boolean
+  dailyUsageCount?: boolean
+  lastUsageReset?: boolean
+  overageBalance?: boolean
+  tier?: boolean
+  creditsTotal?: boolean
+  creditsUsed?: boolean
+  plan?: boolean
+  activities?: boolean | Prisma.User$activitiesArgs<ExtArgs>
+  bots?: boolean | Prisma.User$botsArgs<ExtArgs>
   emailLogs?: boolean | Prisma.User$emailLogsArgs<ExtArgs>
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
-  videoJobs?: boolean | Prisma.User$videoJobsArgs<ExtArgs>
-  activities?: boolean | Prisma.User$activitiesArgs<ExtArgs>
   tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
-  bots?: boolean | Prisma.User$botsArgs<ExtArgs>
+  videoJobs?: boolean | Prisma.User$videoJobsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1554,15 +1605,16 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   clerkId?: boolean
   stripeCustomerId?: boolean
-  tier?: boolean
-  creditsUsed?: boolean
-  creditsTotal?: boolean
-  dailyUsageCount?: boolean
-  lastUsageReset?: boolean
-  activeTaskCount?: boolean
-  overageBalance?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeTaskCount?: boolean
+  dailyUsageCount?: boolean
+  lastUsageReset?: boolean
+  overageBalance?: boolean
+  tier?: boolean
+  creditsTotal?: boolean
+  creditsUsed?: boolean
+  plan?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1570,15 +1622,16 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   clerkId?: boolean
   stripeCustomerId?: boolean
-  tier?: boolean
-  creditsUsed?: boolean
-  creditsTotal?: boolean
-  dailyUsageCount?: boolean
-  lastUsageReset?: boolean
-  activeTaskCount?: boolean
-  overageBalance?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeTaskCount?: boolean
+  dailyUsageCount?: boolean
+  lastUsageReset?: boolean
+  overageBalance?: boolean
+  tier?: boolean
+  creditsTotal?: boolean
+  creditsUsed?: boolean
+  plan?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1586,26 +1639,27 @@ export type UserSelectScalar = {
   email?: boolean
   clerkId?: boolean
   stripeCustomerId?: boolean
-  tier?: boolean
-  creditsUsed?: boolean
-  creditsTotal?: boolean
-  dailyUsageCount?: boolean
-  lastUsageReset?: boolean
-  activeTaskCount?: boolean
-  overageBalance?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeTaskCount?: boolean
+  dailyUsageCount?: boolean
+  lastUsageReset?: boolean
+  overageBalance?: boolean
+  tier?: boolean
+  creditsTotal?: boolean
+  creditsUsed?: boolean
+  plan?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "clerkId" | "stripeCustomerId" | "tier" | "creditsUsed" | "creditsTotal" | "dailyUsageCount" | "lastUsageReset" | "activeTaskCount" | "overageBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "clerkId" | "stripeCustomerId" | "createdAt" | "updatedAt" | "activeTaskCount" | "dailyUsageCount" | "lastUsageReset" | "overageBalance" | "tier" | "creditsTotal" | "creditsUsed" | "plan", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  activities?: boolean | Prisma.User$activitiesArgs<ExtArgs>
+  bots?: boolean | Prisma.User$botsArgs<ExtArgs>
   emailLogs?: boolean | Prisma.User$emailLogsArgs<ExtArgs>
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
-  videoJobs?: boolean | Prisma.User$videoJobsArgs<ExtArgs>
-  activities?: boolean | Prisma.User$activitiesArgs<ExtArgs>
   tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
-  bots?: boolean | Prisma.User$botsArgs<ExtArgs>
+  videoJobs?: boolean | Prisma.User$videoJobsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1614,28 +1668,29 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    activities: Prisma.$ActivityPayload<ExtArgs>[]
+    bots: Prisma.$BotPayload<ExtArgs>[]
     emailLogs: Prisma.$EmailLogPayload<ExtArgs>[]
     leads: Prisma.$LeadPayload<ExtArgs>[]
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs> | null
-    videoJobs: Prisma.$VideoJobPayload<ExtArgs>[]
-    activities: Prisma.$ActivityPayload<ExtArgs>[]
     tasks: Prisma.$TaskPayload<ExtArgs>[]
-    bots: Prisma.$BotPayload<ExtArgs>[]
+    videoJobs: Prisma.$VideoJobPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
     clerkId: string
     stripeCustomerId: string | null
-    tier: string
-    creditsUsed: number
-    creditsTotal: number
-    dailyUsageCount: number
-    lastUsageReset: Date
-    activeTaskCount: number
-    overageBalance: number
     createdAt: Date
     updatedAt: Date
+    activeTaskCount: number
+    dailyUsageCount: number
+    lastUsageReset: Date
+    overageBalance: number
+    tier: string
+    creditsTotal: number
+    creditsUsed: number
+    plan: string
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2030,13 +2085,13 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  activities<T extends Prisma.User$activitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bots<T extends Prisma.User$botsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$botsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emailLogs<T extends Prisma.User$emailLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   leads<T extends Prisma.User$leadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  videoJobs<T extends Prisma.User$videoJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$videoJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  activities<T extends Prisma.User$activitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tasks<T extends Prisma.User$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  bots<T extends Prisma.User$botsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$botsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  videoJobs<T extends Prisma.User$videoJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$videoJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2070,15 +2125,16 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly clerkId: Prisma.FieldRef<"User", 'String'>
   readonly stripeCustomerId: Prisma.FieldRef<"User", 'String'>
-  readonly tier: Prisma.FieldRef<"User", 'String'>
-  readonly creditsUsed: Prisma.FieldRef<"User", 'Int'>
-  readonly creditsTotal: Prisma.FieldRef<"User", 'Int'>
-  readonly dailyUsageCount: Prisma.FieldRef<"User", 'Int'>
-  readonly lastUsageReset: Prisma.FieldRef<"User", 'DateTime'>
-  readonly activeTaskCount: Prisma.FieldRef<"User", 'Int'>
-  readonly overageBalance: Prisma.FieldRef<"User", 'Int'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly activeTaskCount: Prisma.FieldRef<"User", 'Int'>
+  readonly dailyUsageCount: Prisma.FieldRef<"User", 'Int'>
+  readonly lastUsageReset: Prisma.FieldRef<"User", 'DateTime'>
+  readonly overageBalance: Prisma.FieldRef<"User", 'Int'>
+  readonly tier: Prisma.FieldRef<"User", 'String'>
+  readonly creditsTotal: Prisma.FieldRef<"User", 'Int'>
+  readonly creditsUsed: Prisma.FieldRef<"User", 'Int'>
+  readonly plan: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -2467,6 +2523,54 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.activities
+ */
+export type User$activitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Activity
+   */
+  select?: Prisma.ActivitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Activity
+   */
+  omit?: Prisma.ActivityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ActivityInclude<ExtArgs> | null
+  where?: Prisma.ActivityWhereInput
+  orderBy?: Prisma.ActivityOrderByWithRelationInput | Prisma.ActivityOrderByWithRelationInput[]
+  cursor?: Prisma.ActivityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ActivityScalarFieldEnum | Prisma.ActivityScalarFieldEnum[]
+}
+
+/**
+ * User.bots
+ */
+export type User$botsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Bot
+   */
+  select?: Prisma.BotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Bot
+   */
+  omit?: Prisma.BotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotInclude<ExtArgs> | null
+  where?: Prisma.BotWhereInput
+  orderBy?: Prisma.BotOrderByWithRelationInput | Prisma.BotOrderByWithRelationInput[]
+  cursor?: Prisma.BotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BotScalarFieldEnum | Prisma.BotScalarFieldEnum[]
+}
+
+/**
  * User.emailLogs
  */
 export type User$emailLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2534,54 +2638,6 @@ export type User$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * User.videoJobs
- */
-export type User$videoJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the VideoJob
-   */
-  select?: Prisma.VideoJobSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the VideoJob
-   */
-  omit?: Prisma.VideoJobOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VideoJobInclude<ExtArgs> | null
-  where?: Prisma.VideoJobWhereInput
-  orderBy?: Prisma.VideoJobOrderByWithRelationInput | Prisma.VideoJobOrderByWithRelationInput[]
-  cursor?: Prisma.VideoJobWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.VideoJobScalarFieldEnum | Prisma.VideoJobScalarFieldEnum[]
-}
-
-/**
- * User.activities
- */
-export type User$activitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Activity
-   */
-  select?: Prisma.ActivitySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Activity
-   */
-  omit?: Prisma.ActivityOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ActivityInclude<ExtArgs> | null
-  where?: Prisma.ActivityWhereInput
-  orderBy?: Prisma.ActivityOrderByWithRelationInput | Prisma.ActivityOrderByWithRelationInput[]
-  cursor?: Prisma.ActivityWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ActivityScalarFieldEnum | Prisma.ActivityScalarFieldEnum[]
-}
-
-/**
  * User.tasks
  */
 export type User$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2606,27 +2662,27 @@ export type User$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }
 
 /**
- * User.bots
+ * User.videoJobs
  */
-export type User$botsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$videoJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Bot
+   * Select specific fields to fetch from the VideoJob
    */
-  select?: Prisma.BotSelect<ExtArgs> | null
+  select?: Prisma.VideoJobSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Bot
+   * Omit specific fields from the VideoJob
    */
-  omit?: Prisma.BotOmit<ExtArgs> | null
+  omit?: Prisma.VideoJobOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.BotInclude<ExtArgs> | null
-  where?: Prisma.BotWhereInput
-  orderBy?: Prisma.BotOrderByWithRelationInput | Prisma.BotOrderByWithRelationInput[]
-  cursor?: Prisma.BotWhereUniqueInput
+  include?: Prisma.VideoJobInclude<ExtArgs> | null
+  where?: Prisma.VideoJobWhereInput
+  orderBy?: Prisma.VideoJobOrderByWithRelationInput | Prisma.VideoJobOrderByWithRelationInput[]
+  cursor?: Prisma.VideoJobWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.BotScalarFieldEnum | Prisma.BotScalarFieldEnum[]
+  distinct?: Prisma.VideoJobScalarFieldEnum | Prisma.VideoJobScalarFieldEnum[]
 }
 
 /**
