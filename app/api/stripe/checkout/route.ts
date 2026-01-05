@@ -6,7 +6,7 @@ import db from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-    // FIX: Await auth() to extract the userId
+    // FIX: Await auth() because it returns a Promise
     const { userId } = await auth(); 
     const { planId, interval } = await req.json();
 
@@ -19,6 +19,7 @@ export async function POST(req: Request) {
       return new NextResponse("Plan not found", { status: 404 });
     }
 
+    // FIX: Access stripe IDs using the correct type-safe properties
     const priceId = interval === "yearly" 
       ? plan.stripePriceIdYearly 
       : plan.stripePriceIdMonthly;
