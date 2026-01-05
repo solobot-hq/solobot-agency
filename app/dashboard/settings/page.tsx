@@ -33,7 +33,6 @@ export default function SettingsPage() {
           {activeTab === "profile" ? (
             <section className="bg-[#111827] border border-white/[0.08] rounded-[2rem] p-8 space-y-8 shadow-xl">
               <h2 className="text-xs font-black text-zinc-500 uppercase tracking-widest">profile details</h2>
-              {/* Profile Content ... */}
               <div className="flex items-center justify-between group">
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-16 rounded-full bg-indigo-500/20 border border-white/[0.05] flex items-center justify-center overflow-hidden">
@@ -52,7 +51,6 @@ export default function SettingsPage() {
               </div>
             </section>
           ) : (
-            /* SECURITY VIEW CONTENT - NOW FULLY BUILT */
             <section className="bg-[#111827] border border-white/[0.08] rounded-[2rem] p-8 space-y-8 shadow-xl animate-in slide-in-from-bottom-2">
               <div>
                 <h2 className="text-xs font-black text-zinc-500 uppercase tracking-widest mb-6">authentication</h2>
@@ -100,4 +98,33 @@ export default function SettingsPage() {
   );
 }
 
-// Sub-components as defined previously...
+// RESTORED MISSING SUB-COMPONENTS
+function NavButton({ label, icon: Icon, active, onClick }: any) {
+  return (
+    <button onClick={onClick} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
+      active ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-300"
+    }`}>
+      <Icon className="w-4 h-4" />
+      <span className="lowercase">{label}</span>
+    </button>
+  );
+}
+
+function SettingRow({ label, value, pill, icon: Icon }: any) {
+  return (
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        <Icon className="w-4 h-4 text-zinc-600" />
+        <div>
+          <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{label}</p>
+          <p className="text-sm font-bold text-white lowercase">{value}</p>
+        </div>
+      </div>
+      {pill && (
+        <span className="text-[10px] font-black px-3 py-1 rounded bg-zinc-800 text-zinc-500 border border-white/[0.05] uppercase">
+          {pill}
+        </span>
+      )}
+    </div>
+  );
+}
