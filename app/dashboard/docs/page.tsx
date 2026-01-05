@@ -30,31 +30,32 @@ export default function DocsPage() {
         <p className="text-zinc-500 mt-2 font-medium">Technical guides and API references for autonomous agents.</p>
       </div>
 
-      {/* 2. Navigational Grid — Restored Workspace Card Style */}
+      {/* 2. Navigational Grid — Workspace Card Style with bg-[#111827] */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {sections.map((section) => (
           <div 
             key={section.title} 
-            className="bg-[#111827] border border-zinc-800 rounded-[2rem] p-8 shadow-xl hover:border-zinc-700 transition-all group"
+            className="bg-[#111827] border border-white/[0.08] rounded-[2rem] p-8 shadow-xl hover:border-white/[0.15] transition-all group"
           >
-            {/* Restored Workspace Icon Container */}
-            <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6">
-              <section.icon className="w-6 h-6 text-zinc-500 group-hover:text-indigo-400 transition-colors" />
+            {/* High-Legibility Icon Container */}
+            <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-white/[0.05] flex items-center justify-center mb-8">
+              <section.icon className="w-6 h-6 text-zinc-500 group-hover:text-white transition-colors" />
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-6 tracking-tight">
+            {/* Brighter White Header for High Legibility */}
+            <h3 className="text-xl font-black text-white mb-8 tracking-tight">
               <span className="lowercase">{section.title}</span>
             </h3>
 
-            {/* Navigational Rows — Matching Character Restraint */}
-            <div className="space-y-4">
+            {/* Navigational Rows — Clean and Legible */}
+            <div className="space-y-5">
               {section.items.map((item) => (
                 <button 
                   key={item} 
                   className="flex w-full items-center justify-between text-sm font-medium text-zinc-500 hover:text-white transition-colors group/item"
                 >
                   <span className="lowercase">{item}</span>
-                  <ArrowRight className="w-4 h-4 opacity-0 group-hover/item:opacity-40 transition-all -translate-x-2 group-hover/item:translate-x-0" />
+                  <ArrowRight className="w-4 h-4 opacity-0 group-hover/item:opacity-100 transition-all -translate-x-2 group-hover/item:translate-x-0" />
                 </button>
               ))}
             </div>
@@ -62,7 +63,7 @@ export default function DocsPage() {
         ))}
       </div>
 
-      {/* 3. Footer Metadata — Aligned with Billing & Usage */}
+      {/* 3. Footer Metadata — Consistent with Global Dashboard */}
       <div className="pt-8 border-t border-white/[0.05]">
         <div className="flex gap-8 text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
           <span>version: 1.0.0-stable</span>
