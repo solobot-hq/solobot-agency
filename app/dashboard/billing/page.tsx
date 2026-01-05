@@ -10,8 +10,8 @@ export default function BillingPage() {
   const currentPlanId = usageData.plan;
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700 p-8">
-      {/* 1. Header with Workspace Toggle Integration */}
+    <div className="space-y-10 animate-in fade-in duration-700 p-8 max-w-6xl">
+      {/* 1. Header with Restored Functional Toggle */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <div className="flex items-center gap-3">
@@ -23,7 +23,7 @@ export default function BillingPage() {
           <p className="text-zinc-500 mt-2 font-medium">Manage subscription and infrastructure caps.</p>
         </div>
 
-        {/* Restore Functional Toggle Component */}
+        {/* Canonical Workspace Toggle Component */}
         <div className="flex gap-1 bg-zinc-900/80 p-1 rounded-xl border border-white/[0.05]">
           {(["monthly", "yearly"] as const).map((t) => (
             <button 
@@ -39,7 +39,7 @@ export default function BillingPage() {
         </div>
       </div>
 
-      {/* 2. Restored Plan Tiles with Interval Logic */}
+      {/* 2. Premium Plan Rows — Matching Workspace Visual Ceiling */}
       <div className="space-y-4">
         {AVAILABLE_PLANS.map((plan) => (
           <div 
@@ -49,6 +49,7 @@ export default function BillingPage() {
             }`}
           >
             <div className="flex items-center gap-6">
+              {/* Restored Icon Container */}
               <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
                 <CreditCard className={`w-5 h-5 ${plan.id === currentPlanId ? 'text-indigo-400' : 'text-zinc-500'}`} />
               </div>
@@ -66,6 +67,7 @@ export default function BillingPage() {
               </div>
             </div>
 
+            {/* Infrastructure Details & Status Pills */}
             <div className="flex items-center gap-12">
               <div className="hidden md:flex flex-col items-end">
                 <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-1 text-right">Infrastructure Cap</p>
@@ -86,11 +88,14 @@ export default function BillingPage() {
         ))}
       </div>
 
-      {/* 3. Transaction History Boundary */}
-      <div className="space-y-4">
-        <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em]">Transaction History</p>
-        <div className="bg-[#111827] border border-zinc-800 rounded-[2rem] p-8 text-center">
-           <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">No recent invoices found</span>
+      {/* 3. Transaction History & Metadata Footer */}
+      <div className="pt-8 border-t border-white/[0.05] flex justify-between items-center">
+        <div className="flex gap-8 text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
+          <div>billing_provider: pending</div>
+          <div>currency: gbp</div>
+        </div>
+        <div className="text-[10px] font-mono uppercase tracking-tighter text-zinc-600">
+           no recent transactions found
         </div>
       </div>
     </div>
