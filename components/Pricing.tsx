@@ -35,7 +35,23 @@ export default function Pricing() {
             <div key={key} className={`relative flex flex-col p-8 rounded-[2rem] border transition-all duration-300 ${key === 'PRO' ? 'bg-[#0D1525] border-indigo-500/40 shadow-2xl shadow-indigo-500/10 scale-[1.01]' : 'bg-[#0D1525] border-white/5 hover:border-white/10'}`}>
               {key === 'PRO' && <div className="absolute top-4 right-8"><span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-[9px] font-black uppercase tracking-widest border border-indigo-500/30">Popular</span></div>}
               <div className="mb-6"><p className="text-[9px] font-black tracking-[0.2em] text-indigo-400 uppercase mb-1">{plan.target}</p><h3 className="text-xl font-black uppercase tracking-tight text-white">{key.replace('_', ' ')}</h3></div>
-              <div className="flex items-baseline gap-1 mb-8 text-white"><span className="text-5xl font-black tracking-tighter">£{isYearly ? plan.yearlyPrice : plan.monthlyPrice}</span><span className="text-zinc-500 font-bold text-xs tracking-widest uppercase">/mo</span></div>
+              
+              <div className="flex items-baseline gap-1 mb-1 text-white">
+                <span className="text-5xl font-black tracking-tighter">
+                  £{isYearly ? plan.yearlyPrice * 12 : plan.monthlyPrice}
+                </span>
+                <span className="text-zinc-500 font-bold text-xs tracking-widest uppercase">
+                  {isYearly ? "per year" : "/mo"}
+                </span>
+              </div>
+              
+              {isYearly && (
+                <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-tight mb-7">
+                  £{plan.yearlyPrice}/mo equivalent (10% discount)
+                </p>
+              )}
+              {!isYearly && <div className="mb-7 h-[15px]" />}
+
               <div className="space-y-4 mb-10 flex-1">
                 {[ { label: `${plan.runsPerDay} Daily Runs`, sub: "Infrastructure Cap" }, { label: `${plan.concurrency} Concurrent Thread`, sub: "Processing Limit" }, { label: plan.autonomy, sub: "Control Level" } ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3">
@@ -44,9 +60,7 @@ export default function Pricing() {
                   </div>
                 ))}
               </div>
-              <Link href="/sign-up" className={`block w-full py-4 rounded-xl text-center font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${key === 'PRO' ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-600/20' : 'bg-white text-black hover:bg-zinc-200'}`}>
-                Start Building Now
-              </Link>
+              <Link href="/sign-up" className={`block w-full py-4 rounded-xl text-center font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${key === 'PRO' ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-600/20' : 'bg-white text-black hover:bg-zinc-200'}`}>Start Building Now</Link>
               <p className="mt-4 text-center text-[8px] text-zinc-500 font-bold uppercase tracking-widest italic opacity-50">1-day trial available</p>
             </div>
           ))}
