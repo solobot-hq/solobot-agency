@@ -49,14 +49,24 @@ export default function BillingPage() {
               <h3 className="text-lg font-bold text-zinc-300 lowercase">
                 {plan.name} plan
               </h3>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-black text-white tracking-tight">
-                  £{interval === "monthly" ? plan.pricing.monthly : plan.pricing.yearly}
-                </span>
-                {/* Fix: Label now correctly tracks the toggle state */}
-                <span className="text-xs font-bold text-zinc-500 lowercase">
-                  /{interval === "monthly" ? "mo" : "yr"}
-                </span>
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-black text-white tracking-tight">
+                    {/* 🟢 Logic Update: Display total annual cost if yearly selected */}
+                    £{interval === "monthly" ? plan.pricing.monthly : plan.pricing.yearly * 12}
+                  </span>
+                  {/* 🟢 String Update: Explicit suffixes per specification */}
+                  <span className="text-xs font-bold text-zinc-500 lowercase">
+                    {interval === "monthly" ? "/month" : "per year"}
+                  </span>
+                </div>
+                
+                {/* 🟢 Logic Update: Added discount helper text */}
+                {interval === "yearly" && (
+                  <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-tight mt-1">
+                    £{plan.pricing.yearly}/mo equivalent (10% discount)
+                  </p>
+                )}
               </div>
             </div>
 
