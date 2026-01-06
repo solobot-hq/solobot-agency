@@ -1,23 +1,3 @@
-# 1. git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
-
-# 2. git diff
-(empty - working tree is clean)
-
-# 3. git show --stat
-commit d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3
-Author: Developer <dev@solobotagency.com>
-Date:   Tue Jan 6 15:10:00 2026 +0000
-
-    chore: restore approved pricing UI with toggle and wire CTA links
-
- components/Pricing.tsx | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-# 4. git show HEAD:components/Pricing.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -64,7 +44,9 @@ export default function Pricing() {
                   </div>
                 ))}
               </div>
-              <Link href="/sign-up" className={`block w-full py-4 rounded-xl text-center font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${key === 'PRO' ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-600/20' : 'bg-white text-black hover:bg-zinc-200'}`}>Start Building Now</Link>
+              <Link href="/sign-up" className={`block w-full py-4 rounded-xl text-center font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${key === 'PRO' ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-600/20' : 'bg-white text-black hover:bg-zinc-200'}`}>
+                Start Building Now
+              </Link>
               <p className="mt-4 text-center text-[8px] text-zinc-500 font-bold uppercase tracking-widest italic opacity-50">1-day trial available</p>
             </div>
           ))}
