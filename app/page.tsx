@@ -8,7 +8,7 @@ import Pricing from "@/components/Pricing";
 
 export const metadata: Metadata = {
   title: "SoloBotAgency | Professional AI Workforce",
-  description: "Deploy autonomous AI agents to handle sales, support, and marketing 24/7. Infrastructure-safe workforce.",
+  description: "Deploy autonomous AI agents to handle sales, support, and marketing 24/7.",
 };
 
 export default function LandingPage() {
@@ -19,16 +19,17 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#05070a] text-white selection:bg-indigo-500/30 transition-colors duration-300 overflow-x-hidden antialiased">
+    // Lightened base background from #05070a to #0c0e12
+    <div className="min-h-screen bg-[#0c0e12] text-white selection:bg-indigo-500/30 transition-colors duration-300 overflow-x-hidden antialiased">
       
       <header>
-        <nav className="border-b border-zinc-800/50 backdrop-blur-xl fixed top-0 w-full z-50 bg-[#05070a]/80" aria-label="Main Navigation">
+        <nav className="border-b border-white/[0.05] backdrop-blur-xl fixed top-0 w-full z-50 bg-[#0c0e12]/80">
           <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 shrink-0 transition-opacity hover:opacity-90">
+            <Link href="/" className="flex items-center gap-3 shrink-0">
               <div className="relative h-8 w-8">
-                <Image src="/sl.png" alt="SoloBotAgency Logo" fill className="object-contain" priority />
+                <Image src="/sl.png" alt="Logo" fill className="object-contain" priority />
               </div>
-              <span className="text-lg font-bold tracking-tight text-white">SoloBotAgency</span>
+              <span className="text-lg font-bold tracking-tight">SoloBotAgency</span>
             </Link>
             
             <div className="flex items-center gap-6 text-sm font-medium">
@@ -47,10 +48,10 @@ export default function LandingPage() {
       </header>
 
       <main>
-        {/* Normalized Hero Section */}
-        <section className="relative pt-44 pb-24 border-b border-zinc-800/50">
+        {/* Hero: Balanced contrast */}
+        <section className="relative pt-44 pb-24 border-b border-white/[0.05]">
           <div className="max-w-5xl mx-auto px-6 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-700 bg-zinc-800/40 text-zinc-300 text-[10px] font-bold uppercase tracking-widest mb-8">
               Operational Autonomy v2.0
             </div>
             
@@ -68,29 +69,24 @@ export default function LandingPage() {
               <Link href="/sign-up" className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 bg-white text-black font-semibold rounded-md hover:bg-zinc-200 transition-all shadow-sm">
                 Start Starter Trial <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="#pricing" className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 text-white font-semibold rounded-md border border-zinc-800 hover:bg-zinc-900 transition-all">
+              <Link href="#pricing" className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 text-white font-semibold rounded-md border border-zinc-700 hover:bg-zinc-800/50 transition-all">
                 View Pricing
               </Link>
-            </div>
-            
-            <div className="mt-12 flex items-center justify-center gap-8 text-[11px] font-medium text-zinc-500 uppercase tracking-widest">
-              <span className="flex items-center gap-2"><Check className="w-4 h-4 text-zinc-600" /> Cancel Anytime</span>
-              <span className="flex items-center gap-2"><Check className="w-4 h-4 text-zinc-600" /> No Contracts</span>
             </div>
           </div>
         </section>
 
-        {/* Feature Grid - Workspace Rhythm */}
-        <section className="py-24 bg-[#05070a]">
+        {/* Feature Grid: Tiles use #161920 to contrast against #0c0e12 background */}
+        <section className="py-24 bg-[#0c0e12]">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="grid md:grid-cols-3 gap-16">
+            <div className="grid md:grid-cols-3 gap-8">
               {features.map((feature, i) => (
-                <div key={i} className="group">
-                  <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center mb-6 border border-zinc-800 transition-colors group-hover:border-zinc-700">
+                <div key={i} className="group p-8 bg-[#161920] rounded-xl border border-white/[0.05] transition-colors hover:border-zinc-700">
+                  <div className="w-10 h-10 bg-zinc-800 rounded-lg flex items-center justify-center mb-6 border border-zinc-700">
                     <feature.icon className="w-5 h-5 text-zinc-400" />
                   </div>
                   <h3 className="text-lg font-bold mb-3 text-white tracking-tight">{feature.title}</h3>
-                  <p className="text-zinc-500 leading-relaxed text-sm">{feature.desc}</p>
+                  <p className="text-zinc-400 leading-relaxed text-sm font-medium">{feature.desc}</p>
                 </div>
               ))}
             </div>
@@ -100,7 +96,7 @@ export default function LandingPage() {
         <Pricing />
       </main>
 
-      <footer className="py-16 border-t border-zinc-800/50 bg-[#05070a] text-center">
+      <footer className="py-16 border-t border-white/[0.05] bg-[#0c0e12] text-center">
         <p className="text-zinc-600 text-xs font-medium tracking-[0.3em] uppercase">
           &copy; 2025 SOLOBOTAGENCY. ONE BOT. INFINITE TASKS.
         </p>
