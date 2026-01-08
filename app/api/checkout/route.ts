@@ -6,7 +6,7 @@
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { auth } from "@/lib/auth"; // Assumed auth helper
+import { getAuthUser } from "@/lib/auth"; // ✅ Fixed: Aligned with Vercel build suggestions
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
@@ -18,8 +18,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     const { priceId, interval } = await req.json();
-    const session_auth = await auth();
-    const userId = session_auth?.user?.id;
+    
+    // ✅ Fixed: Using the exported helper from @/lib/auth
+    const user = await getAuthUser();
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -47,7 +49,7 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       billing_address_collection: "auto",
-      customer_email: session_auth.user.email!,
+      customer_email: user.email!, // ✅ Adjusted to match direct user object access
       line_items: [
         {
           price: priceId,

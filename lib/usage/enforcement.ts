@@ -4,8 +4,11 @@
  * Zero-trust implementation using rolling 24h windows.
  */
 
-import { db } from "@/lib/db"; // Standard database interface
+import { db } from "@/lib/db"; // ✅ Matches the new named export in lib/db.ts
 import { PLAN_LIMITS } from "@/lib/billing/plans"; // Approved Phase 1 plan data
+
+// Note: If you need to perform server-side auth checks within this utility in the future,
+// use: import { getAuthUser } from "@/lib/auth";
 
 export type EnforcementResult = 
   | { allowed: true; executionId: string }
