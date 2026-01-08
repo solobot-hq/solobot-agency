@@ -9,14 +9,12 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-// BUILD-SAFE: no apiVersion
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
 
-  // Next.js 15+/16: headers() is async
   const headersList = await headers();
   const signature = headersList.get("stripe-signature");
 
@@ -26,14 +24,13 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
 
-  // 1. VERIFY SIGNATURE
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: any) {
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  // 2. IDEMPOTENCY GUARD
+  // Idempotency guard
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -42,7 +39,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   }
 
-  // 3. HANDLE EVENTS
   try {
     switch (event.type) {
       case "checkout.session.completed":
@@ -53,10 +49,9 @@ export async function POST(req: Request) {
         const subscriptionId =
           sessionOrSub.subscription ?? sessionOrSub.id;
 
-        // IMPORTANT: unwrap Stripe response for TS
-        const subscription = (await stripe.subscriptions.retrieve(
+        const subscription = await stripe.subscriptions.retrieve(
           subscriptionId
-        )) as Stripe.Subscription;
+        );
 
         const priceId = subscription.items.data[0].price.id;
         const userId = sessionOrSub.metadata?.userId;
@@ -76,7 +71,10 @@ export async function POST(req: Request) {
 
         const [planTier] = planEntry;
 
-        // WRITE TO EXISTING Subscription MODEL
+        // 🔑 FINAL FIX: read runtime value, ignore broken Stripe typings
+        const currentPeriodEndUnix = (subscription as any)
+          .current_period_end;
+
         await db.subscription.upsert({
           where: { userId },
           create: {
@@ -85,14 +83,14 @@ export async function POST(req: Request) {
             plan: planTier,
             status: subscription.status,
             currentPeriodEnd: new Date(
-              subscription.currentPeriodEnd * 1000
+              currentPeriodEndUnix * 1000
             ),
           },
           update: {
             plan: planTier,
             status: subscription.status,
             currentPeriodEnd: new Date(
-              subscription.currentPeriodEnd * 1000
+              currentPeriodEndUnix * 1000
             ),
           },
         });
@@ -101,14 +99,4 @@ export async function POST(req: Request) {
       }
     }
 
-    // 4. MARK EVENT AS PROCESSED
-    await db.processedStripeEvent.create({
-      data: { eventId: event.id },
-    });
-
-    return NextResponse.json({ received: true });
-  } catch (error) {
-    console.error("Webhook processing failed:", error);
-    return new NextResponse("Webhook handler failed", { status: 500 });
-  }
-}
+    await db.
