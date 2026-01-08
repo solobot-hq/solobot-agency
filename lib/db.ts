@@ -22,8 +22,10 @@ const globalForPrisma = globalThis as unknown as {
   prisma: ReturnType<typeof prismaClientSingleton> | undefined;
 };
 
-const db = globalForPrisma.prisma ?? prismaClientSingleton();
+// ✅ Change: Define as a named constant for explicit export
+export const db = globalForPrisma.prisma ?? prismaClientSingleton();
 
+// ✅ Keep: Default export for any existing generic imports
 export default db;
 
 if (process.env.NODE_ENV !== "production") {
