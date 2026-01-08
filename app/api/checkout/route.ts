@@ -6,20 +6,19 @@
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getAuthUser } from "@/lib/auth"; // ✅ Fixed: Aligned with Vercel build suggestions
+import { getAuthUser } from "@/lib/auth"; 
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16",
-});
+// ✅ Fix: Removed apiVersion to rely on stable account defaults
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   try {
     const { priceId, interval } = await req.json();
     
-    // ✅ Fixed: Using the exported helper from @/lib/auth
+    // ✅ Auth: Using the approved getAuthUser helper
     const user = await getAuthUser();
     const userId = user?.id;
 
@@ -34,11 +33,10 @@ export async function POST(req: Request) {
     }
 
     // --- 2. GUARD: USAGE ENFORCEMENT (PHASE 2 - STEP 3) ---
-    // Note: This prevents session creation if current usage limits are breached.
     const usageValidation = await validateUsageEnforcement(
       userId, 
       intervalValidation.planId!, 
-      false // Defaults to non-autonomous intent for checkout
+      false 
     );
 
     if (!usageValidation.allowed) {
@@ -49,7 +47,7 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       billing_address_collection: "auto",
-      customer_email: user.email!, // ✅ Adjusted to match direct user object access
+      customer_email: user.email!, 
       line_items: [
         {
           price: priceId,
