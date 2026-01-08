@@ -1,6 +1,6 @@
 /**
  * STRIPE WEBHOOK HANDLER (PHASE 2 - STEP 4)
- * Source of Truth: Stripe -> Database Sync
+ * Authoritative Sync: Stripe -> Database
  */
 
 import { headers } from "next/headers";
@@ -9,7 +9,7 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-// ✅ BUILD-SAFE: rely on account settings instead of hardcoded apiVersion
+// ✅ BUILD-SAFE: No hardcoded apiVersion to prevent SDK/Account mismatches
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -30,11 +30,12 @@ export async function POST(req: Request) {
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: any) {
+    console.error(`Webhook Signature Error: ${err.message}`);
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
   // --- 2. IDEMPOTENCY GUARD ---
-  // ✅ Prisma Sync: Property exists after staging generated files
+  // ✅ PRISMA SYNC: Requires 'processedStripeEvent' to be correctly staged in Git
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
         const sessionOrSub = event.data.object as any;
         const subscriptionId = sessionOrSub.subscription ?? sessionOrSub.id;
 
-        // ✅ TS FIX: Cast to any to unwrap properties from Stripe.Response wrapper
+        // ✅ TS FIX: Explicit cast to unwrap properties from Stripe.Response wrapper
         const subscription = (await stripe.subscriptions.retrieve(
           subscriptionId
         )) as any;
@@ -76,10 +77,7 @@ export async function POST(req: Request) {
 
         const [planTier] = planEntry;
 
-        // ✅ Extraction: Map Stripe Unix timestamp to Date object
-        const currentPeriodEndUnix = subscription.current_period_end;
-
-        // --- 4. ATOMIC DATABASE UPDATE ---
+        // --- 4. ATOMIC DATABASE SYNC ---
         await db.subscription.upsert({
           where: { userId },
           create: {
@@ -87,12 +85,12 @@ export async function POST(req: Request) {
             stripeSubscriptionId: subscription.id,
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(currentPeriodEndUnix * 1000),
+            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
           },
           update: {
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(currentPeriodEndUnix * 1000),
+            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
           },
         });
 
@@ -100,7 +98,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // Mark event as processed in the guard table
+    // Mark event as processed to prevent duplicate logic
     await db.processedStripeEvent.create({
       data: { eventId: event.id },
     });
