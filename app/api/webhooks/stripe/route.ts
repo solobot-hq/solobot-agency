@@ -34,7 +34,6 @@ export async function POST(req: Request) {
   }
 
   // --- 2. IDEMPOTENCY GUARD ---
-  // Requires ONLY: model ProcessedStripeEvent
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -53,7 +52,11 @@ export async function POST(req: Request) {
         const sessionOrSub = event.data.object as any;
         const subscriptionId = sessionOrSub.subscription || sessionOrSub.id;
 
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        // ✅ FIX: Explicit cast to Stripe.Subscription to unwrap properties for TypeScript
+        const subscription = (await stripe.subscriptions.retrieve(
+          subscriptionId
+        )) as Stripe.Subscription;
+
         const priceId = subscription.items.data[0].price.id;
         const userId = sessionOrSub.metadata?.userId;
 
@@ -68,7 +71,7 @@ export async function POST(req: Request) {
 
         const [planTier] = planEntry;
 
-        // ✅ USE EXISTING `Subscription` MODEL (no new tables)
+        // ✅ USE EXISTING `Subscription` MODEL
         await db.subscription.upsert({
           where: { userId },
           create: {
@@ -76,16 +79,12 @@ export async function POST(req: Request) {
             stripeSubscriptionId: subscription.id,
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
-            ),
+            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
           },
           update: {
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
-            ),
+            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
           },
         });
 
