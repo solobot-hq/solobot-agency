@@ -89,3 +89,8 @@ export type PulseEvent = Prisma.PulseEventModel
  * 
  */
 export type InboxMessage = Prisma.InboxMessageModel
+/**
+ * Model ProcessedStripeEvent
+ * 
+ */
+export type ProcessedStripeEvent = Prisma.ProcessedStripeEventModel

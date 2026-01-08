@@ -129,3 +129,10 @@ model InboxMessage {
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+// ✅ ONLY REQUIRED ADDITION
+model ProcessedStripeEvent {
+  id        String   @id @default(cuid())
+  eventId   String   @unique
+  createdAt DateTime @default(now())
+}

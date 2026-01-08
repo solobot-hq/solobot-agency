@@ -60,7 +60,8 @@ export const ModelName = {
   Activity: 'Activity',
   Task: 'Task',
   PulseEvent: 'PulseEvent',
-  InboxMessage: 'InboxMessage'
+  InboxMessage: 'InboxMessage',
+  ProcessedStripeEvent: 'ProcessedStripeEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -215,6 +216,15 @@ export const InboxMessageScalarFieldEnum = {
 } as const
 
 export type InboxMessageScalarFieldEnum = (typeof InboxMessageScalarFieldEnum)[keyof typeof InboxMessageScalarFieldEnum]
+
+
+export const ProcessedStripeEventScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  createdAt: 'createdAt'
+} as const
+
+export type ProcessedStripeEventScalarFieldEnum = (typeof ProcessedStripeEventScalarFieldEnum)[keyof typeof ProcessedStripeEventScalarFieldEnum]
 
 
 export const SortOrder = {
