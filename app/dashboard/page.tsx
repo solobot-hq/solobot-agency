@@ -1,4 +1,5 @@
-// 🔒 STABLE BUILD — DO NOT MODIFY WITHOUT EXPLICIT APPROVAL
+// 🔒 STABLE BUILD — PHASE 4 INTEGRATED
+// Location: app/dashboard/page.tsx
 
 import React from "react";
 import { auth, clerkClient } from "@clerk/nextjs/server";
@@ -21,6 +22,7 @@ import { UsageChart } from "@/components/usage-chart";
 import { DynamicCreditCard } from "@/components/dynamic-credit-card";
 import { SystemTerminal } from "@/components/system-terminal";
 import { getUserBots } from "@/app/actions/bot-db-actions";
+import SubscriptionStatus from "@/components/dashboard/SubscriptionStatus";
 
 export default async function OverviewPage() {
   const { userId } = await auth();
@@ -28,17 +30,22 @@ export default async function OverviewPage() {
   const user = userId ? await client.users.getUser(userId) : null;
   
   // ✅ REAL DATA FETCHING
-  // Fetches actual bot records from PostgreSQL via Prisma
   const dbBots = await getUserBots();
   const activeBotCount = dbBots?.length || 0; 
   const logs = (user?.publicMetadata?.activityLogs as ActivityLog[]) || [];
 
+  /**
+   * PHASE 4 DATA MAPPING
+   * Sourced from database state synced via Stripe Webhooks (Phase 2 Step 4)
+   * Metadata structure matches the SubscriptionStatus component requirements.
+   */
+  const subscriptionData = (user?.publicMetadata?.subscription as any) || null;
+
   return (
-    // pb-40 ensures the bottom status bar doesn't overlap the charts on scroll
     <div className="pt-16 pb-40 space-y-12 animate-in fade-in duration-700 min-h-screen">
       
-      {/* 1. HEADER - Redundant UserButton Removed */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      {/* 1. HEADER - Corrected Placement for Phase 4 Component */}
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
         <div>
           <h1 className="text-4xl font-black text-white tracking-tight">
             Welcome back, {user?.firstName || "solobot"}
@@ -46,11 +53,15 @@ export default async function OverviewPage() {
           <p className="text-zinc-500 mt-2 font-medium">Monitoring your autonomous agency performance.</p>
         </div>
         
-        <div className="flex items-center gap-3">
-          {/* ✅ Navigates to workspace to start bot creation */}
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          {/* 🟢 Phase 4: Read-only Subscription Mirror */}
+          <div className="w-full md:w-80">
+            <SubscriptionStatus subscription={subscriptionData} />
+          </div>
+
           <Link 
             href="/dashboard/workspace" 
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl text-sm font-black transition-all shadow-lg shadow-indigo-600/30 active:scale-95"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl text-sm font-black transition-all shadow-lg shadow-indigo-600/30 active:scale-95 whitespace-nowrap"
           >
             <Plus className="w-5 h-5" /> START NEW PROJECT
           </Link>
@@ -60,7 +71,6 @@ export default async function OverviewPage() {
       {/* 2. KPI STAT CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          // ✅ REAL DATA: Wired to activeBotCount from database
           { label: "Active Bots", value: activeBotCount, icon: Bot, color: "text-indigo-400", bg: "bg-indigo-500/10" },
           { label: "Running Tasks", value: "4", icon: Activity, color: "text-blue-400", bg: "bg-blue-500/10" },
           { label: "Success Rate", value: "92%", icon: CheckCircle, color: "text-emerald-400", bg: "bg-emerald-500/10" },
@@ -83,13 +93,10 @@ export default async function OverviewPage() {
       {/* 3. MAIN CONTENT GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
         <div className="lg:col-span-2 space-y-8 flex flex-col">
-          
-          {/* SYSTEM STATUS TERMINAL */}
           <div className="flex-1">
             <SystemTerminal />
           </div>
 
-          {/* LIVE USAGE TRENDS CHART */}
           <div className="bg-[#111827] border border-zinc-800 rounded-3xl p-8 shadow-2xl">
             <div className="flex items-center justify-between mb-8">
               <div>
