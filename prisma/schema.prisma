@@ -6,6 +6,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // Note: url is moved to prisma.config.ts for Prisma 7 compatibility
 }
 
 model User {
@@ -130,15 +131,18 @@ model InboxMessage {
   createdAt DateTime @default(now())
 }
 
+// ✅ Model for Stripe Webhook Idempotency
 model ProcessedStripeEvent {
   id        String   @id @default(cuid())
   eventId   String   @unique
   createdAt DateTime @default(now())
 }
 
+// ✅ Model for Usage Enforcement (Final Corrected Version)
 model ExecutionRecord {
-  id        String   @id @default(cuid())
-  userId    String
-  status    String   @default("active") // ✅ Added missing 'status' field
-  timestamp DateTime @default(now())
+  id           String   @id @default(cuid())
+  userId       String
+  status       String   @default("active")
+  isAutonomous Boolean  @default(false)
+  timestamp    DateTime @default(now())
 }
