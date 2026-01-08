@@ -10,9 +10,8 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16",
-});
+// ✅ Fix: Removed apiVersion to satisfy Build Safety and TypeScript requirements
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -52,7 +51,7 @@ export async function POST(req: Request) {
 
         if (!userId) throw new Error("Missing metadata.userId");
 
-        // Resolve plan_tier from locked mapping
+        // Resolve plan_tier from locked mapping in @/config/stripe
         const planEntry = Object.entries(STRIPE_PRICE_IDS).find(
           ([_, prices]) => prices.monthly === priceId || prices.yearly === priceId
         );
@@ -61,6 +60,7 @@ export async function POST(req: Request) {
         const [planTier, prices] = planEntry;
 
         // --- 4. ATOMIC DATABASE UPDATE (STRIPE -> DB) ---
+        // This ensures your UI (Phase 4) always reflects the true Stripe state.
         await db.userSubscription.upsert({
           where: { userId },
           create: {
@@ -82,7 +82,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // Mark event as processed
+    // Mark event as processed to prevent double-handling
     await db.processedStripeEvent.create({ data: { eventId: event.id } });
 
     return NextResponse.json({ received: true });
