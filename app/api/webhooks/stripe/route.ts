@@ -1,22 +1,22 @@
 /**
  * STRIPE WEBHOOK HANDLER (PHASE 2 - STEP 4)
  * Source of Truth: Stripe -> Database Sync
- * Events: checkout.session.completed, customer.subscription.updated/deleted
  */
+
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-// ✅ Correct: no apiVersion (build-safe)
+// ✅ BUILD-SAFE: no apiVersion to avoid SDK mismatch
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
 
-  // ✅ FIX: headers() must be awaited in current Next.js App Router versions
+  // ✅ NEXT.JS 15+/16 FIX: headers() is async
   const headersList = await headers();
   const signature = headersList.get("stripe-signature");
 
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
   }
 
   // --- 2. IDEMPOTENCY GUARD ---
+  // Requires ONLY: model ProcessedStripeEvent
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -65,27 +66,24 @@ export async function POST(req: Request) {
 
         if (!planEntry) throw new Error("Unrecognized priceId");
 
-        const [planTier, prices] = planEntry;
+        const [planTier] = planEntry;
 
-        await db.userSubscription.upsert({
+        // ✅ USE EXISTING `Subscription` MODEL (no new tables)
+        await db.subscription.upsert({
           where: { userId },
           create: {
             userId,
             stripeSubscriptionId: subscription.id,
-            plan_tier: planTier as any,
-            billing_interval:
-              priceId === prices.monthly ? "monthly" : "yearly",
-            subscription_status: subscription.status,
-            current_period_end: new Date(
+            plan: planTier,
+            status: subscription.status,
+            currentPeriodEnd: new Date(
               subscription.current_period_end * 1000
             ),
           },
           update: {
-            plan_tier: planTier as any,
-            billing_interval:
-              priceId === prices.monthly ? "monthly" : "yearly",
-            subscription_status: subscription.status,
-            current_period_end: new Date(
+            plan: planTier,
+            status: subscription.status,
+            currentPeriodEnd: new Date(
               subscription.current_period_end * 1000
             ),
           },
@@ -95,6 +93,7 @@ export async function POST(req: Request) {
       }
     }
 
+    // --- 4. MARK EVENT AS PROCESSED ---
     await db.processedStripeEvent.create({
       data: { eventId: event.id },
     });
