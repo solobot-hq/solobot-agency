@@ -61,7 +61,8 @@ export const ModelName = {
   Task: 'Task',
   PulseEvent: 'PulseEvent',
   InboxMessage: 'InboxMessage',
-  ProcessedStripeEvent: 'ProcessedStripeEvent'
+  ProcessedStripeEvent: 'ProcessedStripeEvent',
+  ExecutionRecord: 'ExecutionRecord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -225,6 +226,15 @@ export const ProcessedStripeEventScalarFieldEnum = {
 } as const
 
 export type ProcessedStripeEventScalarFieldEnum = (typeof ProcessedStripeEventScalarFieldEnum)[keyof typeof ProcessedStripeEventScalarFieldEnum]
+
+
+export const ExecutionRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  timestamp: 'timestamp'
+} as const
+
+export type ExecutionRecordScalarFieldEnum = (typeof ExecutionRecordScalarFieldEnum)[keyof typeof ExecutionRecordScalarFieldEnum]
 
 
 export const SortOrder = {

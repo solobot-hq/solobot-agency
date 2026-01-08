@@ -94,3 +94,8 @@ export type InboxMessage = Prisma.InboxMessageModel
  * 
  */
 export type ProcessedStripeEvent = Prisma.ProcessedStripeEventModel
+/**
+ * Model ExecutionRecord
+ * 
+ */
+export type ExecutionRecord = Prisma.ExecutionRecordModel

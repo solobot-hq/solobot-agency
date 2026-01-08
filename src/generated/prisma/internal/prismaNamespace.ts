@@ -394,7 +394,8 @@ export const ModelName = {
   Task: 'Task',
   PulseEvent: 'PulseEvent',
   InboxMessage: 'InboxMessage',
-  ProcessedStripeEvent: 'ProcessedStripeEvent'
+  ProcessedStripeEvent: 'ProcessedStripeEvent',
+  ExecutionRecord: 'ExecutionRecord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "bot" | "subscription" | "lead" | "emailLog" | "videoJob" | "activity" | "task" | "pulseEvent" | "inboxMessage" | "processedStripeEvent"
+    modelProps: "user" | "bot" | "subscription" | "lead" | "emailLog" | "videoJob" | "activity" | "task" | "pulseEvent" | "inboxMessage" | "processedStripeEvent" | "executionRecord"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1228,6 +1229,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ExecutionRecord: {
+      payload: Prisma.$ExecutionRecordPayload<ExtArgs>
+      fields: Prisma.ExecutionRecordFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExecutionRecordFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExecutionRecordFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>
+        }
+        findFirst: {
+          args: Prisma.ExecutionRecordFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExecutionRecordFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>
+        }
+        findMany: {
+          args: Prisma.ExecutionRecordFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>[]
+        }
+        create: {
+          args: Prisma.ExecutionRecordCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>
+        }
+        createMany: {
+          args: Prisma.ExecutionRecordCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExecutionRecordCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>[]
+        }
+        delete: {
+          args: Prisma.ExecutionRecordDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>
+        }
+        update: {
+          args: Prisma.ExecutionRecordUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>
+        }
+        deleteMany: {
+          args: Prisma.ExecutionRecordDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExecutionRecordUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExecutionRecordUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>[]
+        }
+        upsert: {
+          args: Prisma.ExecutionRecordUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionRecordPayload>
+        }
+        aggregate: {
+          args: Prisma.ExecutionRecordAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExecutionRecord>
+        }
+        groupBy: {
+          args: Prisma.ExecutionRecordGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExecutionRecordGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExecutionRecordCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExecutionRecordCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1412,6 +1487,15 @@ export const ProcessedStripeEventScalarFieldEnum = {
 } as const
 
 export type ProcessedStripeEventScalarFieldEnum = (typeof ProcessedStripeEventScalarFieldEnum)[keyof typeof ProcessedStripeEventScalarFieldEnum]
+
+
+export const ExecutionRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  timestamp: 'timestamp'
+} as const
+
+export type ExecutionRecordScalarFieldEnum = (typeof ExecutionRecordScalarFieldEnum)[keyof typeof ExecutionRecordScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1643,6 +1727,7 @@ export type GlobalOmitConfig = {
   pulseEvent?: Prisma.PulseEventOmit
   inboxMessage?: Prisma.InboxMessageOmit
   processedStripeEvent?: Prisma.ProcessedStripeEventOmit
+  executionRecord?: Prisma.ExecutionRecordOmit
 }
 
 /* Types for Logging */
