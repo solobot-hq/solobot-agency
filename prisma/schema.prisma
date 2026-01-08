@@ -16,17 +16,14 @@ model User {
   stripeCustomerId String?       @unique
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
-
   activeTaskCount  Int           @default(0)
   dailyUsageCount  Int           @default(0)
   lastUsageReset   DateTime      @default(now())
   overageBalance   Int           @default(0)
-
   tier             String        @default("STARTER")
   creditsTotal     Int           @default(10)
   creditsUsed      Int           @default(0)
   plan             String        @default("FREE")
-
   activities       Activity[]
   bots             Bot[]
   emailLogs        EmailLog[]
@@ -45,7 +42,6 @@ model Bot {
   desc      String
   lastRun   DateTime @default(now())
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 }
 
@@ -61,7 +57,6 @@ model Subscription {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
   discountApplied      Boolean   @default(false)
-
   user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -76,7 +71,6 @@ model Lead {
   location     String?
   source       String   @default("scraper")
   createdAt    DateTime @default(now())
-
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -85,7 +79,6 @@ model EmailLog {
   userId    String
   text      String
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -97,7 +90,6 @@ model VideoJob {
   prompt    String?
   settings  Json?
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -107,7 +99,6 @@ model Activity {
   action    String
   metadata  Json?
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -117,7 +108,6 @@ model Task {
   type      String
   status    String   @default("PENDING")
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -141,18 +131,14 @@ model InboxMessage {
   createdAt DateTime @default(now())
 }
 
-//
-// REQUIRED FOR STRIPE WEBHOOK IDEMPOTENCY
-//
+// ✅ REQUIRED FOR STRIPE WEBHOOK IDEMPOTENCY
 model ProcessedStripeEvent {
   id        String   @id @default(cuid())
   eventId   String   @unique
   createdAt DateTime @default(now())
 }
 
-//
-// REQUIRED FOR USAGE ENFORCEMENT (CURRENT BUILD BLOCKER)
-//
+// ✅ REQUIRED FOR USAGE ENFORCEMENT
 model ExecutionRecord {
   id        String   @id @default(cuid())
   userId    String
