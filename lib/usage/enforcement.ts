@@ -4,11 +4,8 @@
  * Zero-trust implementation using rolling 24h windows.
  */
 
-import { db } from "@/lib/db"; // ✅ Matches the new named export in lib/db.ts
-import { PLAN_LIMITS } from "@/lib/billing/plans"; // Approved Phase 1 plan data
-
-// Note: If you need to perform server-side auth checks within this utility in the future,
-// use: import { getAuthUser } from "@/lib/auth";
+import { db } from "@/lib/db"; 
+import { AVAILABLE_PLANS } from "@/lib/billing/plans"; // ✅ Fixed: Aligned with authoritative export
 
 export type EnforcementResult = 
   | { allowed: true; executionId: string }
@@ -20,15 +17,22 @@ export type EnforcementResult =
  */
 export async function validateUsageEnforcement(
   userId: string,
-  planId: keyof typeof PLAN_LIMITS,
+  planId: string, // Changed to string for array lookup
   requestIsAutonomous: boolean
 ): Promise<EnforcementResult> {
-  const limits = PLAN_LIMITS[planId];
+  // 🟢 Phase 4 Sync: Resolve limits from the authoritative AVAILABLE_PLANS source
+  const plan = AVAILABLE_PLANS.find(p => p.id === planId);
+  if (!plan) return { allowed: false, reason: 'usage_limit' };
+
+  // Parse numeric limits from feature strings (e.g., "20 Daily Runs" -> 20)
+  const runsLimit = parseInt(plan.features[0]); 
+  const concurrencyLimit = parseInt(plan.features[1]);
+  
   const now = new Date();
   const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
   // --- GATE A: ROLLING 24H RUN GUARD ---
-  // Failed runs still count toward limits to prevent retry abuse.
+  // 
   const dailyRunCount = await db.executionRecord.count({
     where: {
       userId,
@@ -36,12 +40,12 @@ export async function validateUsageEnforcement(
     }
   });
 
-  if (dailyRunCount >= limits.runsPerDay) {
+  if (dailyRunCount >= runsLimit) {
     return { allowed: false, reason: 'usage_limit' };
   }
 
   // --- GATE B: CONCURRENCY GUARD ---
-  // Tracks threads that have not yet transitioned to 'completed' or 'failed'.
+  // 
   const activeThreads = await db.executionRecord.count({
     where: {
       userId,
@@ -49,27 +53,17 @@ export async function validateUsageEnforcement(
     }
   });
 
-  if (activeThreads >= limits.concurrency) {
+  if (activeThreads >= concurrencyLimit) {
     return { allowed: false, reason: 'concurrency_limit' };
   }
 
   // --- GATE C: AUTONOMY GATE ---
-  // Hard block for Starter tier attempting semi or full autonomy.
-  const planAutonomyMap = {
-    'Human-Reviewed Execution': 0,
-    'Semi-Autonomous Operation': 1,
-    'Full Operational Autonomy': 2
-  };
-
-  const userAutonomyLevel = planAutonomyMap[limits.autonomy as keyof typeof planAutonomyMap];
-  
-  // If request is autonomous but plan is "Human-Reviewed Execution", block.
-  if (requestIsAutonomous && userAutonomyLevel === 0) {
+  // Starter tier (Human-Reviewed) is blocked from autonomous intents.
+  if (requestIsAutonomous && plan.id === 'starter') {
     return { allowed: false, reason: 'autonomy_unauthorized' };
   }
 
   // --- GATE PASS: INITIATION ---
-  // Run is counted at initiation before execution record is created.
   const newExecution = await db.executionRecord.create({
     data: {
       userId,
