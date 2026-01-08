@@ -27,18 +27,21 @@ export type AggregateExecutionRecord = {
 export type ExecutionRecordMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  status: string | null
   timestamp: Date | null
 }
 
 export type ExecutionRecordMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  status: string | null
   timestamp: Date | null
 }
 
 export type ExecutionRecordCountAggregateOutputType = {
   id: number
   userId: number
+  status: number
   timestamp: number
   _all: number
 }
@@ -47,18 +50,21 @@ export type ExecutionRecordCountAggregateOutputType = {
 export type ExecutionRecordMinAggregateInputType = {
   id?: true
   userId?: true
+  status?: true
   timestamp?: true
 }
 
 export type ExecutionRecordMaxAggregateInputType = {
   id?: true
   userId?: true
+  status?: true
   timestamp?: true
 }
 
 export type ExecutionRecordCountAggregateInputType = {
   id?: true
   userId?: true
+  status?: true
   timestamp?: true
   _all?: true
 }
@@ -138,6 +144,7 @@ export type ExecutionRecordGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type ExecutionRecordGroupByOutputType = {
   id: string
   userId: string
+  status: string
   timestamp: Date
   _count: ExecutionRecordCountAggregateOutputType | null
   _min: ExecutionRecordMinAggregateOutputType | null
@@ -165,12 +172,14 @@ export type ExecutionRecordWhereInput = {
   NOT?: Prisma.ExecutionRecordWhereInput | Prisma.ExecutionRecordWhereInput[]
   id?: Prisma.StringFilter<"ExecutionRecord"> | string
   userId?: Prisma.StringFilter<"ExecutionRecord"> | string
+  status?: Prisma.StringFilter<"ExecutionRecord"> | string
   timestamp?: Prisma.DateTimeFilter<"ExecutionRecord"> | Date | string
 }
 
 export type ExecutionRecordOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -180,12 +189,14 @@ export type ExecutionRecordWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ExecutionRecordWhereInput[]
   NOT?: Prisma.ExecutionRecordWhereInput | Prisma.ExecutionRecordWhereInput[]
   userId?: Prisma.StringFilter<"ExecutionRecord"> | string
+  status?: Prisma.StringFilter<"ExecutionRecord"> | string
   timestamp?: Prisma.DateTimeFilter<"ExecutionRecord"> | Date | string
 }, "id">
 
 export type ExecutionRecordOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   _count?: Prisma.ExecutionRecordCountOrderByAggregateInput
   _max?: Prisma.ExecutionRecordMaxOrderByAggregateInput
@@ -198,66 +209,77 @@ export type ExecutionRecordScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ExecutionRecordScalarWhereWithAggregatesInput | Prisma.ExecutionRecordScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ExecutionRecord"> | string
   userId?: Prisma.StringWithAggregatesFilter<"ExecutionRecord"> | string
+  status?: Prisma.StringWithAggregatesFilter<"ExecutionRecord"> | string
   timestamp?: Prisma.DateTimeWithAggregatesFilter<"ExecutionRecord"> | Date | string
 }
 
 export type ExecutionRecordCreateInput = {
   id?: string
   userId: string
+  status?: string
   timestamp?: Date | string
 }
 
 export type ExecutionRecordUncheckedCreateInput = {
   id?: string
   userId: string
+  status?: string
   timestamp?: Date | string
 }
 
 export type ExecutionRecordUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExecutionRecordUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExecutionRecordCreateManyInput = {
   id?: string
   userId: string
+  status?: string
   timestamp?: Date | string
 }
 
 export type ExecutionRecordUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExecutionRecordUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExecutionRecordCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
 export type ExecutionRecordMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
 export type ExecutionRecordMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -266,28 +288,32 @@ export type ExecutionRecordMinOrderByAggregateInput = {
 export type ExecutionRecordSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  status?: boolean
   timestamp?: boolean
 }, ExtArgs["result"]["executionRecord"]>
 
 export type ExecutionRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  status?: boolean
   timestamp?: boolean
 }, ExtArgs["result"]["executionRecord"]>
 
 export type ExecutionRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  status?: boolean
   timestamp?: boolean
 }, ExtArgs["result"]["executionRecord"]>
 
 export type ExecutionRecordSelectScalar = {
   id?: boolean
   userId?: boolean
+  status?: boolean
   timestamp?: boolean
 }
 
-export type ExecutionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "timestamp", ExtArgs["result"]["executionRecord"]>
+export type ExecutionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "timestamp", ExtArgs["result"]["executionRecord"]>
 
 export type $ExecutionRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ExecutionRecord"
@@ -295,6 +321,7 @@ export type $ExecutionRecordPayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    status: string
     timestamp: Date
   }, ExtArgs["result"]["executionRecord"]>
   composites: {}
@@ -721,6 +748,7 @@ export interface Prisma__ExecutionRecordClient<T, Null = never, ExtArgs extends 
 export interface ExecutionRecordFieldRefs {
   readonly id: Prisma.FieldRef<"ExecutionRecord", 'String'>
   readonly userId: Prisma.FieldRef<"ExecutionRecord", 'String'>
+  readonly status: Prisma.FieldRef<"ExecutionRecord", 'String'>
   readonly timestamp: Prisma.FieldRef<"ExecutionRecord", 'DateTime'>
 }
     

@@ -1492,6 +1492,7 @@ export type ProcessedStripeEventScalarFieldEnum = (typeof ProcessedStripeEventSc
 export const ExecutionRecordScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  status: 'status',
   timestamp: 'timestamp'
 } as const
 

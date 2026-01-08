@@ -6,7 +6,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // ✅ PRISMA 7 FIX: The 'url' property is removed from here and moved to prisma.config.ts
 }
 
 model User {
@@ -131,16 +130,15 @@ model InboxMessage {
   createdAt DateTime @default(now())
 }
 
-// ✅ REQUIRED FOR STRIPE WEBHOOK IDEMPOTENCY
 model ProcessedStripeEvent {
   id        String   @id @default(cuid())
   eventId   String   @unique
   createdAt DateTime @default(now())
 }
 
-// ✅ REQUIRED FOR USAGE ENFORCEMENT
 model ExecutionRecord {
   id        String   @id @default(cuid())
   userId    String
+  status    String   @default("active") // ✅ Added missing 'status' field
   timestamp DateTime @default(now())
 }
