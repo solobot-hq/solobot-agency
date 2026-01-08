@@ -9,14 +9,14 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-// ✅ BUILD-SAFE: no apiVersion to avoid SDK mismatch
+// BUILD-SAFE: no apiVersion
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
 
-  // ✅ NEXT.JS 15+/16 FIX: headers() is async
+  // Next.js 15+/16: headers() is async
   const headersList = await headers();
   const signature = headersList.get("stripe-signature");
 
@@ -26,14 +26,14 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
 
-  // --- 1. SIGNATURE VERIFICATION ---
+  // 1. VERIFY SIGNATURE
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: any) {
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  // --- 2. IDEMPOTENCY GUARD ---
+  // 2. IDEMPOTENCY GUARD
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   }
 
-  // --- 3. EVENT FILTERING & STATE SYNC ---
+  // 3. HANDLE EVENTS
   try {
     switch (event.type) {
       case "checkout.session.completed":
@@ -50,9 +50,10 @@ export async function POST(req: Request) {
       case "customer.subscription.updated":
       case "customer.subscription.deleted": {
         const sessionOrSub = event.data.object as any;
-        const subscriptionId = sessionOrSub.subscription || sessionOrSub.id;
+        const subscriptionId =
+          sessionOrSub.subscription ?? sessionOrSub.id;
 
-        // ✅ FIX: Explicit cast to Stripe.Subscription to unwrap properties for TypeScript
+        // IMPORTANT: unwrap Stripe response for TS
         const subscription = (await stripe.subscriptions.retrieve(
           subscriptionId
         )) as Stripe.Subscription;
@@ -60,18 +61,22 @@ export async function POST(req: Request) {
         const priceId = subscription.items.data[0].price.id;
         const userId = sessionOrSub.metadata?.userId;
 
-        if (!userId) throw new Error("Missing metadata.userId");
+        if (!userId) {
+          throw new Error("Missing metadata.userId");
+        }
 
         const planEntry = Object.entries(STRIPE_PRICE_IDS).find(
           ([_, prices]) =>
             prices.monthly === priceId || prices.yearly === priceId
         );
 
-        if (!planEntry) throw new Error("Unrecognized priceId");
+        if (!planEntry) {
+          throw new Error("Unrecognized priceId");
+        }
 
         const [planTier] = planEntry;
 
-        // ✅ USE EXISTING `Subscription` MODEL
+        // WRITE TO EXISTING Subscription MODEL
         await db.subscription.upsert({
           where: { userId },
           create: {
@@ -79,12 +84,16 @@ export async function POST(req: Request) {
             stripeSubscriptionId: subscription.id,
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+            currentPeriodEnd: new Date(
+              subscription.currentPeriodEnd * 1000
+            ),
           },
           update: {
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+            currentPeriodEnd: new Date(
+              subscription.currentPeriodEnd * 1000
+            ),
           },
         });
 
@@ -92,7 +101,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // --- 4. MARK EVENT AS PROCESSED ---
+    // 4. MARK EVENT AS PROCESSED
     await db.processedStripeEvent.create({
       data: { eventId: event.id },
     });
