@@ -1,39 +1,39 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Production-Hardened Version: Zero-Crash Build Logic
+ * Full Production Version: Lazy Initialization & Build-Safe Guards
  */
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import OpenAI from "openai";
+import { getOpenAI } from "@/lib/openai"; 
 import { getAuthUser } from "@/lib/auth"; 
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ 1. MANDATORY: Tell Next.js to NEVER pre-render this route
+// ✅ 1. MANDATORY: Tell Next.js to NEVER pre-render this route during build
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // ✅ 2. BUILD-SAFE STRIPE INIT
-    // If the key is missing during build, we use a placeholder.
-    // In production, if it's still missing, we throw a 500 inside the request.
+    // ✅ 2. LAZY STRIPE INIT
+    // Uses placeholder during build to prevent constructor crash
     const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build";
     const stripe = new Stripe(stripeKey, {
       apiVersion: "2024-12-18.acacia",
       typescript: true,
     });
 
-    // ✅ 3. BUILD-SAFE OPENAI INIT
-    const aiKey = process.env.OPENAI_API_KEY || "dummy_key_for_build";
-    const openai = new OpenAI({ apiKey: aiKey });
+    // ✅ 3. LAZY OPENAI INIT
+    // Uses our helper which returns null during build instead of crashing
+    const openai = getOpenAI();
 
-    // ✅ 4. RUNTIME KEY CHECK: Only happens when a real user clicks
-    if (!process.env.STRIPE_SECRET_KEY || !process.env.OPENAI_API_KEY) {
-       console.error("❌ CRITICAL: Environment variables missing at runtime!");
-       return new NextResponse("Server configuration error", { status: 500 });
+    // ✅ 4. RUNTIME KEY CHECK
+    // This only triggers when a real user makes a request
+    if (!process.env.STRIPE_SECRET_KEY || !openai) {
+       console.error("❌ CRITICAL: Environment variables or AI service missing at runtime!");
+       return new NextResponse("Service Configuration Error", { status: 503 });
     }
 
     const { priceId, interval } = await req.json();
