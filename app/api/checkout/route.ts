@@ -11,7 +11,7 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ 1. FORCE DYNAMIC: Prevents build-time pre-rendering crashes
+// ✅ 1. FORCE DYNAMIC: This is the primary guard against build-time crashes
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
