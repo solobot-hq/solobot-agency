@@ -1,36 +1,44 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Final Build-Safe Version: Lazy Stripe & OpenAI Initialization
+ * Production-Hardened Version: Zero-Crash Build Logic
  */
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import OpenAI from "openai"; // Add OpenAI import
+import OpenAI from "openai";
 import { getAuthUser } from "@/lib/auth"; 
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ CRITICAL: Force dynamic to prevent Next.js from pre-rendering this at build time
+// ✅ 1. MANDATORY: Tell Next.js to NEVER pre-render this route
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 1. LAZY STRIPE INIT: Use fallback to satisfy build worker
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build", {
+    // ✅ 2. BUILD-SAFE STRIPE INIT
+    // If the key is missing during build, we use a placeholder.
+    // In production, if it's still missing, we throw a 500 inside the request.
+    const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build";
+    const stripe = new Stripe(stripeKey, {
       apiVersion: "2024-12-18.acacia",
       typescript: true,
     });
 
-    // 2. LAZY OPENAI INIT: Prevents "OPENAI_API_KEY is missing" crash
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY || "dummy_key_for_build",
-    });
+    // ✅ 3. BUILD-SAFE OPENAI INIT
+    const aiKey = process.env.OPENAI_API_KEY || "dummy_key_for_build";
+    const openai = new OpenAI({ apiKey: aiKey });
+
+    // ✅ 4. RUNTIME KEY CHECK: Only happens when a real user clicks
+    if (!process.env.STRIPE_SECRET_KEY || !process.env.OPENAI_API_KEY) {
+       console.error("❌ CRITICAL: Environment variables missing at runtime!");
+       return new NextResponse("Server configuration error", { status: 500 });
+    }
 
     const { priceId, interval } = await req.json();
     
-    // 3. Auth: Using the approved getAuthUser helper
+    // 5. Auth: Using the approved getAuthUser helper
     const user = await getAuthUser();
     const userId = user?.id;
 

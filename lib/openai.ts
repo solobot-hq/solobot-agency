@@ -1,23 +1,12 @@
+// lib/openai.ts
 import OpenAI from "openai";
 
-/**
- * ✅ FIX: Move the initialization into a function.
- * This prevents Next.js from running 'new OpenAI()' during the build process.
- */
-export const getOpenAIClient = () => {
+export function getOpenAI() {
   const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    // During build, we return a dummy client or handle it gracefully
-    // to keep the "Collecting page data" worker from crashing.
-    if (process.env.NODE_ENV === "production") {
-       console.warn("⚠️ OPENAI_API_KEY missing during build/runtime.");
-    }
-  }
-
+  
+  // During build, we provide a placeholder to prevent the crash
+  // During runtime, this will use your real Vercel key
   return new OpenAI({
-    apiKey: apiKey || "dummy_key_to_pass_build_check",
+    apiKey: apiKey || "sk_build_placeholder_ignore_this",
   });
-};
-
-// Instead of exporting 'openai', you now export the function.
+}
