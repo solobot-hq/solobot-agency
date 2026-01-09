@@ -1,30 +1,36 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Updated for Next.js 16 + Turbopack Build Safety
+ * Final Build-Safe Version: Lazy Stripe & OpenAI Initialization
  */
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import OpenAI from "openai"; // Add OpenAI import
 import { getAuthUser } from "@/lib/auth"; 
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
+// ✅ CRITICAL: Force dynamic to prevent Next.js from pre-rendering this at build time
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 1. BUILD-SAFE LAZY INIT: 
-    // We provide a dummy string if the key is missing during build.
-    // This prevents the "Neither apiKey nor config.authenticator provided" crash.
+    // 1. LAZY STRIPE INIT: Use fallback to satisfy build worker
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build", {
-      apiVersion: "2024-12-18.acacia", // Recommended to lock version
+      apiVersion: "2024-12-18.acacia",
       typescript: true,
+    });
+
+    // 2. LAZY OPENAI INIT: Prevents "OPENAI_API_KEY is missing" crash
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY || "dummy_key_for_build",
     });
 
     const { priceId, interval } = await req.json();
     
-    // 2. Auth: Using the approved getAuthUser helper
+    // 3. Auth: Using the approved getAuthUser helper
     const user = await getAuthUser();
     const userId = user?.id;
 
