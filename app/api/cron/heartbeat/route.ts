@@ -18,16 +18,19 @@ export async function GET(req: Request) {
         lastRun: { lt: oneDayAgo },
       },
       include: {
-        user: true,
+        user: true, // Required to access bot.user.tier
       },
     });
 
     const results = [];
 
     for (const bot of botsToRun) {
-      // 2. ✅ UPDATED: Use validateUsageEnforcement to check limits
-      // Passes 'true' for isAutonomous to trigger autonomous logic
-      const usageCheck = await validateUsageEnforcement(bot.user.clerkId, true);
+      // 2. ✅ UPDATED: Added 3rd argument 'bot.user.tier' to match the function signature
+      const usageCheck = await validateUsageEnforcement(
+        bot.user.clerkId, 
+        true, 
+        bot.user.tier
+      );
 
       if (!usageCheck.allowed) {
         results.push({
@@ -39,7 +42,6 @@ export async function GET(req: Request) {
       }
 
       // 3. EXECUTE BOT LOGIC
-      // This is where you call your internal bot worker or AI function
       console.log(`🤖 Executing Autonomous Bot: ${bot.name} (User: ${bot.user.email})`);
 
       // 4. ATOMIC UPDATE: Transaction ensures we only log if the bot "runs"
@@ -52,7 +54,7 @@ export async function GET(req: Request) {
           data: {
             userId: bot.user.clerkId,
             status: "success",
-            isAutonomous: true, // ✅ Correctly flagged for usage tracking
+            isAutonomous: true, 
           },
         }),
       ]);
