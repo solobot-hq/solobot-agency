@@ -1,19 +1,30 @@
 // lib/openai.ts
-import OpenAI from "openai";
 
-let openaiInstance: OpenAI | null = null;
+/**
+ * P0 FIX: TOTAL ISOLATION
+ * We do not use top-level imports. This ensures the OpenAI library
+ * is not evaluated during the Next.js build process.
+ */
+let client: any = null;
 
-export const getOpenAI = () => {
+export function getOpenAI() {
+  // 1. Check for the key. During Vercel build, this is empty.
   const apiKey = process.env.OPENAI_API_KEY;
 
-  // Build-time safety: return null if the key is missing
-  if (!apiKey) return null;
-
-  if (!openaiInstance) {
-    openaiInstance = new OpenAI({
-      apiKey: apiKey,
-    });
+  if (!apiKey) {
+    // Return null so the build worker can finish without crashing.
+    return null;
   }
 
-  return openaiInstance;
-};
+  // 2. Singleton pattern
+  if (client) return client;
+
+  // 3. INTERNAL REQUIRE: This prevents build-time evaluation of the OpenAI SDK
+  const OpenAI = require("openai");
+  
+  client = new OpenAI({
+    apiKey: apiKey,
+  });
+
+  return client;
+}
