@@ -1,5 +1,4 @@
-// /prisma.config.ts
-import "dotenv/config"; // ✅ Mandatory: Prisma 7 CLI does not auto-load .env
+import "dotenv/config"; 
 import { defineConfig } from "prisma/config";
 
 export default defineConfig({

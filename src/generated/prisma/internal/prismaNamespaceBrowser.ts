@@ -232,6 +232,7 @@ export const ExecutionRecordScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   status: 'status',
+  isAutonomous: 'isAutonomous',
   timestamp: 'timestamp'
 } as const
 

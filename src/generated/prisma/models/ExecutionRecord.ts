@@ -28,6 +28,7 @@ export type ExecutionRecordMinAggregateOutputType = {
   id: string | null
   userId: string | null
   status: string | null
+  isAutonomous: boolean | null
   timestamp: Date | null
 }
 
@@ -35,6 +36,7 @@ export type ExecutionRecordMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   status: string | null
+  isAutonomous: boolean | null
   timestamp: Date | null
 }
 
@@ -42,6 +44,7 @@ export type ExecutionRecordCountAggregateOutputType = {
   id: number
   userId: number
   status: number
+  isAutonomous: number
   timestamp: number
   _all: number
 }
@@ -51,6 +54,7 @@ export type ExecutionRecordMinAggregateInputType = {
   id?: true
   userId?: true
   status?: true
+  isAutonomous?: true
   timestamp?: true
 }
 
@@ -58,6 +62,7 @@ export type ExecutionRecordMaxAggregateInputType = {
   id?: true
   userId?: true
   status?: true
+  isAutonomous?: true
   timestamp?: true
 }
 
@@ -65,6 +70,7 @@ export type ExecutionRecordCountAggregateInputType = {
   id?: true
   userId?: true
   status?: true
+  isAutonomous?: true
   timestamp?: true
   _all?: true
 }
@@ -145,6 +151,7 @@ export type ExecutionRecordGroupByOutputType = {
   id: string
   userId: string
   status: string
+  isAutonomous: boolean
   timestamp: Date
   _count: ExecutionRecordCountAggregateOutputType | null
   _min: ExecutionRecordMinAggregateOutputType | null
@@ -173,6 +180,7 @@ export type ExecutionRecordWhereInput = {
   id?: Prisma.StringFilter<"ExecutionRecord"> | string
   userId?: Prisma.StringFilter<"ExecutionRecord"> | string
   status?: Prisma.StringFilter<"ExecutionRecord"> | string
+  isAutonomous?: Prisma.BoolFilter<"ExecutionRecord"> | boolean
   timestamp?: Prisma.DateTimeFilter<"ExecutionRecord"> | Date | string
 }
 
@@ -180,6 +188,7 @@ export type ExecutionRecordOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isAutonomous?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -190,6 +199,7 @@ export type ExecutionRecordWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ExecutionRecordWhereInput | Prisma.ExecutionRecordWhereInput[]
   userId?: Prisma.StringFilter<"ExecutionRecord"> | string
   status?: Prisma.StringFilter<"ExecutionRecord"> | string
+  isAutonomous?: Prisma.BoolFilter<"ExecutionRecord"> | boolean
   timestamp?: Prisma.DateTimeFilter<"ExecutionRecord"> | Date | string
 }, "id">
 
@@ -197,6 +207,7 @@ export type ExecutionRecordOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isAutonomous?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   _count?: Prisma.ExecutionRecordCountOrderByAggregateInput
   _max?: Prisma.ExecutionRecordMaxOrderByAggregateInput
@@ -210,6 +221,7 @@ export type ExecutionRecordScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ExecutionRecord"> | string
   userId?: Prisma.StringWithAggregatesFilter<"ExecutionRecord"> | string
   status?: Prisma.StringWithAggregatesFilter<"ExecutionRecord"> | string
+  isAutonomous?: Prisma.BoolWithAggregatesFilter<"ExecutionRecord"> | boolean
   timestamp?: Prisma.DateTimeWithAggregatesFilter<"ExecutionRecord"> | Date | string
 }
 
@@ -217,6 +229,7 @@ export type ExecutionRecordCreateInput = {
   id?: string
   userId: string
   status?: string
+  isAutonomous?: boolean
   timestamp?: Date | string
 }
 
@@ -224,6 +237,7 @@ export type ExecutionRecordUncheckedCreateInput = {
   id?: string
   userId: string
   status?: string
+  isAutonomous?: boolean
   timestamp?: Date | string
 }
 
@@ -231,6 +245,7 @@ export type ExecutionRecordUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  isAutonomous?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -238,6 +253,7 @@ export type ExecutionRecordUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  isAutonomous?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -245,6 +261,7 @@ export type ExecutionRecordCreateManyInput = {
   id?: string
   userId: string
   status?: string
+  isAutonomous?: boolean
   timestamp?: Date | string
 }
 
@@ -252,6 +269,7 @@ export type ExecutionRecordUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  isAutonomous?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -259,6 +277,7 @@ export type ExecutionRecordUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  isAutonomous?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -266,6 +285,7 @@ export type ExecutionRecordCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isAutonomous?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -273,6 +293,7 @@ export type ExecutionRecordMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isAutonomous?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -280,6 +301,7 @@ export type ExecutionRecordMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isAutonomous?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -289,6 +311,7 @@ export type ExecutionRecordSelect<ExtArgs extends runtime.Types.Extensions.Inter
   id?: boolean
   userId?: boolean
   status?: boolean
+  isAutonomous?: boolean
   timestamp?: boolean
 }, ExtArgs["result"]["executionRecord"]>
 
@@ -296,6 +319,7 @@ export type ExecutionRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   id?: boolean
   userId?: boolean
   status?: boolean
+  isAutonomous?: boolean
   timestamp?: boolean
 }, ExtArgs["result"]["executionRecord"]>
 
@@ -303,6 +327,7 @@ export type ExecutionRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   id?: boolean
   userId?: boolean
   status?: boolean
+  isAutonomous?: boolean
   timestamp?: boolean
 }, ExtArgs["result"]["executionRecord"]>
 
@@ -310,10 +335,11 @@ export type ExecutionRecordSelectScalar = {
   id?: boolean
   userId?: boolean
   status?: boolean
+  isAutonomous?: boolean
   timestamp?: boolean
 }
 
-export type ExecutionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "timestamp", ExtArgs["result"]["executionRecord"]>
+export type ExecutionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "isAutonomous" | "timestamp", ExtArgs["result"]["executionRecord"]>
 
 export type $ExecutionRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ExecutionRecord"
@@ -322,6 +348,7 @@ export type $ExecutionRecordPayload<ExtArgs extends runtime.Types.Extensions.Int
     id: string
     userId: string
     status: string
+    isAutonomous: boolean
     timestamp: Date
   }, ExtArgs["result"]["executionRecord"]>
   composites: {}
@@ -749,6 +776,7 @@ export interface ExecutionRecordFieldRefs {
   readonly id: Prisma.FieldRef<"ExecutionRecord", 'String'>
   readonly userId: Prisma.FieldRef<"ExecutionRecord", 'String'>
   readonly status: Prisma.FieldRef<"ExecutionRecord", 'String'>
+  readonly isAutonomous: Prisma.FieldRef<"ExecutionRecord", 'Boolean'>
   readonly timestamp: Prisma.FieldRef<"ExecutionRecord", 'DateTime'>
 }
     
