@@ -1,15 +1,29 @@
 // lib/openai.ts
-import OpenAI from "openai";
 
 /**
- * THE FIX: Singleton/Helper for OpenAI
- * We provide a fallback string to satisfy the constructor during 'next build'
- * so that the SDK doesn't throw a "missing or empty" error.
+ * PRODUCTION-SAFE LAZY OPENAI
+ * This prevents ANY OpenAI code from running during the 'next build' 
+ * static analysis phase. 
  */
-export function getOpenAI() {
-  const apiKey = process.env.OPENAI_API_KEY || "sk_build_placeholder_ignore_this";
+let client: any = null;
 
-  return new OpenAI({
+export function getOpenAI() {
+  // 1. Return cached client if available
+  if (client) return client;
+
+  // 2. Strict runtime check (Vercel will have this key only at runtime)
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error("OPENAI_API_KEY is missing. This should not happen at runtime.");
+  }
+
+  // 3. LAZY REQUIRE: This is the magic. 
+  // It stops the 'openai' library from being evaluated at import-time.
+  const OpenAI = require("openai");
+  
+  client = new OpenAI({
     apiKey: apiKey,
   });
+
+  return client;
 }

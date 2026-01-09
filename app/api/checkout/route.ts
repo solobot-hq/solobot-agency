@@ -1,8 +1,7 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Full Production Version: Build-Safe Initialization
+ * Full Build-Safe Version: Lazy OpenAI Implementation
  */
-
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getOpenAI } from "@/lib/openai"; 
@@ -11,72 +10,39 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ 1. FORCE DYNAMIC: This is the primary guard against build-time crashes
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // ✅ 2. RUNTIME KEY VALIDATION
-    // Ensure we have REAL keys before proceeding with a real transaction.
-    if (!process.env.STRIPE_SECRET_KEY || !process.env.OPENAI_API_KEY) {
-      console.error("❌ CRITICAL: Environment variables missing at runtime!");
-      return new NextResponse("Service configuration error", { status: 500 });
-    }
-
-    // ✅ 3. BUILD-SAFE STRIPE INIT
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: "2024-12-18.acacia",
-      typescript: true,
-    });
-
-    // ✅ 4. BUILD-SAFE OPENAI INIT (using the new helper)
-    const openai = getOpenAI();
+    // 1. Auth & Usage (Check these BEFORE touching OpenAI)
+    const user = await getAuthUser();
+    if (!user?.id) return new NextResponse("Unauthorized", { status: 401 });
 
     const { priceId, interval } = await req.json();
-    
-    // 5. Auth: Using the approved getAuthUser helper
-    const user = await getAuthUser();
-    const userId = user?.id;
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
-    // --- 1. GUARD: INTERVAL INTEGRITY ---
     const intervalValidation = validatePriceInterval(priceId, interval as BillingInterval);
-    if (!intervalValidation.isValid) {
-      return new NextResponse(intervalValidation.error, { status: 400 });
-    }
+    if (!intervalValidation.isValid) return new NextResponse(intervalValidation.error, { status: 400 });
 
-    // --- 2. GUARD: USAGE ENFORCEMENT ---
-    const usageValidation = await validateUsageEnforcement(
-      userId, 
-      intervalValidation.planId!, 
-      false 
-    );
+    const usageValidation = await validateUsageEnforcement(user.id, intervalValidation.planId!, false);
+    if (!usageValidation.allowed) return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
 
-    if (!usageValidation.allowed) {
-      return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
-    }
+    // 2. Lazy Load OpenAI only when needed
+    const openai = getOpenAI();
 
-    // --- 3. SESSION CREATION ---
+    // 3. Stripe Logic
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: "2024-12-18.acacia",
+    });
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      billing_address_collection: "auto",
       customer_email: user.email!, 
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?canceled=true`,
-      metadata: {
-        userId: userId,
-      },
+      metadata: { userId: user.id },
     });
 
     return NextResponse.json({ url: session.url });
