@@ -2,8 +2,8 @@ import Stripe from "stripe";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
-// ✅ BUILD-SAFE: Similar to OpenAI, avoid passing an empty string.
+// ✅ BUILD-SAFE: Avoid passing an empty string to Stripe during build
 export const stripe = new Stripe(stripeSecretKey || "sk_test_placeholder", {
-  apiVersion: "2025-04-30.basil", // Update to your version
+  apiVersion: "2024-12-18.acacia", 
   typescript: true,
 });

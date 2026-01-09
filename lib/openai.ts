@@ -2,8 +2,10 @@ import OpenAI from "openai";
 
 const apiKey = process.env.OPENAI_API_KEY;
 
-// ✅ BUILD-SAFE: Provide a dummy key during build so the constructor doesn't crash.
-// Vercel will inject the real key into your runtime environment automatically.
+/** * ✅ BUILD-SAFE INITIALIZATION:
+ * During 'next build', environment variables might not be available yet.
+ * We provide a dummy string to prevent the constructor from throwing an error.
+ */
 export const openai = new OpenAI({
-  apiKey: apiKey || "dummy_key_for_build_process",
+  apiKey: apiKey || "placeholder_key_for_build",
 });
