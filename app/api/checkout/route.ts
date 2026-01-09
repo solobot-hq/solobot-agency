@@ -11,14 +11,14 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ 1. FORCE DYNAMIC: Essential to prevent build-time pre-rendering crashes
+// ✅ 1. FORCE DYNAMIC: Prevents build-time pre-rendering crashes
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
     // ✅ 2. RUNTIME KEY VALIDATION
-    // This ensures we have REAL keys before proceeding with a real transaction.
+    // Ensure we have REAL keys before proceeding with a real transaction.
     if (!process.env.STRIPE_SECRET_KEY || !process.env.OPENAI_API_KEY) {
       console.error("❌ CRITICAL: Environment variables missing at runtime!");
       return new NextResponse("Service configuration error", { status: 500 });
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       typescript: true,
     });
 
-    // ✅ 4. BUILD-SAFE OPENAI INIT
+    // ✅ 4. BUILD-SAFE OPENAI INIT (using the new helper)
     const openai = getOpenAI();
 
     const { priceId, interval } = await req.json();
