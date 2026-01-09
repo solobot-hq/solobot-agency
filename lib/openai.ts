@@ -2,18 +2,12 @@
 import OpenAI from "openai";
 
 /**
- * LAZY INITIALIZATION HELPER
- * This prevents the 'new OpenAI' constructor from running during the Next.js build.
- * It only runs at runtime when a real user triggers a request.
+ * BUILD-SAFE OPENAI CLIENT
+ * By providing a placeholder string, we satisfy the SDK's internal validation
+ * during the Next.js 'Collecting page data' phase.
  */
 export function getOpenAI() {
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    // During build, return null so the build worker doesn't crash.
-    // At runtime, this will be caught by the route handler.
-    return null;
-  }
+  const apiKey = process.env.OPENAI_API_KEY || "sk_build_placeholder_ignore_this";
 
   return new OpenAI({
     apiKey: apiKey,

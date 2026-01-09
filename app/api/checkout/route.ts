@@ -1,6 +1,6 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Full Production Version: Build-Safe & Lazy Init
+ * Full Production Version: Build-Safe Initialization
  */
 
 import { NextResponse } from "next/server";
@@ -11,34 +11,31 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ FORCE DYNAMIC: This tells Next.js to skip pre-rendering this route during build.
+// ✅ 1. FORCE DYNAMIC: Essential to prevent build-time pre-rendering crashes
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 1. BUILD-SAFE STRIPE INIT
-    // Provide a dummy string if key is missing during build to satisfy constructor
-    const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build";
-    const stripe = new Stripe(stripeKey, {
+    // ✅ 2. RUNTIME KEY VALIDATION
+    // This ensures we have REAL keys before proceeding with a real transaction.
+    if (!process.env.STRIPE_SECRET_KEY || !process.env.OPENAI_API_KEY) {
+      console.error("❌ CRITICAL: Environment variables missing at runtime!");
+      return new NextResponse("Service configuration error", { status: 500 });
+    }
+
+    // ✅ 3. BUILD-SAFE STRIPE INIT
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       apiVersion: "2024-12-18.acacia",
       typescript: true,
     });
 
-    // 2. LAZY OPENAI INIT
-    // Uses the helper that returns null instead of crashing if key is missing
+    // ✅ 4. BUILD-SAFE OPENAI INIT
     const openai = getOpenAI();
-
-    // 3. RUNTIME SAFETY CHECK
-    // This only triggers when a real user makes a request, not during build.
-    if (!process.env.STRIPE_SECRET_KEY || !openai) {
-       console.error("❌ CRITICAL: Configuration missing at runtime!");
-       return new NextResponse("Server configuration error", { status: 503 });
-    }
 
     const { priceId, interval } = await req.json();
     
-    // 4. Auth: Using the approved getAuthUser helper
+    // 5. Auth: Using the approved getAuthUser helper
     const user = await getAuthUser();
     const userId = user?.id;
 
