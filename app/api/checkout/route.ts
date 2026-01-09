@@ -1,11 +1,11 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Full Production Version: Zero-Crash Build Logic
+ * Full Production Version: Build-Safe & Lazy Init
  */
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { openai } from "@/lib/openai"; 
+import { getOpenAI } from "@/lib/openai"; 
 import { getAuthUser } from "@/lib/auth"; 
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
@@ -18,22 +18,27 @@ export const runtime = "nodejs";
 export async function POST(req: Request) {
   try {
     // 1. BUILD-SAFE STRIPE INIT
+    // Provide a dummy string if key is missing during build to satisfy constructor
     const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build";
     const stripe = new Stripe(stripeKey, {
       apiVersion: "2024-12-18.acacia",
       typescript: true,
     });
 
-    // 2. RUNTIME KEY CHECK
-    // This only runs when a REAL user makes a request, not during build.
-    if (!process.env.STRIPE_SECRET_KEY || !process.env.OPENAI_API_KEY) {
-       console.error("❌ CRITICAL: Environment variables missing at runtime!");
+    // 2. LAZY OPENAI INIT
+    // Uses the helper that returns null instead of crashing if key is missing
+    const openai = getOpenAI();
+
+    // 3. RUNTIME SAFETY CHECK
+    // This only triggers when a real user makes a request, not during build.
+    if (!process.env.STRIPE_SECRET_KEY || !openai) {
+       console.error("❌ CRITICAL: Configuration missing at runtime!");
        return new NextResponse("Server configuration error", { status: 503 });
     }
 
     const { priceId, interval } = await req.json();
     
-    // 3. Auth: Using the approved getAuthUser helper
+    // 4. Auth: Using the approved getAuthUser helper
     const user = await getAuthUser();
     const userId = user?.id;
 

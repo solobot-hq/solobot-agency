@@ -1,18 +1,21 @@
+// lib/openai.ts
 import OpenAI from "openai";
 
 /**
- * BUILD-SAFE OPENAI CLIENT
- * This prevents the "OPENAI_API_KEY is missing" error during Vercel build.
+ * LAZY INITIALIZATION HELPER
+ * This prevents the 'new OpenAI' constructor from running during the Next.js build.
+ * It only runs at runtime when a real user triggers a request.
  */
-const apiKey = process.env.OPENAI_API_KEY || "sk_build_placeholder_ignore_this";
+export function getOpenAI() {
+  const apiKey = process.env.OPENAI_API_KEY;
 
-export const openai = new OpenAI({
-  apiKey: apiKey,
-});
-
-// Export a helper to verify the key at runtime if needed
-export function validateOpenAIConfig() {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error("OPENAI_API_KEY is not set in environment variables.");
+  if (!apiKey) {
+    // During build, return null so the build worker doesn't crash.
+    // At runtime, this will be caught by the route handler.
+    return null;
   }
+
+  return new OpenAI({
+    apiKey: apiKey,
+  });
 }
