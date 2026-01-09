@@ -1,6 +1,6 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Full Production Version: Lazy Initialization & Build-Safe Guards
+ * Full Production Version: Zero-Crash Build Logic
  */
 
 import { NextResponse } from "next/server";
@@ -17,23 +17,23 @@ export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // ✅ 2. LAZY STRIPE INIT
-    // Uses placeholder during build to prevent constructor crash
+    // ✅ 2. BUILD-SAFE STRIPE INIT
+    // Provide a placeholder so the constructor doesn't crash during build collection
     const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build";
     const stripe = new Stripe(stripeKey, {
       apiVersion: "2024-12-18.acacia",
       typescript: true,
     });
 
-    // ✅ 3. LAZY OPENAI INIT
-    // Uses our helper which returns null during build instead of crashing
+    // ✅ 3. BUILD-SAFE OPENAI INIT
+    // Uses the helper that returns null instead of crashing if key is missing
     const openai = getOpenAI();
 
-    // ✅ 4. RUNTIME KEY CHECK
-    // This only triggers when a real user makes a request
+    // ✅ 4. RUNTIME SAFETY CHECK
+    // If we are live and these are missing, we throw a controlled error
     if (!process.env.STRIPE_SECRET_KEY || !openai) {
-       console.error("❌ CRITICAL: Environment variables or AI service missing at runtime!");
-       return new NextResponse("Service Configuration Error", { status: 503 });
+       console.error("❌ CRITICAL: Environment variables missing at runtime!");
+       return new NextResponse("Server configuration error", { status: 503 });
     }
 
     const { priceId, interval } = await req.json();

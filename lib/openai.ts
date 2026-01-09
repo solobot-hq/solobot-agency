@@ -2,21 +2,20 @@
 import OpenAI from "openai";
 
 /**
- * Lazy, runtime-safe OpenAI client.
- * - NEVER instantiates during build phase
- * - NEVER uses fake/dummy keys that trigger SDK validation errors
- * - Prevents "OPENAI_API_KEY is missing" build crashes
+ * Lazy, build-safe OpenAI client.
+ * - Prevents import-time execution crashes.
+ * - Returns null if the key is missing (during Next.js build).
+ * - Only instantiates during real user requests.
  */
 export function getOpenAI() {
   const apiKey = process.env.OPENAI_API_KEY;
 
-  // 1. If key is missing (common during Next.js build evaluation), 
-  // return null instead of throwing or providing a dummy key.
+  // If the key is missing (Build Time), return null instead of 'new OpenAI()'
   if (!apiKey) {
     return null;
   }
 
-  // 2. Only instantiate when the key is actually present (runtime)
+  // Only run this when we have a real key (Runtime)
   return new OpenAI({
     apiKey: apiKey,
   });
