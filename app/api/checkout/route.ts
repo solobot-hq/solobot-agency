@@ -1,7 +1,6 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Uses Phase 2 Guards: validatePriceInterval & validateUsageEnforcement
- * Destination: Stripe Checkout
+ * Updated for Next.js 16 + Turbopack Build Safety
  */
 
 import { NextResponse } from "next/server";
@@ -11,14 +10,21 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ Fix: Removed apiVersion to rely on stable account defaults
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
+    // 1. BUILD-SAFE LAZY INIT: 
+    // We provide a dummy string if the key is missing during build.
+    // This prevents the "Neither apiKey nor config.authenticator provided" crash.
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build", {
+      apiVersion: "2024-12-18.acacia", // Recommended to lock version
+      typescript: true,
+    });
+
     const { priceId, interval } = await req.json();
     
-    // ✅ Auth: Using the approved getAuthUser helper
+    // 2. Auth: Using the approved getAuthUser helper
     const user = await getAuthUser();
     const userId = user?.id;
 
@@ -26,13 +32,13 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // --- 1. GUARD: INTERVAL INTEGRITY (PHASE 2 - STEP 2) ---
+    // --- 1. GUARD: INTERVAL INTEGRITY ---
     const intervalValidation = validatePriceInterval(priceId, interval as BillingInterval);
     if (!intervalValidation.isValid) {
       return new NextResponse(intervalValidation.error, { status: 400 });
     }
 
-    // --- 2. GUARD: USAGE ENFORCEMENT (PHASE 2 - STEP 3) ---
+    // --- 2. GUARD: USAGE ENFORCEMENT ---
     const usageValidation = await validateUsageEnforcement(
       userId, 
       intervalValidation.planId!, 
@@ -58,7 +64,7 @@ export async function POST(req: Request) {
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?canceled=true`,
       metadata: {
-        userId: userId, // CRITICAL: Used by Step 4 Webhook for sync
+        userId: userId,
       },
     });
 

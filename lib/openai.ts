@@ -1,11 +1,20 @@
 import OpenAI from "openai";
 
-const apiKey = process.env.OPENAI_API_KEY;
+let openaiInstance: OpenAI | null = null;
 
-/** * ✅ BUILD-SAFE INITIALIZATION:
- * During 'next build', environment variables might not be available yet.
- * We provide a dummy string to prevent the constructor from throwing an error.
- */
-export const openai = new OpenAI({
-  apiKey: apiKey || "placeholder_key_for_build",
-});
+export function getOpenAI() {
+  if (openaiInstance) return openaiInstance;
+
+  const apiKey = process.env.OPENAI_API_KEY;
+  
+  if (!apiKey) {
+    // We throw a clear error here so you know if the ENV is missing at RUNTIME
+    throw new Error("CRITICAL: OPENAI_API_KEY is not defined in environment variables.");
+  }
+
+  openaiInstance = new OpenAI({
+    apiKey: apiKey,
+  });
+
+  return openaiInstance;
+}
