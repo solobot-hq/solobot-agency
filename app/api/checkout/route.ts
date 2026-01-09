@@ -10,12 +10,16 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
+// ✅ MANDATORY: Skips static page collection for this route
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 1. Auth & Usage (Check these BEFORE touching OpenAI)
+    // 1. Initialize Lazy OpenAI
+    const openai = getOpenAI();
+
+    // 2. Auth & Usage
     const user = await getAuthUser();
     if (!user?.id) return new NextResponse("Unauthorized", { status: 401 });
 
@@ -27,11 +31,14 @@ export async function POST(req: Request) {
     const usageValidation = await validateUsageEnforcement(user.id, intervalValidation.planId!, false);
     if (!usageValidation.allowed) return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
 
-    // 2. Lazy Load OpenAI only when needed
-    const openai = getOpenAI();
+    // 3. Runtime Safety: If we're live and keys are missing, fail here
+    if (!process.env.STRIPE_SECRET_KEY || !openai) {
+       console.error("❌ API Keys missing at runtime");
+       return new NextResponse("Service Configuration Error", { status: 503 });
+    }
 
-    // 3. Stripe Logic
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    // 4. Stripe Logic
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       apiVersion: "2024-12-18.acacia",
     });
 

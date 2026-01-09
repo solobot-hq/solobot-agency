@@ -2,23 +2,20 @@
 
 /**
  * PRODUCTION-SAFE LAZY OPENAI
- * This prevents ANY OpenAI code from running during the 'next build' 
- * static analysis phase. 
+ * This prevents the OpenAI library from being evaluated during 'next build'.
  */
 let client: any = null;
 
 export function getOpenAI() {
-  // 1. Return cached client if available
+  // 1. If we're in the build worker, process.env.OPENAI_API_KEY will be empty.
+  // We return null so the build can proceed.
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) return null;
+
+  // 2. Return cached client if available
   if (client) return client;
 
-  // 2. Strict runtime check (Vercel will have this key only at runtime)
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error("OPENAI_API_KEY is missing. This should not happen at runtime.");
-  }
-
-  // 3. LAZY REQUIRE: This is the magic. 
-  // It stops the 'openai' library from being evaluated at import-time.
+  // 3. LAZY REQUIRE: This is the ONLY way to stop import-time execution.
   const OpenAI = require("openai");
   
   client = new OpenAI({
