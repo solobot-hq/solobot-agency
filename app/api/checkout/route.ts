@@ -1,106 +1,66 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Full Production Version — Build-Safe, Runtime-Strict
+ * Final Build-Safe Version: ZERO GLOBAL EXECUTIONS
  */
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getAuthUser } from "@/lib/auth";
+import { getOpenAI } from "@/lib/openai"; 
+import { getAuthUser } from "@/lib/auth"; 
 import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// 🚫 NEVER allow static pre-rendering
+// ✅ FORCE DYNAMIC: This is the primary guard against "Collecting page data" crashes
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    /**
-     * 1. RUNTIME ENV VALIDATION
-     * (Do NOT attempt to survive without real keys)
-     */
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+    // 1. STRIPE INIT (Placeholder for Build)
+    const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_for_build";
+    const stripe = new Stripe(stripeKey, {
+      apiVersion: "2024-12-18.acacia",
+      typescript: true,
+    });
 
-    if (!stripeSecretKey || !appUrl) {
-      console.error("❌ Missing required environment variables");
-      return new NextResponse("Server configuration error", { status: 503 });
+    // 2. OPENAI INIT (Lazy via Helper)
+    const openai = getOpenAI();
+
+    // 3. RUNTIME CHECK: If we are live and keys are missing, throw a 503
+    if (!process.env.STRIPE_SECRET_KEY || !openai) {
+       console.error("❌ CRITICAL: Configuration missing at runtime!");
+       return new NextResponse("Service configuration error", { status: 503 });
     }
 
-    /**
-     * 2. SAFE STRIPE INITIALIZATION
-     * No apiVersion pinning, no placeholders
-     */
-    const stripe = new Stripe(stripeSecretKey);
-
-    /**
-     * 3. REQUEST PAYLOAD
-     */
     const { priceId, interval } = await req.json();
-
-    /**
-     * 4. AUTH
-     */
+    
+    // 4. AUTH & USAGE GUARDS
     const user = await getAuthUser();
     const userId = user?.id;
+    if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
-    if (!userId || !user?.email) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+    const intervalValidation = validatePriceInterval(priceId, interval as BillingInterval);
+    if (!intervalValidation.isValid) return new NextResponse(intervalValidation.error, { status: 400 });
 
-    /**
-     * 5. PLAN / INTERVAL VALIDATION
-     */
-    const intervalValidation = validatePriceInterval(
-      priceId,
-      interval as BillingInterval
-    );
+    const usageValidation = await validateUsageEnforcement(userId, intervalValidation.planId!, false);
+    if (!usageValidation.allowed) return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
 
-    if (!intervalValidation.isValid) {
-      return new NextResponse(intervalValidation.error!, { status: 400 });
-    }
-
-    /**
-     * 6. USAGE ENFORCEMENT
-     */
-    const usageValidation = await validateUsageEnforcement(
-      userId,
-      intervalValidation.planId!,
-      false
-    );
-
-    if (!usageValidation.allowed) {
-      return new NextResponse(
-        `Limit exceeded: ${usageValidation.reason}`,
-        { status: 403 }
-      );
-    }
-
-    /**
-     * 7. STRIPE CHECKOUT SESSION
-     */
+    // 5. SESSION CREATION
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
       payment_method_types: ["card"],
       billing_address_collection: "auto",
-      customer_email: user.email,
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      success_url: `${appUrl}/dashboard/billing?success=true`,
-      cancel_url: `${appUrl}/dashboard/billing?canceled=true`,
-      metadata: {
-        userId,
-      },
+      customer_email: user.email!, 
+      line_items: [{ price: priceId, quantity: 1 }],
+      mode: "subscription",
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?canceled=true`,
+      metadata: { userId },
     });
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error("❌ Checkout Error:", error);
+    console.error("Checkout Error:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
