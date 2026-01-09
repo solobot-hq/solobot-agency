@@ -1,6 +1,6 @@
 /**
  * CHECKOUT SESSION CREATION (PHASE 3)
- * Full Build-Safe Version: Lazy OpenAI Implementation
+ * Full Build-Safe Production Version
  */
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -10,38 +10,39 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ MANDATORY: Skips static page collection for this route
+// ✅ 1. PREVENT STATIC ANALYSIS CRASHES
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 1. Initialize Lazy OpenAI
+    // 2. INITIALIZE CLIENTS
+    // Stripe constructor is generally build-safe, but we guard it anyway
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
+      apiVersion: "2024-12-18.acacia",
+    });
+    
+    // Lazy-load OpenAI
     const openai = getOpenAI();
 
-    // 2. Auth & Usage
+    // 3. RUNTIME CHECK: If keys are missing during a live request, fail gracefully
+    if (!process.env.STRIPE_SECRET_KEY || !openai) {
+      console.error("❌ API Keys missing at runtime");
+      return new NextResponse("Service Configuration Error", { status: 500 });
+    }
+
+    const { priceId, interval } = await req.json();
     const user = await getAuthUser();
     if (!user?.id) return new NextResponse("Unauthorized", { status: 401 });
 
-    const { priceId, interval } = await req.json();
-
+    // 4. VALIDATIONS
     const intervalValidation = validatePriceInterval(priceId, interval as BillingInterval);
     if (!intervalValidation.isValid) return new NextResponse(intervalValidation.error, { status: 400 });
 
     const usageValidation = await validateUsageEnforcement(user.id, intervalValidation.planId!, false);
     if (!usageValidation.allowed) return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
 
-    // 3. Runtime Safety: If we're live and keys are missing, fail here
-    if (!process.env.STRIPE_SECRET_KEY || !openai) {
-       console.error("❌ API Keys missing at runtime");
-       return new NextResponse("Service Configuration Error", { status: 503 });
-    }
-
-    // 4. Stripe Logic
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: "2024-12-18.acacia",
-    });
-
+    // 5. STRIPE SESSION
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       customer_email: user.email!, 
