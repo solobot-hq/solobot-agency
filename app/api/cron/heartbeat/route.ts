@@ -1,60 +1,72 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { checkUsage } from "@/lib/usage/enforcement";
+import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 
 export async function GET(req: Request) {
-  // 🔒 Security: Check for Cron Secret (set this in Vercel/Env)
-  const authHeader = req.headers.get('authorization');
+  // 🔒 Security: Check for Cron Secret (Set in Vercel Dashboard)
+  const authHeader = req.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new NextResponse('Unauthorized', { status: 401 });
+    return new NextResponse("Unauthorized", { status: 401 });
   }
 
   try {
-    // 1. Find active bots that haven't run in 24 hours
+    // 1. Find active bots that haven't run in the last 24 hours
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const botsToRun = await db.bot.findMany({
       where: {
         status: "active",
-        lastRun: { lt: oneDayAgo }
+        lastRun: { lt: oneDayAgo },
       },
-      include: { user: true }
+      include: {
+        user: true,
+      },
     });
 
     const results = [];
 
     for (const bot of botsToRun) {
-      // 2. Check Usage Limits
-      const canRun = await checkUsage(bot.user.clerkId, true);
-      
-      if (!canRun.allowed) {
-        results.push({ botId: bot.id, status: "skipped", reason: "Usage limit reached" });
+      // 2. ✅ UPDATED: Use validateUsageEnforcement to check limits
+      // Passes 'true' for isAutonomous to trigger autonomous logic
+      const usageCheck = await validateUsageEnforcement(bot.user.clerkId, true);
+
+      if (!usageCheck.allowed) {
+        results.push({
+          botId: bot.id,
+          status: "skipped",
+          reason: usageCheck.reason || "Limit reached",
+        });
         continue;
       }
 
-      // 3. EXECUTE BOT LOGIC HERE (Simulated for now)
-      console.log(`🤖 Executing Bot: ${bot.name} for User: ${bot.user.email}`);
+      // 3. EXECUTE BOT LOGIC
+      // This is where you call your internal bot worker or AI function
+      console.log(`🤖 Executing Autonomous Bot: ${bot.name} (User: ${bot.user.email})`);
 
-      // 4. Update Bot lastRun and Create Record
+      // 4. ATOMIC UPDATE: Transaction ensures we only log if the bot "runs"
       await db.$transaction([
         db.bot.update({
           where: { id: bot.id },
-          data: { lastRun: new Date() }
+          data: { lastRun: new Date() },
         }),
         db.executionRecord.create({
           data: {
             userId: bot.user.clerkId,
             status: "success",
-            isAutonomous: true
-          }
-        })
+            isAutonomous: true, // ✅ Correctly flagged for usage tracking
+          },
+        }),
       ]);
 
       results.push({ botId: bot.id, status: "executed" });
     }
 
-    return NextResponse.json({ processed: results.length, details: results });
-  } catch (error) {
-    console.error("Cron Heartbeat Failed:", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({
+      success: true,
+      processedCount: results.length,
+      details: results,
+    });
+  } catch (error: any) {
+    console.error("Cron Heartbeat Failed:", error.message);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
