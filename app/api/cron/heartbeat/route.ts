@@ -25,11 +25,14 @@ export async function GET(req: Request) {
     const results = [];
 
     for (const bot of botsToRun) {
-      // 2. ✅ UPDATED: Added 3rd argument 'bot.user.tier' to match the function signature
+      // 2. ✅ FIXED: Swapped 'true' and 'bot.user.tier' to match the function signature
+      // Parameter 1: userId (string)
+      // Parameter 2: tier (string)
+      // Parameter 3: isAutonomous (boolean)
       const usageCheck = await validateUsageEnforcement(
         bot.user.clerkId, 
-        true, 
-        bot.user.tier
+        bot.user.tier,
+        true
       );
 
       if (!usageCheck.allowed) {
@@ -42,9 +45,10 @@ export async function GET(req: Request) {
       }
 
       // 3. EXECUTE BOT LOGIC
+      // This is where your AI / Task logic resides
       console.log(`🤖 Executing Autonomous Bot: ${bot.name} (User: ${bot.user.email})`);
 
-      // 4. ATOMIC UPDATE: Transaction ensures we only log if the bot "runs"
+      // 4. ATOMIC UPDATE: Log the run and the usage record together
       await db.$transaction([
         db.bot.update({
           where: { id: bot.id },
