@@ -1,29 +1,19 @@
 // lib/openai.ts
+import OpenAI from "openai";
 
-/**
- * P0 FIX: LAZY RUNTIME INITIALIZATION
- * This prevents ANY OpenAI code from being evaluated during 'next build'.
- */
-let client: any = null;
+let openaiInstance: OpenAI | null = null;
 
-export function getOpenAI() {
-  // 1. Check for key first (this will be empty during build)
+export const getOpenAI = () => {
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    // During build, we return null so the static collector doesn't crash.
-    return null;
+
+  // Build-time safety: return null if the key is missing
+  if (!apiKey) return null;
+
+  if (!openaiInstance) {
+    openaiInstance = new OpenAI({
+      apiKey: apiKey,
+    });
   }
 
-  // 2. Singleton check
-  if (client) return client;
-
-  // 3. LAZY REQUIRE: This is the ONLY way to prevent import-time execution.
-  // We use require here to avoid top-level ESM imports.
-  const OpenAI = require("openai");
-  
-  client = new OpenAI({
-    apiKey: apiKey,
-  });
-
-  return client;
-}
+  return openaiInstance;
+};
