@@ -1,8 +1,9 @@
-import { defineConfig } from "@prisma/config";
+import { defineConfig } from "prisma/config";
 
 export default defineConfig({
   schema: "./prisma/schema.prisma",
   datasource: {
-    url: process.env.DATABASE_URL
+    // Vercel already provides DATABASE_URL in the environment
+    url: process.env.DATABASE_URL 
   }
 });
