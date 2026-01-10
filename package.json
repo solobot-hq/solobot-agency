@@ -7,11 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-
-    "postinstall": "prisma generate --schema=prisma/schema.prisma",
-
-    "db:push": "prisma db push --schema=prisma/schema.prisma",
-    "db:studio": "prisma studio --schema=prisma/schema.prisma"
+    "postinstall": "echo skipping prisma generate on install",
+    "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
+    "prisma:push": "prisma db push --schema=prisma/schema.prisma",
+    "prisma:studio": "prisma studio --schema=prisma/schema.prisma"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.958.0",
@@ -54,6 +53,7 @@
     "@types/ws": "^8.5.13",
     "autoprefixer": "^10.4.23",
     "baseline-browser-mapping": "^2.9.11",
+    "dotenv": "^17.2.3",
     "postcss": "^8.5.1",
     "prisma": "^7.2.0",
     "tailwindcss": "^4.0.0",
