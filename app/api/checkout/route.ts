@@ -19,11 +19,12 @@ export async function POST(req: Request) {
     const { priceId, interval } = await req.json();
 
     // 2. Initialize Clients
+    // Updated to current 2026 Clover version to satisfy TypeScript
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
-      apiVersion: "2024-12-18.acacia",
+      apiVersion: "2025-12-15.clover",
     });
 
-    // 3. LAZY OPENAI: getOpenAI() now returns null during build
+    // 3. LAZY OPENAI: getOpenAI() handles null/missing keys gracefully
     const openai = getOpenAI();
 
     // 4. RUNTIME GUARD: If we are live and keys are missing, fail here.
