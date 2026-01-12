@@ -9,12 +9,27 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-12-15.clover",
-});
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+// ✅ 1. Tell Next.js 16 this route is strictly dynamic. 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
+  // ✅ 2. LAZY INITIALIZATION: Call Stripe constructor INSIDE the handler.
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error("❌ STRIPE_SECRET_KEY is missing at runtime!");
+    return new NextResponse("Configuration Error", { status: 500 });
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-12-15.clover" as any,
+  });
+
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error("❌ STRIPE_WEBHOOK_SECRET is missing at runtime!");
+    return new NextResponse("Configuration Error", { status: 500 });
+  }
+
   const body = await req.text();
   const headersList = await headers();
   const signature = headersList.get("stripe-signature");
@@ -32,6 +47,7 @@ export async function POST(req: Request) {
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
+  // Deduplication check
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -49,7 +65,7 @@ export async function POST(req: Request) {
         const sessionOrSub = event.data.object as any;
         const subscriptionId = sessionOrSub.subscription ?? sessionOrSub.id;
 
-        // 1. Retrieve the subscription with items
+        // Retrieve the subscription with items
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
         const userId = sessionOrSub.metadata?.userId || subscription.metadata?.userId;
@@ -57,7 +73,7 @@ export async function POST(req: Request) {
           throw new Error("Missing metadata.userId");
         }
 
-        // 2. Identify the plan
+        // Identify the plan
         const priceId = subscription.items.data[0].price.id;
         const planEntry = Object.entries(STRIPE_PRICE_IDS).find(
           ([_, prices]) => prices.monthly === priceId || prices.yearly === priceId
@@ -68,14 +84,9 @@ export async function POST(req: Request) {
         }
 
         const [planTier] = planEntry;
-
-        /**
-         * ✅ STRIPE CLOVER FIX: 
-         * Access 'current_period_end' from the first item.
-         */
         const periodEndUnix = subscription.items.data[0].current_period_end;
 
-        // 3. Atomic Database Sync
+        // Atomic Database Sync
         await db.subscription.upsert({
           where: { userId },
           create: {
