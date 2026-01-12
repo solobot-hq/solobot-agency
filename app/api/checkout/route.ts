@@ -6,42 +6,50 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ 1. Tell Next.js 16 this route is strictly dynamic. 
-// This stops "Collecting page data" from failing during the build.
+/**
+ * ✅ BUILD-SAFE CONFIGURATION
+ * force-dynamic ensures this route is never pre-rendered during 'next build'
+ */
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 2. Check Auth first
+    // 1. Initial Authentication (No API keys needed yet)
     const user = await getAuthUser();
     if (!user?.id) return new NextResponse("Unauthorized", { status: 401 });
 
     const { priceId, interval } = await req.json();
 
-    // 3. Initialize Stripe
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-      apiVersion: "2025-12-15.clover",
-    });
+    // 2. LAZY CLIENT INITIALIZATION
+    // We check for environment variables inside the handler to prevent build-time crashes
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
 
-    // ✅ 4. LAZY INITIALIZATION: Call getOpenAI() INSIDE the handler.
-    // This ensures it ONLY runs at runtime when the API key is actually available.
-    const openai = getOpenAI();
-
-    // 5. RUNTIME GUARD: Check for keys before proceeding
-    if (!process.env.STRIPE_SECRET_KEY || !openai) {
-       console.error("❌ Infrastructure missing at runtime!");
-       return new NextResponse("Service Configuration Error", { status: 503 });
+    if (!stripeKey || !openaiKey) {
+      console.error("❌ Infrastructure missing: Check your environment variables.");
+      return new NextResponse("Configuration Error", { status: 503 });
     }
 
-    // 6. VALIDATIONS
+    // Initialize Stripe only when the request hits
+    const stripe = new Stripe(stripeKey, {
+      apiVersion: "2025-12-15.clover", // Updated build-safe version
+    });
+
+    // Initialize OpenAI via the lazy-loading helper
+    const openai = getOpenAI();
+    if (!openai) {
+      return new NextResponse("AI Service Unavailable", { status: 503 });
+    }
+
+    // 3. RUNTIME VALIDATIONS
     const intervalValidation = validatePriceInterval(priceId, interval as BillingInterval);
     if (!intervalValidation.isValid) return new NextResponse(intervalValidation.error, { status: 400 });
 
     const usageValidation = await validateUsageEnforcement(user.id, intervalValidation.planId!, false);
     if (!usageValidation.allowed) return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
 
-    // 7. CREATE SESSION
+    // 4. CREATE STRIPE CHECKOUT SESSION
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       customer_email: user.email!, 
@@ -53,8 +61,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error("Checkout Error:", error);
+  } catch (error: any) {
+    console.error("Checkout Error:", error.message || error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

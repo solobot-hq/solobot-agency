@@ -1,9 +1,19 @@
 import OpenAI from "openai";
 
-// Create the instance
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let client: OpenAI | null = null;
 
-// If you have getOpenAI, keep it, but add the export above
-export const getOpenAI = () => openai;
+export function getOpenAI() {
+  // Runtime Guard: Ensure we have the key when actually called
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY is not set in environment variables");
+  }
+
+  // Singleton Pattern: Only create the client once
+  if (!client) {
+    client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+
+  return client;
+}
