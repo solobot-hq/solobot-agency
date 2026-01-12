@@ -6,45 +6,42 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ 1. Tell Next.js 16 this route is strictly dynamic to avoid build-time pre-rendering
+// ✅ 1. Tell Next.js 16 this route is strictly dynamic. 
+// This stops "Collecting page data" from failing during the build.
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // ✅ 2. AUTH GUARD: Check this first before initializing heavy SDKs
+    // 2. Check Auth first
     const user = await getAuthUser();
     if (!user?.id) return new NextResponse("Unauthorized", { status: 401 });
 
     const { priceId, interval } = await req.json();
 
-    // ✅ 3. INITIALIZE STRIPE: Use a runtime check for the key
-    const stripeKey = process.env.STRIPE_SECRET_KEY;
-    if (!stripeKey) {
-       console.error("❌ STRIPE_SECRET_KEY missing at runtime!");
-       return new NextResponse("Payment Configuration Error", { status: 503 });
-    }
-
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: "2025-12-15.clover", // Latest 2026 build-safe version
+    // 3. Initialize Stripe
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
+      apiVersion: "2025-12-15.clover",
     });
 
-    // ✅ 4. INITIALIZE OPENAI: Call this INSIDE the handler. 
-    // This ensures it never runs during 'next build' where keys are absent.
+    // ✅ 4. LAZY INITIALIZATION: Call getOpenAI() INSIDE the handler.
+    // This ensures it ONLY runs at runtime when the API key is actually available.
     const openai = getOpenAI();
-    if (!openai) {
-       console.error("❌ OpenAI Configuration missing at runtime!");
-       return new NextResponse("AI Service Configuration Error", { status: 503 });
+
+    // 5. RUNTIME GUARD: Check for keys before proceeding
+    if (!process.env.STRIPE_SECRET_KEY || !openai) {
+       console.error("❌ Infrastructure missing at runtime!");
+       return new NextResponse("Service Configuration Error", { status: 503 });
     }
 
-    // 5. VALIDATIONS
+    // 6. VALIDATIONS
     const intervalValidation = validatePriceInterval(priceId, interval as BillingInterval);
     if (!intervalValidation.isValid) return new NextResponse(intervalValidation.error, { status: 400 });
 
     const usageValidation = await validateUsageEnforcement(user.id, intervalValidation.planId!, false);
     if (!usageValidation.allowed) return new NextResponse(`Limit Exceeded: ${usageValidation.reason}`, { status: 403 });
 
-    // 6. CREATE SESSION
+    // 7. CREATE SESSION
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       customer_email: user.email!, 
