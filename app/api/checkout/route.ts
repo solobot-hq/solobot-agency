@@ -6,31 +6,35 @@ import { validatePriceInterval } from "@/lib/billing/validator";
 import { validateUsageEnforcement } from "@/lib/usage/enforcement";
 import { BillingInterval } from "@/config/stripe";
 
-// ✅ CRITICAL: Force dynamic to kill pre-rendering
+// ✅ 1. Tell Next.js 16 this route is strictly dynamic to avoid build-time pre-rendering
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 1. Check Auth & Input first (Building-safe)
+    // ✅ 2. AUTH GUARD: Check this first before initializing heavy SDKs
     const user = await getAuthUser();
     if (!user?.id) return new NextResponse("Unauthorized", { status: 401 });
 
     const { priceId, interval } = await req.json();
 
-    // 2. Initialize Clients
-    // Updated to current 2026 Clover version to satisfy TypeScript
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
-      apiVersion: "2025-12-15.clover",
+    // ✅ 3. INITIALIZE STRIPE: Use a runtime check for the key
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey) {
+       console.error("❌ STRIPE_SECRET_KEY missing at runtime!");
+       return new NextResponse("Payment Configuration Error", { status: 503 });
+    }
+
+    const stripe = new Stripe(stripeKey, {
+      apiVersion: "2025-12-15.clover", // Latest 2026 build-safe version
     });
 
-    // 3. LAZY OPENAI: getOpenAI() handles null/missing keys gracefully
+    // ✅ 4. INITIALIZE OPENAI: Call this INSIDE the handler. 
+    // This ensures it never runs during 'next build' where keys are absent.
     const openai = getOpenAI();
-
-    // 4. RUNTIME GUARD: If we are live and keys are missing, fail here.
-    if (!process.env.STRIPE_SECRET_KEY || !openai) {
-       console.error("❌ Infrastructure missing at runtime!");
-       return new NextResponse("Service Configuration Error", { status: 503 });
+    if (!openai) {
+       console.error("❌ OpenAI Configuration missing at runtime!");
+       return new NextResponse("AI Service Configuration Error", { status: 503 });
     }
 
     // 5. VALIDATIONS
