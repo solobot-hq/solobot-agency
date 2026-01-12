@@ -2,17 +2,35 @@ import OpenAI from "openai";
 
 let client: OpenAI | null = null;
 
+/**
+ * ✅ LAZY INITIALIZATION SINGLETON
+ * Safe for Next.js 16 Build Environment
+ */
 export function getOpenAI() {
-  // Runtime Guard: Ensure we have the key when actually called
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error("OPENAI_API_KEY is not set in environment variables");
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  // 1. BUILD-TIME GUARD
+  // During 'next build', env vars are often missing. 
+  // We return null to allow the build to finish.
+  if (!apiKey) {
+    // Only log this in development/build to avoid cluttering production
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn("⚠️ OPENAI_API_KEY is missing. Client will remain null.");
+    }
+    return null;
   }
 
-  // Singleton Pattern: Only create the client once
+  // 2. SINGLETON INITIALIZATION
+  // This only runs the first time the function is called at runtime
   if (!client) {
-    client = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+    try {
+      client = new OpenAI({
+        apiKey: apiKey,
+      });
+    } catch (error) {
+      console.error("❌ Failed to initialize OpenAI client:", error);
+      return null;
+    }
   }
 
   return client;
