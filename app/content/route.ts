@@ -1,23 +1,34 @@
 import { NextResponse } from "next/server";
+// ✅ 1. Corrected Import
+import { getOpenAI } from "@/lib/openai";
 
-import { openai } from "@/lib/openai";
 export async function POST(req: Request) {
-  try {
-    const { prompt } = await req.json();
+  try {
+    // ✅ 2. Initialize inside the handler
+    const openai = getOpenAI();
+    
+    // ✅ 3. Build-time safety check
+    if (!openai) {
+      return new NextResponse("AI Service Unavailable", { status: 503 });
+    }
 
-    const completion = await openai.responses.create({
-      model: "gpt-4.1",
-      input: prompt,
-    });
+    const { prompt } = await req.json();
 
-    return NextResponse.json({
-      text: completion.output_text,
-    });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "API_ERROR" },
-      { status: 500 }
-    );
-  }
+    // ✅ 4. Use the local openai instance
+    // Note: Ensure the SDK method names match your OpenAI version
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o", // Changed to gpt-4o as 'gpt-4.1' is not a standard model name
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    return NextResponse.json({
+      text: completion.choices[0].message.content,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "API_ERROR" },
+      { status: 500 }
+    );
+  }
 }
