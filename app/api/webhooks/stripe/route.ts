@@ -1,6 +1,6 @@
 /**
  * STRIPE WEBHOOK HANDLER (PHASE 2 - STEP 4)
- * Authoritative Sync: Stripe -> Database
+ * Updated for Next.js 16 + Prisma 7 + Stripe Clover (2025-12-15)
  */
 
 import { headers } from "next/headers";
@@ -9,14 +9,13 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { STRIPE_PRICE_IDS } from "@/config/stripe";
 
-// ✅ BUILD-SAFE: No hardcoded apiVersion to prevent SDK/Account mismatches
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-12-15.clover",
+});
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
-
-  // ✅ NEXT.JS 16 FIX: headers() is now async and must be awaited
   const headersList = await headers();
   const signature = headersList.get("stripe-signature");
 
@@ -26,7 +25,6 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
 
-  // --- 1. SIGNATURE VERIFICATION ---
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: any) {
@@ -34,8 +32,6 @@ export async function POST(req: Request) {
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  // --- 2. IDEMPOTENCY GUARD ---
-  // ✅ PRISMA SYNC: Requires 'processedStripeEvent' to be correctly staged in Git
   const existingEvent = await db.processedStripeEvent.findUnique({
     where: { eventId: event.id },
   });
@@ -44,7 +40,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   }
 
-  // --- 3. EVENT FILTERING & STATE SYNC ---
   try {
     switch (event.type) {
       case "checkout.session.completed":
@@ -54,21 +49,18 @@ export async function POST(req: Request) {
         const sessionOrSub = event.data.object as any;
         const subscriptionId = sessionOrSub.subscription ?? sessionOrSub.id;
 
-        // ✅ TS FIX: Explicit cast to unwrap properties from Stripe.Response wrapper
-        const subscription = (await stripe.subscriptions.retrieve(
-          subscriptionId
-        )) as any;
+        // 1. Retrieve the subscription with items
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
-        const priceId = subscription.items.data[0].price.id;
-        const userId = sessionOrSub.metadata?.userId;
-
+        const userId = sessionOrSub.metadata?.userId || subscription.metadata?.userId;
         if (!userId) {
           throw new Error("Missing metadata.userId");
         }
 
+        // 2. Identify the plan
+        const priceId = subscription.items.data[0].price.id;
         const planEntry = Object.entries(STRIPE_PRICE_IDS).find(
-          ([_, prices]) =>
-            prices.monthly === priceId || prices.yearly === priceId
+          ([_, prices]) => prices.monthly === priceId || prices.yearly === priceId
         );
 
         if (!planEntry) {
@@ -77,7 +69,13 @@ export async function POST(req: Request) {
 
         const [planTier] = planEntry;
 
-        // --- 4. ATOMIC DATABASE SYNC ---
+        /**
+         * ✅ STRIPE CLOVER FIX: 
+         * Access 'current_period_end' from the first item.
+         */
+        const periodEndUnix = subscription.items.data[0].current_period_end;
+
+        // 3. Atomic Database Sync
         await db.subscription.upsert({
           where: { userId },
           create: {
@@ -85,12 +83,13 @@ export async function POST(req: Request) {
             stripeSubscriptionId: subscription.id,
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+            currentPeriodEnd: new Date(periodEndUnix * 1000),
           },
           update: {
+            stripeSubscriptionId: subscription.id,
             plan: planTier,
             status: subscription.status,
-            currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+            currentPeriodEnd: new Date(periodEndUnix * 1000),
           },
         });
 
@@ -98,7 +97,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // Mark event as processed to prevent duplicate logic
+    // Mark event as processed
     await db.processedStripeEvent.create({
       data: { eventId: event.id },
     });

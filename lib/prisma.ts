@@ -1,32 +1,42 @@
-import { Pool, neonConfig } from "@neondatabase/serverless";
+// /lib/prisma.ts
 import { PrismaNeon } from "@prisma/adapter-neon";
+// ✅ Fix: neonConfig must come from @neondatabase/serverless
+import { neonConfig } from "@neondatabase/serverless";
 import ws from "ws";
-// IMPORTANT: Point to your custom generated client path
+// ✅ Pointing to your custom generated client path
 import { PrismaClient } from "../src/generated/prisma/client";
 
 if (typeof window === "undefined") {
-  // Sets up WebSocket connections for Neon serverless communication
+  /**
+   * Required for Neon serverless to communicate over WebSockets
+   * in Node.js environments.
+   */
   neonConfig.webSocketConstructor = ws;
 }
 
-const prismaClientSingleton = () => {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    throw new Error("CRITICAL: DATABASE_URL is missing from environment variables");
-  }
+const connectionString = process.env.DATABASE_URL;
 
-  // Neon handles connection pooling via the serverless driver
-  const pool = new Pool({ connectionString });
-  const adapter = new PrismaNeon(pool);
+if (!connectionString) {
+  throw new Error("DATABASE_URL is missing");
+}
 
-  // In v7, driver adapters are the mandatory architecture for Neon
-  return new PrismaClient({ adapter, log: ["error"] });
+const globalForPrisma = globalThis as unknown as {
+  prisma?: PrismaClient;
 };
 
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton> | undefined;
-} & typeof global;
+/**
+ * Singleton pattern for Prisma 7 + Neon.
+ * We pass the connectionString directly into PrismaNeon.
+ */
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    adapter: new PrismaNeon({ connectionString }),
+    log: ["error", "warn"],
+  });
 
-export const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
 
-if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;
+export default prisma;
