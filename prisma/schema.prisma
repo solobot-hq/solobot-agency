@@ -1,29 +1,40 @@
+// 📄 Location: prisma/schema.prisma
+// 🔒 STABLE CONFIGURATION FOR NEON + PRISMA V6/V7 COMPATIBILITY
+
 generator client {
-  provider   = "prisma-client"
-  output     = "../src/generated/prisma"
-  engineType = "node"
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+  
+  // moduleFormat forces ESM for Next.js 15/16/Turbopack compatibility
+  moduleFormat = "esm"
 }
 
 datasource db {
-  provider = "postgresql"
-  // Note: url is moved to prisma.config.ts for Prisma 7 compatibility
+  provider     = "postgresql"
+  // 🟢 FIXED: url is required for Prisma 6 CLI validation
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
+// ==========================================
+// 🛡️ MODELS (RESTORED)
+// ==========================================
+
 model User {
-  id               String        @id @default(cuid())
-  email            String        @unique
-  clerkId          String        @unique
-  stripeCustomerId String?       @unique
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  activeTaskCount  Int           @default(0)
-  dailyUsageCount  Int           @default(0)
-  lastUsageReset   DateTime      @default(now())
-  overageBalance   Int           @default(0)
-  tier             String        @default("STARTER")
-  creditsTotal     Int           @default(10)
-  creditsUsed      Int           @default(0)
-  plan             String        @default("FREE")
+  id               String            @id @default(cuid())
+  email            String            @unique
+  clerkId          String            @unique
+  stripeCustomerId String?           @unique
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  activeTaskCount  Int               @default(0)
+  dailyUsageCount  Int               @default(0)
+  lastUsageReset   DateTime          @default(now())
+  overageBalance   Int               @default(0)
+  tier             String            @default("STARTER")
+  creditsTotal     Int               @default(10)
+  creditsUsed      Int               @default(0)
+  plan             String            @default("FREE")
   activities       Activity[]
   bots             Bot[]
   emailLogs        EmailLog[]
@@ -31,18 +42,33 @@ model User {
   subscriptions    Subscription?
   tasks            Task[]
   videoJobs        VideoJob[]
+  executionRecords ExecutionRecord[]
 }
 
 model Bot {
-  id        String   @id @default(cuid())
-  userId    String
-  name      String
-  type      String
-  status    String   @default("Idle")
-  desc      String
-  lastRun   DateTime @default(now())
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  id         String        @id @default(cuid())
+  userId     String
+  name       String
+  type       String
+  status     String        @default("Idle")
+  isRunning  Boolean       @default(false)
+  desc       String
+  lastRun    DateTime      @default(now())
+  createdAt  DateTime      @default(now())
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities Activity[]
+  persona    AgentPersona?
+}
+
+model AgentPersona {
+  id           String   @id @default(cuid())
+  botId        String   @unique
+  systemPrompt String   @db.Text
+  riskLevel    String   @default("LOW")
+  capabilities String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  bot          Bot      @relation(fields: [botId], references: [id], onDelete: Cascade)
 }
 
 model Subscription {
@@ -58,6 +84,18 @@ model Subscription {
   updatedAt            DateTime  @updatedAt
   discountApplied      Boolean   @default(false)
   user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  userId    String
+  botId     String?
+  action    String
+  type      String   @default("INFO")
+  metadata  Json?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bot       Bot?     @relation(fields: [botId], references: [id], onDelete: SetNull)
 }
 
 model Lead {
@@ -93,15 +131,6 @@ model VideoJob {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Activity {
-  id        String   @id @default(cuid())
-  userId    String
-  action    String
-  metadata  Json?
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model Task {
   id        String   @id @default(cuid())
   userId    String
@@ -131,18 +160,17 @@ model InboxMessage {
   createdAt DateTime @default(now())
 }
 
-// ✅ Model for Stripe Webhook Idempotency
 model ProcessedStripeEvent {
   id        String   @id @default(cuid())
   eventId   String   @unique
   createdAt DateTime @default(now())
 }
 
-// ✅ Model for Usage Enforcement (Final Corrected Version)
 model ExecutionRecord {
   id           String   @id @default(cuid())
   userId       String
   status       String   @default("active")
-  isAutonomous Boolean  @default(false)
   timestamp    DateTime @default(now())
+  isAutonomous Boolean  @default(false)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
