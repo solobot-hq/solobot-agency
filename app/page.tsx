@@ -1,15 +1,11 @@
+"use client"; // Required for the scrollToPricing function to work
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Zap, Globe, Shield, Check } from "lucide-react";
+import { ArrowRight, Zap, Globe, Shield } from "lucide-react";
 import { ModeToggle } from "@/components/ModeToggle";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Metadata } from "next";
 import Pricing from "@/components/Pricing";
-
-export const metadata: Metadata = {
-  title: "SoloBotAgency | Professional AI Workforce",
-  description: "Deploy autonomous AI agents to handle sales, support, and marketing 24/7.",
-};
 
 export default function LandingPage() {
   const features = [
@@ -18,8 +14,13 @@ export default function LandingPage() {
     { icon: Globe, title: "Autonomous Reliability", desc: "Your digital workforce operates 24/7 within strict, cost-predictable usage caps." }
   ];
 
+  // This function prevents the redirect and slides the user down the page
+  const scrollToPricing = () => {
+    const element = document.getElementById('pricing');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    // Lightened base background from #05070a to #0c0e12
     <div className="min-h-screen bg-[#0c0e12] text-white selection:bg-indigo-500/30 transition-colors duration-300 overflow-x-hidden antialiased">
       
       <header>
@@ -36,7 +37,13 @@ export default function LandingPage() {
               <ModeToggle />
               <SignedOut>
                 <Link href="/sign-in" className="text-zinc-400 hover:text-white transition-colors">Login</Link>
-                <Link href="/sign-up" className="hidden sm:block bg-white text-black hover:bg-zinc-200 px-5 py-2 rounded-md font-semibold transition-all shadow-sm">Get Started</Link>
+                {/* Fixed: Nav button scrolls instead of redirecting */}
+                <button 
+                  onClick={scrollToPricing}
+                  className="hidden sm:block bg-white text-black hover:bg-zinc-200 px-5 py-2 rounded-md font-semibold transition-all shadow-sm"
+                >
+                  Get Started
+                </button>
               </SignedOut>
               <SignedIn>
                 <Link href="/dashboard" className="text-zinc-400 hover:text-white transition-colors">Dashboard</Link>
@@ -48,7 +55,6 @@ export default function LandingPage() {
       </header>
 
       <main>
-        {/* Hero: Balanced contrast */}
         <section className="relative pt-44 pb-24 border-b border-white/[0.05]">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-700 bg-zinc-800/40 text-zinc-300 text-[10px] font-bold uppercase tracking-widest mb-8">
@@ -62,21 +68,27 @@ export default function LandingPage() {
             
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
               Deploy autonomous AI agents to handle sales, support, and marketing 24/7. 
-              Infrastructure-safe workforce logic for the modern enterprise.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/sign-up" className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 bg-white text-black font-semibold rounded-md hover:bg-zinc-200 transition-all shadow-sm">
+              {/* Fixed: Hero buttons now scroll to the pricing section */}
+              <button 
+                onClick={scrollToPricing}
+                className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 bg-white text-black font-semibold rounded-md hover:bg-zinc-200 transition-all shadow-sm"
+              >
                 Start Starter Trial <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="#pricing" className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 text-white font-semibold rounded-md border border-zinc-700 hover:bg-zinc-800/50 transition-all">
+              </button>
+              <button 
+                onClick={scrollToPricing}
+                className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 text-white font-semibold rounded-md border border-zinc-700 hover:bg-zinc-800/50 transition-all"
+              >
                 View Pricing
-              </Link>
+              </button>
             </div>
           </div>
         </section>
 
-        {/* Feature Grid: Tiles use #161920 to contrast against #0c0e12 background */}
+        {/* Feature Grid */}
         <section className="py-24 bg-[#0c0e12]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-3 gap-8">
@@ -93,12 +105,15 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <Pricing />
+        {/* Ensure your Pricing component is wrapped in a div with id="pricing" */}
+        <div id="pricing">
+          <Pricing />
+        </div>
       </main>
 
       <footer className="py-16 border-t border-white/[0.05] bg-[#0c0e12] text-center">
         <p className="text-zinc-600 text-xs font-medium tracking-[0.3em] uppercase">
-          &copy; 2025 SOLOBOTAGENCY. ONE BOT. INFINITE TASKS.
+          &copy; 2025 SOLOBOTAGENCY.
         </p>
       </footer>
     </div>
