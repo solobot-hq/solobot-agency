@@ -9,10 +9,12 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
   
   // ✅ SALES FUNNEL: Smooth scroll to pricing targets the ID in your Pricing component
   const handleScrollToPricing = (e: React.MouseEvent) => {
+    e.preventDefault();
     const section = document.getElementById("pricing");
     if (section) {
-      e.preventDefault();
-      section.scrollIntoView({ behavior: "smooth" });
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      console.warn("Pricing section not found. Ensure id='pricing' exists in Pricing component.");
     }
   };
 
@@ -59,8 +61,9 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             
             {/* GET STARTED - Now triggers smooth scroll to start selling immediately */}
             <button 
+              type="button"
               onClick={handleScrollToPricing}
-              className="text-base md:text-xl font-black text-white px-8 py-4 md:px-12 md:py-6 rounded-2xl md:rounded-3xl bg-indigo-600 hover:bg-indigo-700 transition-all shadow-[0_0_40px_rgba(79,70,229,0.3)] whitespace-nowrap"
+              className="text-base md:text-xl font-black text-white px-8 py-4 md:px-12 md:py-6 rounded-2xl md:rounded-3xl bg-indigo-600 hover:bg-indigo-700 transition-all shadow-[0_0_40px_rgba(79,70,229,0.3)] whitespace-nowrap cursor-pointer"
             >
               GET STARTED
             </button>
