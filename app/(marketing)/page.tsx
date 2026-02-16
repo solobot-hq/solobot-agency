@@ -14,15 +14,18 @@ export default function LandingPage() {
     { icon: Globe, title: "Autonomous Reliability", desc: "Your digital workforce operates 24/7 within strict, cost-predictable usage caps." }
   ];
 
-  // This function prevents the redirect and slides the user down the page
+  // Logic to glide the user down to the pricing section
   const scrollToPricing = () => {
     const element = document.getElementById('pricing');
-    element?.scrollIntoView({ behavior: 'smooth' });
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#0c0e12] text-white selection:bg-indigo-500/30 transition-colors duration-300 overflow-x-hidden antialiased">
       
+      {/* Navigation */}
       <header>
         <nav className="border-b border-white/[0.05] backdrop-blur-xl fixed top-0 w-full z-50 bg-[#0c0e12]/80">
           <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
@@ -37,10 +40,9 @@ export default function LandingPage() {
               <ModeToggle />
               <SignedOut>
                 <Link href="/sign-in" className="text-zinc-400 hover:text-white transition-colors">Login</Link>
-                {/* Fixed: Nav button scrolls instead of redirecting */}
                 <button 
                   onClick={scrollToPricing}
-                  className="hidden sm:block bg-white text-black hover:bg-zinc-200 px-5 py-2 rounded-md font-semibold transition-all shadow-sm"
+                  className="hidden sm:block bg-white text-black hover:bg-zinc-200 px-5 py-2 rounded-md font-semibold transition-all shadow-sm active:scale-95"
                 >
                   Get Started
                 </button>
@@ -55,6 +57,7 @@ export default function LandingPage() {
       </header>
 
       <main>
+        {/* Hero Section */}
         <section className="relative pt-44 pb-24 border-b border-white/[0.05]">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-700 bg-zinc-800/40 text-zinc-300 text-[10px] font-bold uppercase tracking-widest mb-8">
@@ -71,16 +74,15 @@ export default function LandingPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              {/* Fixed: Hero buttons now scroll to the pricing section */}
               <button 
                 onClick={scrollToPricing}
-                className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 bg-white text-black font-semibold rounded-md hover:bg-zinc-200 transition-all shadow-sm"
+                className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 bg-white text-black font-semibold rounded-md hover:bg-zinc-200 transition-all shadow-sm active:scale-95"
               >
                 Start Starter Trial <ArrowRight className="w-4 h-4" />
               </button>
               <button 
                 onClick={scrollToPricing}
-                className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 text-white font-semibold rounded-md border border-zinc-700 hover:bg-zinc-800/50 transition-all"
+                className="w-full sm:w-auto h-12 px-8 flex items-center justify-center gap-2 text-white font-semibold rounded-md border border-zinc-700 hover:bg-zinc-800/50 transition-all active:scale-95"
               >
                 View Pricing
               </button>
@@ -105,15 +107,16 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Ensure your Pricing component is wrapped in a div with id="pricing" */}
-        <div id="pricing">
+        {/* Pricing Section - Targeted by scrollToPricing */}
+        <section id="pricing" className="scroll-mt-24">
           <Pricing />
-        </div>
+        </section>
       </main>
 
+      {/* Footer */}
       <footer className="py-16 border-t border-white/[0.05] bg-[#0c0e12] text-center">
         <p className="text-zinc-600 text-xs font-medium tracking-[0.3em] uppercase">
-          &copy; 2025 SOLOBOTAGENCY.
+          &copy; {new Date().getFullYear()} SOLOBOTAGENCY.
         </p>
       </footer>
     </div>
