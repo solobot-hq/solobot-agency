@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 
+// 1. Define exactly what the public can see
 const isPublicRoute = createRouteMatcher([
   "/", 
   "/sign-in(.*)", 
@@ -9,18 +9,16 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  // 1. If it's the root landing page, Bypassing Clerk entirely
-  if (isPublicRoute(req)) {
-    return NextResponse.next();
+  // 2. ONLY protect if it is NOT a public route
+  // This allows the landing page to load its JS and run your scroll logic
+  if (!isPublicRoute(req)) {
+    await auth.protect();
   }
-
-  // 2. Protect everything else
-  await auth.protect();
 });
 
 export const config = {
   matcher: [
-    // Optimized matcher for Next.js 15
+    // Optimized for Next.js 15 to ignore static files and allow the landing page
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)',
   ],
