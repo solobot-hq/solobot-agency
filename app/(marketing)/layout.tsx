@@ -1,22 +1,23 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import { Moon } from "lucide-react";
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   
-  // ✅ SALES FUNNEL: Force scroll and kill all other event listeners
+  // ✅ PURE BROWSER SCROLL: No complex dependencies
   const handleScrollToPricing = (e: React.MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation(); // 🛑 Stops Clerk from "hearing" the click
+    e.stopPropagation();
     
     const section = document.getElementById("pricing");
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
-      console.warn("Target #pricing not found. Make sure Pricing component has id='pricing'");
+      // If we're not on the home page, go to the anchor
+      window.location.href = "/#pricing";
     }
   };
 
@@ -50,23 +51,34 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               <Moon className="h-6 w-6 text-slate-400" />
             </button>
 
-            <Link 
-              href="/sign-in" 
-              className="hidden sm:block text-base font-bold text-slate-400 hover:text-white transition-colors"
-            >
-              Login
-            </Link>
+            {/* ✅ LOGGED OUT VIEW */}
+            <SignedOut>
+              <Link 
+                href="/sign-in" 
+                className="hidden sm:block text-base font-bold text-slate-400 hover:text-white transition-colors"
+              >
+                Login
+              </Link>
+              
+              <button 
+                type="button"
+                onClick={handleScrollToPricing}
+                className="relative z-[110] text-base md:text-xl font-black text-white px-8 py-4 md:px-12 md:py-6 rounded-2xl md:rounded-3xl bg-indigo-600 hover:bg-indigo-700 transition-all shadow-[0_0_40px_rgba(79,70,229,0.3)] whitespace-nowrap cursor-pointer"
+              >
+                GET STARTED
+              </button>
+            </SignedOut>
 
-            <UserButton appearance={{ elements: { avatarBox: "h-12 w-12 border-2 border-white/10" } }} />
-            
-            {/* ✅ THE FIX: Stop propagation + High Z-index to prevent interception */}
-            <button 
-              type="button"
-              onClick={handleScrollToPricing}
-              className="relative z-[110] text-base md:text-xl font-black text-white px-8 py-4 md:px-12 md:py-6 rounded-2xl md:rounded-3xl bg-indigo-600 hover:bg-indigo-700 transition-all shadow-[0_0_40px_rgba(79,70,229,0.3)] whitespace-nowrap cursor-pointer"
-            >
-              GET STARTED
-            </button>
+            {/* ✅ LOGGED IN VIEW */}
+            <SignedIn>
+              <Link 
+                href="/dashboard" 
+                className="hidden sm:block text-base font-bold text-slate-400 hover:text-white transition-colors"
+              >
+                Dashboard
+              </Link>
+              <UserButton appearance={{ elements: { avatarBox: "h-12 w-12 border-2 border-white/10" } }} />
+            </SignedIn>
           </div>
         </div>
       </header>
