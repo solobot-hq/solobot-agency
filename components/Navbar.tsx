@@ -32,14 +32,16 @@ export function Navbar() {
 
   // Smooth Scroll Function for Landing Page
   const scrollToPricing = () => {
+    // This finds the section with id="pricing" and slides the screen down
     const element = document.getElementById("pricing");
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      console.warn("Target #pricing section not found on this page.");
     }
   };
 
   useEffect(() => {
-    // ONLY run workspace logic if we have a user (prevents redirect loops)
     if (isLoaded && user) {
       if (workspaces.length === 0) {
         setWorkspaces([
@@ -141,10 +143,10 @@ export function Navbar() {
       {/* CENTER SEARCH / CTA */}
       <div className="hidden xl:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <SignedOut>
-           {/* Landing Page CTA for Guests */}
            <button 
             onClick={scrollToPricing}
-            className="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-black text-lg hover:bg-indigo-50 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+            type="button"
+            className="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-black text-lg hover:bg-indigo-50 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] cursor-pointer"
            >
              GET STARTED <ArrowRight className="w-6 h-6" />
            </button>
