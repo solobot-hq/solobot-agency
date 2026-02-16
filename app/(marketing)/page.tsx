@@ -18,12 +18,13 @@ export default function LandingPage() {
   const scrollToPricing = () => {
     const element = document.getElementById('pricing');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Offset calculated by scroll-mt-24 in the JSX below
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0c0e12] text-white selection:bg-indigo-500/30 transition-colors duration-300 overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-[#0c0e12] text-white selection:bg-indigo-500/30 transition-colors duration-300 overflow-x-hidden antialiased scroll-smooth">
       
       {/* Navigation */}
       <header>
