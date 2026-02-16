@@ -1,42 +1,24 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 
-/**
- * 1. Define Public Routes
- * These routes are explicitly allowed without authentication.
- */
+// Define exactly what the public can see without logging in
 const isPublicRoute = createRouteMatcher([
-  "/",                // Landing Page (The Root)
-  "/sign-in(.*)",    // Clerk Sign-in
-  "/sign-up(.*)",    // Clerk Sign-up
-  "/pricing(.*)",    // Pricing Page
-  "/api/webhook(.*)" // Stripe/Payment Webhooks
+  "/",                // The Landing Page
+  "/sign-in(.*)",     // Login Page
+  "/sign-up(.*)",     // Signup Page
+  "/api/webhook(.*)"  // Stripe/Payment hooks
 ]);
 
-/**
- * 2. Standard Middleware Export
- * Using an explicit return for public routes to bypass all checks.
- */
 export default clerkMiddleware(async (auth, req) => {
-  // If it's a public route, return immediately to let the request through
-  if (isPublicRoute(req)) {
-    return NextResponse.next();
+  // If it is NOT one of the public routes above, protect it
+  if (!isPublicRoute(req)) {
+    await auth.protect();
   }
-
-  // For all other routes (Dashboard, etc.), enforce protection
-  await auth.protect();
 });
 
-/**
- * 3. Matcher Configuration
- * A more robust regex to ensure the middleware doesn't interfere with static assets
- * but captures all app routes.
- */
 export const config = {
   matcher: [
-    // Capture all routes except static files and internals
+    // This regex ensures Clerk doesn't block images, CSS, or the landing page
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API and TRPC routes
     '/(api|trpc)(.*)',
   ],
 };
