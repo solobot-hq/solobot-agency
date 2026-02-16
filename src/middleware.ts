@@ -1,23 +1,26 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-// Define exactly what the public can see without logging in
 const isPublicRoute = createRouteMatcher([
-  "/",                // The Landing Page
-  "/sign-in(.*)",     // Login Page
-  "/sign-up(.*)",     // Signup Page
-  "/api/webhook(.*)"  // Stripe/Payment hooks
+  "/", 
+  "/sign-in(.*)", 
+  "/sign-up(.*)", 
+  "/api/webhook(.*)"
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  // If it is NOT one of the public routes above, protect it
-  if (!isPublicRoute(req)) {
-    await auth.protect();
+  // 1. If it's the root landing page, Bypassing Clerk entirely
+  if (isPublicRoute(req)) {
+    return NextResponse.next();
   }
+
+  // 2. Protect everything else
+  await auth.protect();
 });
 
 export const config = {
   matcher: [
-    // This regex ensures Clerk doesn't block images, CSS, or the landing page
+    // Optimized matcher for Next.js 15
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)',
   ],
