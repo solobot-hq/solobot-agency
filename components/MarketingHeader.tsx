@@ -7,16 +7,18 @@ import { Moon } from "lucide-react";
 
 export default function MarketingHeader() {
   
-  // ✅ PURE BROWSER SCROLL: Works because this is a Client Component
   const handleScrollToPricing = (e: React.MouseEvent) => {
+    // 1. Prevent any default link/form behavior
     e.preventDefault();
-    e.stopPropagation();
     
+    // 2. Look for the pricing section
     const section = document.getElementById("pricing");
+    
     if (section) {
+      // 3. Perform the glide
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
-      // If we're not on the home page, go to the anchor
+      // 4. Fallback if not on home page
       window.location.href = "/#pricing";
     }
   };
@@ -25,7 +27,6 @@ export default function MarketingHeader() {
     <header className="fixed top-0 w-full z-[100] border-b border-white/10 bg-[#0B1221]/95 backdrop-blur-md h-[130px]">
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
         
-        {/* ✅ BRAND BLOCK */}
         <Link href="/" className="flex items-center gap-6 shrink-0 group">
           <div className="relative h-[100px] w-[100px] md:h-[110px] md:w-[110px] shrink-0 rounded-md overflow-hidden">
             <Image
@@ -43,13 +44,11 @@ export default function MarketingHeader() {
           </div>
         </Link>
 
-        {/* UTILITIES */}
         <div className="flex items-center gap-4 md:gap-8">
           <button className="p-3.5 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/5 transition-all">
             <Moon className="h-6 w-6 text-slate-400" />
           </button>
 
-          {/* ✅ LOGGED OUT VIEW */}
           <SignedOut>
             <Link 
               href="/sign-in" 
@@ -67,7 +66,6 @@ export default function MarketingHeader() {
             </button>
           </SignedOut>
 
-          {/* ✅ LOGGED IN VIEW */}
           <SignedIn>
             <Link 
               href="/dashboard" 
