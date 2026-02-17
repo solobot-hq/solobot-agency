@@ -7,10 +7,8 @@ export default function MarketingLayout({
 }) {
   return (
     <div className="flex flex-col min-h-screen bg-[#0c0e12]">
-      {/* Logic is moved into this separate Client Component */}
+      {/* The header contains the "GET STARTED" button logic */}
       <MarketingHeader />
-      
-      {/* Main content offset by the 130px header height */}
       <main className="flex-1 pt-[130px]">
         {children}
       </main>
