@@ -6,14 +6,13 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Check for the user
   const { userId } = await auth();
 
-  // If not logged in, send them to sign-in
+  // If they aren't logged in, they can't see the dashboard.
+  // But this won't affect the landing page because it's in a different folder group.
   if (!userId) {
     redirect("/sign-in");
   }
 
-  // If logged in, show the dashboard content
   return <>{children}</>;
 }

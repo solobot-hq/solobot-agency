@@ -1,38 +1,32 @@
 "use client";
 
-import Pricing from "@/components/Pricing";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
-export default function LandingPage() {
-  const scrollToPricing = () => {
-    const element = document.getElementById('pricing');
-    if (element) {
-      // The actual "Glide" command
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
+export default function ComingSoon() {
   return (
-    <div className="text-white selection:bg-indigo-500/30 antialiased">
-      <section className="relative py-24 border-b border-white/[0.05]">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-            Hire AI Employees. <br />
-            <span className="text-zinc-500">Fire the Overheads.</span>
-          </h1>
-          <button 
-            onClick={scrollToPricing}
-            className="h-12 px-8 bg-white text-black font-semibold rounded-md hover:bg-zinc-200 transition-all active:scale-95 flex items-center gap-2 mx-auto"
-          >
-            Start Starter Trial <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-      </section>
+    <div className="min-h-screen bg-[#0B1221] flex flex-col items-center justify-center px-6 text-center">
+      {/* Logo */}
+      <div className="relative h-24 w-24 mb-8">
+        <Image src="/sl.png" alt="SoloBotAgency" fill className="object-contain" priority />
+      </div>
 
-      {/* This ID is what the button looks for to stop scrolling */}
-      <section id="pricing" className="scroll-mt-[130px] py-24 bg-[#0c0e12]">
-        <Pricing />
-      </section>
+      {/* Message */}
+      <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-4">
+        Something Big is Coming
+      </h1>
+      <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-8">
+        We're currently fine-tuning our AI agents to ensure you get the best experience possible. 
+        <span className="block mt-2 font-bold text-indigo-500">Launching Very Soon.</span>
+      </p>
+
+      {/* Progress Bar Decor */}
+      <div className="w-full max-w-md h-2 bg-white/5 rounded-full overflow-hidden">
+        <div className="w-2/3 h-full bg-indigo-600 shadow-[0_0_20px_rgba(79,70,229,0.5)]" />
+      </div>
+      
+      <p className="mt-12 text-xs uppercase tracking-[0.2em] text-slate-500">
+        © 2024 SoloBotAgency
+      </p>
     </div>
   );
 }
