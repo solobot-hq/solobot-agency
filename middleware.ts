@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-// 1. Define routes that are 100% public
+// 1. We MUST allow the home page AND the sign-in/sign-up pages to be public
 const isPublicRoute = createRouteMatcher([
   "/", 
   "/sign-in(.*)", 
@@ -8,12 +8,12 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
-  // 2. Explicitly allow public routes to pass through
+  // 2. If it's a public door, just let them in
   if (isPublicRoute(request)) {
     return; 
   }
 
-  // 3. Force protection for everything else (dashboard, etc.)
+  // 3. If it's anything else (like /dashboard), check their ID
   await auth.protect();
 });
 
