@@ -1,13 +1,13 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-// 1. Only protect the dashboard and billing areas
+// 1. Only list the specific pages that REQUIRE a login
 const isProtectedRoute = createRouteMatcher([
   '/dashboard(.*)',
   '/billing(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
-  // 2. If they are trying to go to the dashboard, make sure they are signed in
+  // 2. Only run protection if the user is trying to access the dashboard or billing
   if (isProtectedRoute(request)) {
     await auth.protect();
   }
